@@ -1,0 +1,57 @@
+% Stanford University PhD thesis style -- modifications to the report style
+% This is unofficial so you should always double check against the
+% Registrar's office rules
+% See http://library.stanford.edu/research/bibliography-management/latex-and-bibtex
+% 
+% Example of use below
+% See the suthesis-2e.sty file for documentation
+%
+\documentclass{report}
+\usepackage{suthesis-2e}
+\input{packages}
+\dept{Aeronautics and Astronautics}
+
+\begin{document}
+\title{How to Write Theses\\
+            With Two Line Titles}
+\author{Jayant Mukhopadhaya}
+\principaladviser{Juan Alonso}
+\firstreader{Gianluca Iaccarino}
+\secondreader{Mykel Kochenderfer}
+ 
+\beforepreface
+\prefacesection{Preface}
+This thesis tells you all you need to know about...
+\prefacesection{Acknowledgments}
+% --------------------------------------
+% Acknowledgements
+% --------------------------------------
+\input{acknowledgements}
+
+\afterpreface
+
+\input{introduction}
+
+% --------------------------------------
+% Methodology
+% --------------------------------------
+\input{methodology}
+
+
+% --------------------------------------
+% Results
+% --------------------------------------
+\input{results}
+
+% --------------------------------------
+% Conclusions
+% --------------------------------------
+\input{conclusions}
+
+
+\appendix
+\chapter{A Long Proof}
+...
+\bibliographystyle{plain}
+\bibliography{References}
+\end{document}

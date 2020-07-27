@@ -1,0 +1,80 @@
+% Please use the review version when submitting papers for review.
+% The option below provides the final form of your paper
+
+\documentclass[review,article,ij4uq]{ij4uq}      %  review version
+% \documentclass[article,ij4uq]{ij4uq}              %  final version
+% Use option "equation" for numbering equation as section
+
+%\count0=115
+
+\usepackage[hang]{footmisc}
+\usepackage{bbm}
+\usepackage{cleveref}
+\setlength{\footnotemargin}{0in}
+\frenchspacing
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[R]{\small {\it International Journal for Uncertainty Quantification}, x(x): \thepage--\pageref{LastPage} (\myyear\today)}
+  \fancyfoot[R]{\small\bf\thepage }
+  \fancyfoot[L]{\fottitle}
+  }
+\renewcommand{\dmyy}{1}
+\renewcommand{\myyear}{2020}
+\renewcommand{\today}{}
+\begin{document}
+
+\volume{Special Issue, \myyear\today}
+\title{Multi-fidelity Modeling of Probabilistic Aerodynamic Databases for Use in Aerospace Engineering}
+\titlehead{Multi-Fidelity Modeling in Aerospace Engineering}
+
+\input{author_data}
+
+\dataO{11/01/2019}
+%\dataO{}
+\dataF{}
+%\dataF{}
+
+% --------------------------------------
+% Abstract
+% --------------------------------------
+\input{abstract}
+
+\keywords{Uncertainty quantification, Multi-fidelity modeling, Gaussian processes, Probabilistic aerodynamic databases}
+
+
+\maketitle
+
+% --------------------------------------
+% Intro/motivation
+% --------------------------------------
+\input{introduction}
+
+% --------------------------------------
+% Methodology
+% --------------------------------------
+\input{methodology}
+
+
+% --------------------------------------
+% Results
+% --------------------------------------
+\input{results}
+
+% --------------------------------------
+% Conclusions
+% --------------------------------------
+\input{conclusions}
+
+% --------------------------------------
+% Acknowledgements
+% --------------------------------------
+\input{acknowledgements}
+
+% --------------------------------------
+% Biblio
+% --------------------------------------
+
+\bibliographystyle{IJ4UQ_Bibliography_Style}
+
+\bibliography{References}
+\end{document}

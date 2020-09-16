@@ -1,5 +1,19 @@
 \chapter{Introduction} \label{intro}
 
+\section{Motivation}\label{intro_motivation}
+
+Aircraft design is a complex non-linear, multi-disciplinary problem that requires many years, and thousands of hours of engineering to solve. 
+
+For example, for conceptual aerodynamic design, an analysis tool like AVL that solves the incompressible potential flow equations (and takes mere seconds to perform) can rapidly explore a large multi-dimensional design space changing variables like number of engines, or wing placement. Once a general shape is designed, it can undergo shape optimization using higher fidelity computational fluid dynamics (or CFD) simulations, where only the outer contours of the design are changed to minimize drag and improve performance. This increase in fidelity and decrease in design freedom is taken to its logical end where a full-scale prototype is manufactured and put through extensive flight testing to prove its air-worthiness before it is certified
+
+\section{Uncertainty Quantification} \label{intro_uq}
+
+\section{Multi-Fidelity Analysis} \label{intro_mf}
+
+\section{Aerodynamic Databases} \label{intro_databases}
+
+\section{Contributions} \label{intro_contributions}
+
 The rapid improvement of computational capabilities in the recent past has increased the use of computer simulations to predict various physical phenomena. This, coupled with advances in the understanding of the underlying physics of these phenomena, has led to the development of computer simulations of varying sophistication and computational cost that can describe the relevant QoIs at different levels of fidelity. These simulations allow for the critical assessment of engineering designs significantly earlier in the design process than what was previously possible with purely experimental design campaigns. For instance, RANS CFD simulations have now become commonplace in aerospace engineering: full aircraft analyses utilizing meshes with 250-500 million cells are routinely carried out in engineering practice. The utility of these simulations is further extended by leveraging the discrete realizations of the computational simulations to create continuous representations of the functions of interest. These continuous representations are called surrogate models and can be rapidly sampled for data-intensive methods such as uncertainty quantification (UQ) or design optimization \cite{queipo2005surrogate,gorissen2010surrogate}. Building surrogate models that can accurately represent the physical phenomena of interest can greatly reduce resources required for analyses in the design process \cite{jeong2005efficient}.
 
 An approach to build the most accurate surrogate models is to only use simulations of the highest fidelity. Unfortunately, high-fidelity function evaluations are computationally expensive and time consuming. Lower-fidelity approximations are often used in their stead as they are relatively inexpensive, but they do not model all the relevant physical phenomena correctly. In other words, simulations that model physical phenomena at different levels of complexity inject varying amounts of uncertainty in their predictions \cite{peherstorfer_survey_2018}. These uncertainties, which are introduced due to inadequacies in the physical models being solved, are referred to as model-form uncertainties. Quantifying and understanding these uncertainties is essential to develop designs that can reliably meet their performance requirements \cite{forrester_multi-fidelity_2007}. 

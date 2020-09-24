@@ -30,7 +30,21 @@ At the base of the pyramid is the most widely used method in industry, Reynolds-
 
 In order to use steady RANS simulations to design engineering products, it is essential to understand its strengths and shortcomings. The extensive use of mathematical models to accelerate these simulations makes it feasible to run multiple function evaluations at different test conditions. Concurrently, the inadequacy of the models in predicting real-world behavior of fluids limits its use to flow conditions where the models are valid. These restrictions have been found over the years through thorough verification and validation of CFD codes and turbulence models (TODO Citation). 
 
-To have a productive discussion of uncertainties and errors in these simulations, precise language is a requirement. 
+To have a productive discussion of uncertainties and errors in these simulations, precise language is required. For this purpose, definitions and guidelines established by the American Institute of Aeronautics and Astronautics (AIAA) in \cite{computational_fluid_dynamics_committee_guide_1998} are followed. In a non-academic setting, \textit{error} and \textit{uncertainty} are often used interchangeably. To avoid ambiguity, uncertainty is defined as: 
+\say{A potential deficiency in any phase or activity of the modeling process that is due to lack of knowledge} \cite{computational_fluid_dynamics_committee_guide_1998}. 
+
+This is contrasted with the definition of error: 
+\say{A recognizable deficiency in any phase or activity of modeling and simulation that is not due to lack of knowledge} \cite{computational_fluid_dynamics_committee_guide_1998}. Two key differences surface from these definitions: 
+
+\begin{enumerate}
+    \item \textbf{Potential vs. recognizable deficiency -} The effects of the uncertainty in some model may or may not cause a knowable deficiency in the resulting prediction. On the other hand, deficiencies introduced due to modeling errors are identifiable upon examination. 
+    
+    \item \textbf{Lack of knowledge -} Uncertainty is caused due to lack of knowledge of some physical aspect of what is being simulated. Errors exist even with complete knowledge and often have established practices and methods that can be used to reduce them.  
+\end{enumerate}
+
+To solidify these definitions with examples, consider the uncertainty introduced by turbulence models in contrast to discretization errors caused by insufficient grid resolution. Turbulence models are used to 
+
+For example, a turbulence model might introduce deficiencies when making predictions for an aircraft in its high-lift configuration (TODO Citation), whereas it might not introduce any deficiency in predicting the flow around the aircraft in it's cruise configuration. Without a comparison with experimental data, the deficiency is not knowable.
 
 \section{Eigenspace Perturbation Methodology}
 

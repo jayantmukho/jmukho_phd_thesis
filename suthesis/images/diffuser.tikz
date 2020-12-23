@@ -1,0 +1,32 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+
+% \draw[step=0.4cm,gray,very thin] (0,0) grid (10,8);
+        \draw[thick,->] (0,0) -- node[anchor=north,yshift= -0.5cm,font=\large] {$\frac{x}{H}$} (9,0) ;
+        \draw[thick,->] (0,0) -- node[anchor=east,xshift= -0.75cm,font=\large] {$\frac{y}{H}$}(0,4.5) ;
+
+        \foreach \x in {0,2,4,6,8}
+           \draw [thick](\x cm,2pt) -- (\x cm,-2pt) node[anchor=north] {$\pgfmathparse{\x*25-150}\pgfmathresult$};
+        \foreach \y in {0,2,4}
+            \draw [thick](2pt,\y cm) -- (-2pt,\y cm) node[anchor=east] {$\pgfmathparse{\y*2.5-5}\pgfmathresult$};
+        
+        \draw[thick] (6.84,2) -- (8.2,2) ;
+        \draw[thick] (8.2,2) -- node[anchor=west,align=left] {Outlet\\$P=P_{ref}$} (8.2,3.88);
+        \draw[thick] (8.2,3.88) -- node[anchor=south] {Adiabatic wall}(1.6,3.88);   
+        \draw[thick] (1.6,3.88) -- (1.6,3.5) node (inlet_label) [anchor=north,align=left] {Inlet\\$P_T = 1.0045 P_{ref}$\\$T_T = 1.0007 T_{ref}$};   
+        \draw[thick] (1.6,3.5) -- (6.0,3.5);
+        \draw [thick, densely dashed] (6,3.5) -- (6.8,3.5);
+        \draw [thick, ->] (6.4,3.5) arc (0:-60:.4) node [anchor=west, xshift=0.1cm, yshift=0.1cm](angle_label) {$10^\circ$};
+        \draw[thick] (6,3.5) -- (6.84,2.0);
+        \node (wall) [xshift=4.5cm,yshift=1.5cm] {Adiabatic wall};
+        \draw [->](wall) -- (7.25,1.9);
+        \draw [->](wall) -- (6.4,2.5);
+        \draw [->](wall) -- (4.5,3.4);
+        \draw [->](1.0,3.4) -- (1.5,3.67);
+        \node (cond) [xshift=4.5cm,yshift=0.75cm,align=center] {$M_{ref}= 0.0589,~P_{ref} = 101139.2 Pa,~T_{ref} = 294.44 K$};
+
+    \end{tikzpicture}
+    \caption{Geometry and simulation conditions for turbulent flow through an asymmetric diffuser.}
+    \label{fig:diffuser_config}
+\end{figure}

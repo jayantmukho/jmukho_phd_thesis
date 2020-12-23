@@ -2,12 +2,12 @@
 
 The balance of computational cost and fidelity provided by Reynolds Averaged Navier-Stokes (RANS) simulations makes it the tool of choice in most engineering CFD applications. Reynolds averaging starts with the decomposition of the chaotic velocity field ($ u_i$) into its mean ($\overline{u_i}$) and fluctuating ($u_i'$) velocity components such that $u_i = \overline{u_i} + u_i'$. Here $i$ denotes a coordinate direction, $i=1, 2, 3$. This allows for the ensemble-averaging of the Navier-Stokes equations \cite{pope_2000} which leads to a closure problem due to the resulting non-linear $\overline{u_i'u_j'}$ term that has to be modeled. This term is also known as the Reynolds stress tensor, $R_{ij}$.
 
-Turbulence models are concerned with predicting the behavior of the Reynolds stress tensor throughout a flow of interest (and without specific data about that particular flow) in a computationally tractable manner. To this end, these models often make simplifying assumptions about the tensor that can inject significant uncertainties into their predictions. For example, a popular assumption that is employed in numerous turbulence models is the Boussinesq approximation (also known as the linear eddy viscosity hypothesis). It assumes that $R_{ij}$ can be defined by a combination of the mean rate of strain ($S_{ij}$), an eddy viscosity ($\nu_t$), and the turbulent kinetic energy ($k$):
+Turbulence models are concerned with predicting the behavior of the Reynolds stress tensor throughout a flow field of interest, without any a priori high-fidelity data, in a computationally tractable manner. To this end, these models often make simplifying assumptions about the tensor that can inject significant uncertainties into their predictions. For example, a popular assumption that is employed in numerous turbulence models is the Boussinesq approximation (also known as the linear eddy viscosity hypothesis). It assumes that $R_{ij}$ can be defined by a combination of the mean rate of strain ($S_{ij}$), an eddy viscosity ($\nu_t$), and the turbulent kinetic energy ($k$):
  
  \begin{equation}\label{equ:rst}
      R_{ij} = \nu_t S_{ij} - \frac{2}{3} k \delta_{ij},
  \end{equation}
-where $S_{ij} = \left ( \frac{\partial \overline{u_i}}{\partial x_j} + \frac{\partial \overline{u_j}}{\partial x_i} \right )$, $x_i$ is a coordinate direction and $\delta_{ij}$ is the Kronecker delta. This linear eddy viscosity model purports a simplified proportional relationship between the Reynolds stress tensor and the mean rate of strain tensor. It assumes that the turbulent fluid is an isotropic medium where the direction of Reynolds stresses are always aligned with the mean strain rate. Although reasonable for simple flows without adverse pressure gradients, this assumption can severely limit the flow features that can be predicted by the turbulence model, thus introducing uncertainty into the QoIs predicted by RANS simulations. The shortcomings of the Boussinesq assumption are particularly evident in areas of the operating envelope of an aircraft where separated flows and shock-boundary layer interactions exist. 
+where $S_{ij} = \left ( \frac{\partial \overline{u_i}}{\partial x_j} + \frac{\partial \overline{u_j}}{\partial x_i} \right )$, $x_i$ is a coordinate direction, and $\delta_{ij}$ is the Kronecker delta. This linear eddy viscosity model purports a simplified proportional relationship between the Reynolds stress tensor and the mean rate of strain tensor. It assumes that the turbulent fluid is an isotropic medium where the direction of Reynolds stresses are always aligned with the mean strain rate. Although reasonable for simple flows without adverse pressure gradients, this assumption can severely limit the flow features that can be predicted by the turbulence model, thus introducing uncertainty into the QoIs predicted by RANS simulations. The shortcomings of the Boussinesq assumption are particularly evident in areas of the operating envelope of an aircraft where separated flows and shock-boundary layer interactions exist. 
 
 To better understand the effects of such an assumption, the eigenspace perturbation methodology was developed by Mishra, Iaccarino, and Ghili \cite{iaccarino_eig_pert}. It aims to quantify model-form uncertainties that arise from the use of turbulence models in RANS simulations by introducing perturbations in the eigenvalues and eigenvectors of the Reynolds stress anisotropy tensors $\left ( b_{ij} \right )$ that are predicted by the models. This methodology does not rely on any higher-fidelity data. To explain the perturbations that are introduced, the stress tensor is decomposed into its anisotropic and deviatoric components as
  
@@ -108,19 +108,19 @@ The eigenspace perturbation methodology has exhibited substantial success in a v
 \begin{figure}
     \centering
     \begin{subfigure}[$2C$ state with $v_{max}$ eigenvector alignment.] {
-        \includegraphics[trim=200 40 280 30, clip,             width=0.24\textwidth]{suthesis/images/2c_max.png}
+        \includegraphics[trim=200 40 280 30, clip, width=0.24\textwidth]{suthesis/images/2c_max.png}
         \label{fig:2c_max}
     }
     \end{subfigure}
     \hspace{10pt}
     \begin{subfigure}[$2C$ state with $v_{min}$ eigenvector alignment.]{
-        \includegraphics[trim=230 20 230 30, clip,             width=0.24\textwidth]{suthesis/images/2c_min.png} 
+        \includegraphics[trim=230 20 230 30, clip, width=0.24\textwidth]{suthesis/images/2c_min.png} 
         \label{fig:2c_min}
     }
     \end{subfigure}
     \hspace{10pt}
     \begin{subfigure}[$3C$ isotropic turbulence state.]{
-        \includegraphics[trim=210 40 280 50, clip,             width=0.24\textwidth]{suthesis/images/3c.png} 
+        \includegraphics[trim=210 40 280 50, clip, width=0.24\textwidth]{suthesis/images/3c.png} 
         \label{fig:3c}
     }
     \end{subfigure}
@@ -132,7 +132,7 @@ The eigenspace perturbation methodology has exhibited substantial success in a v
     \end{subfigure}
     \hspace{10pt}
     \begin{subfigure}[$1C$ state with $v_{min}$ eigenvector alignment.]{
-        \includegraphics[trim=220 40 300 50, clip,             width=000.24\textwidth]{suthesis/images/1c_min.png}
+        \includegraphics[trim=220 40 300 50, clip, width=000.24\textwidth]{suthesis/images/1c_min.png}
         \label{fig:1c_min}
     }
     \end{subfigure}

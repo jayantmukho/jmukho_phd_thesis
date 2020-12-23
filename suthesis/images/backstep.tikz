@@ -1,0 +1,29 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+
+% \draw[step=0.4cm,gray,very thin] (0,0) grid (10,8);
+        \draw[thick,->] (0,0) -- node[anchor=north,yshift= -0.5cm,font=\large] {$\frac{x}{H}$} (9,0) ;
+        \draw[thick,->] (0,0) -- node[anchor=east,xshift= -0.5cm,font=\large] {$\frac{y}{H}$}(0,6.5) ;
+    
+        \foreach \x in {0,2,4,6,8}
+           \draw [thick](\x cm,2pt) -- (\x cm,-2pt) node[anchor=north] {$\pgfmathparse{\x*25-150}\pgfmathresult$};
+        \foreach \y in {0,2,4,6}
+            \draw [thick](2pt,\y cm) -- (-2pt,\y cm) node[anchor=east] {$\pgfmathparse{\y*2.5-5}\pgfmathresult$};
+        
+        \draw[thick] (6,2) -- (8,2) ;
+        \draw[thick] (8,2) -- node[anchor=west,align=left] {Outlet\\$P=P_{ref}$} (8,5.6);
+        \draw[thick] (8,5.6) -- node[anchor=south] {Adiabatic wall}(0.8,5.6);   
+        \draw[thick] (0.8,5.6) -- node[anchor=west,align=left] {Inlet\\$P_T = 1.0115 P_{ref}$\\$T_T = 1.0033 T_{ref}$} (0.8,2.4);   
+        \draw[thick] (0.8,2.4) -- (6,2.4);
+        \draw[thick] (6,2.4) -- (6,2.0);
+        \node (wall) [xshift=4.5cm,yshift=1.5cm] {Adiabatic wall};
+        \draw [->](wall) -- (6.5,1.9);
+        \draw [->](wall) -- (5.9,2.1);
+        \draw [->](wall) -- (4,2.3);
+        \node (cond) [xshift=4.5cm,yshift=0.75cm,align=center] {$M_{ref}= 0.128,~P_{ref} = 92872.38 Pa,~T_{ref} = 296.7556 K$};
+
+    \end{tikzpicture}
+    \caption{Geometry and simulation conditions for turbulent flow over a backward facing step.}
+    \label{fig:backstep_config}
+\end{figure}

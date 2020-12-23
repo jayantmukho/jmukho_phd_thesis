@@ -1,0 +1,35 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+
+% \draw[step=0.4cm,gray,very thin] (0,0) grid (10,8);
+        \draw[thick,->] (0,0) -- node[anchor=north,yshift= -0.5cm,font=\large] {$\frac{x}{r_{jet}}$} (10.5,0) ;
+        \draw[thick,->] (0,0) -- node[anchor=east,xshift= -0.75cm,font=\large] {$\frac{y}{r_{jet}}$}(0,9.0) ;
+
+        \foreach \x in {0,2,4,6,8,10}
+           \draw [thick](\x cm,2pt) -- (\x cm,-2pt) node[anchor=north] {$\pgfmathparse{\x*10-20}\pgfmathresult$};
+        \foreach \y in {0,2,4,6,8}
+            \draw [thick](2pt,\y cm) -- (-2pt,\y cm) node[anchor=east] {$\pgfmathparse{\y*10-20}\pgfmathresult$};
+        
+        \draw[thick] (1.25,2) -- node[anchor=north,align=center] {Axis of symmetry} (10,2) ;
+        \draw[thick] (10,2) -- node[anchor=east,align=left] {Outlet\\$P=P_{ref}$} (10,8.5);
+        \draw[thick] (10,8.5) -- (0.75,7);   
+        \draw[thick] (0.75,7) -- (0.75,2.4) ;   
+        \draw[thick] (0.75,2.4) -- (1.4,2.4);
+        \draw[thick] (1.4,2.4) -- (2,2.1);
+        \draw[thick] (2,2.1) .. controls (1.6,2.1) and (1.6,2.3) .. (1.25,2.3);
+        \draw[thick] (1.25,2.3) -- (1.25,2) node (inlet_label) [anchor=north,align=left,xshift=.4cm,yshift=-0.05cm] {Inlet\\$P_T/P_{ref}$, $T_T/T_{ref}$};
+        \node (freestream_label)[xshift=3cm,yshift=6cm,align=center]{Freestream\\Conditions};
+        \draw [->,thick](freestream_label) -- (3.0,7.2);
+        \draw [->,thick](freestream_label) -- (.85,6);
+        \draw [->,thick] (0.8,1.9)  arc (150:90:.5cm);
+        \node (cond) [xshift=5.375cm,yshift=0.5cm,align=center] {$M_{ref}= 0.01,~P_{ref} = 98582.6 Pa,~T_{ref} = 294.44 K$};
+        \node (wall_label) [xshift=2cm,yshift=3.5cm,align=center] {Adiabatic wall};
+        \draw [->,thick] (wall_label) -- (1.15,2.45);
+        \draw [->,thick] (wall_label) -- (1.7,2.3);
+        \draw [->,thick] (wall_label) -- (1.4,2.27);
+
+    \end{tikzpicture}
+    \caption{Geometry and boundary conditions for jet efflux from the NASA Acoustic Response Nozzle.}
+    \label{fig:arn_config}
+\end{figure}

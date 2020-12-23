@@ -1,7 +1,7 @@
 \subsection{Validation} \label{sec:VandV_rans_uq}
 
 Before the eigenspace perturbation methodology can be applied to flow simulations involving complex geometries, it is essential that the methodology is tested on a range of flow configurations that are often used to validate CFD codes. Continuing to use \cite{computational_fluid_dynamics_committee_guide_1998} as a guide, validation refers to 
-\say{The process of determining the degree to which a model is an accurate representation of the real world from the perspective of the intended uses of the model.} In the context of the eigenspace perturbation methodology, validation involves ensuring the predicted uncertainty estimates are a reasonable representation of the uncertainty injected by the turbulence model being used. Flow configurations with experimental data are required to validate the methodology. It should meet the following expectations:
+\say{The process of determining the degree to which a model is an accurate representation of the real world from the perspective of the intended uses of the model.} In the context of the eigenspace perturbation methodology, validation involves ensuring the predicted uncertainty estimates are a reasonable representation of the uncertainty injected by the turbulence model being used. Flow configurations with either experimental data or high-fidelity simulation data are required to validate the methodology. It should meet the following expectations:
 
 \begin{enumerate}
     \item If there is discrepancy between the RANS simulation predictions and the experimental data, the uncertainty estimates should be large.
@@ -10,7 +10,7 @@ Before the eigenspace perturbation methodology can be applied to flow simulation
 
 In an ideal case, if the turbulence model was the only source of uncertainty and error, all the experimental data should lie within the uncertainty estimates from the methodology. In practice, this is rarely the case. Often errors stemming from insufficient numerical discretization or a discrepancy in experimental and simulation conditions, affect the quality of the simulation prediction. 
 
-This section presents results for the uncertainty estimation module for a range of test cases detailed in Table \ref{tab:vandv_cases}. The first two flows are benchmark cases widely used for the testing of turbulence models and test the ability of the methodology in predicting the behavior of highly separated flows. The final four cases are flows of interest to aerospace design. For the results, the perturbation parameters were retained at their default values, so the bounds correspond to the set $ \left\{ (1C,v_{max}), (1C,v_{min}), (2C,v_{max}), (2C,v_{min}), (3C,v_{max}/v_{min}) \right\}$, with $\Delta_{B}=1.0$. The SST model of \cite{sst} was used for all the results. 
+This section presents results for the uncertainty estimation module for a range of test cases detailed in Table \ref{tab:vandv_cases}. The first two flows are benchmark cases widely used for the testing of turbulence models. They test the ability of the methodology to predict the behavior of highly separated flows. The final four cases are flows of interest to aerospace design. The jet flows test the methodology's performance for shear-layer flows, whereas the airfoil flows test its performance over a range of flow regimes. The SST turbulence model of \cite{sst} was used for all the results. 
 
 \begin{table}
 \caption{\label{tab:vandv_cases} Details of testing and validation cases}
@@ -28,98 +28,105 @@ Turbulent flow over a three-element High-lift airfoil& Engineering case& 2D, sub
 \end{table}
 
 \subsection{Turbulent flow over a backward facing step}
+
+\input{suthesis/images/backstep.tikz}
+
 \begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{suthesis/images/backstep_cf_bot.png}
+\includegraphics[width=0.8\textwidth]{code/image_gen/backstep/images/backstep_cf_bot.png}
 \caption{Coefficient of friction ($C_f$) over the bottom wall for the flow over a backward facing step. The filled circles mark the experimental data of \cite{driver1985}, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty bounds\label{fig:backstep_cf}}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{suthesis/images/backstep_vel_prof.png}
+\includegraphics[width=0.8\textwidth]{code/image_gen/backstep/images/backstep_vel_prof.png}
 \caption{Mean velocity profiles for the flow over a backward facing step. The filled circles mark the experimental data of \cite{driver1985}, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty bounds\label{fig:backstep_vel_prof}}
 \end{figure}
 
-Turbulent flow over a backward facing step involves flow separation, followed by the reattachment of separated shear layers under the influence of adverse pressure gradients. The location of flow separation is fixed by the geometry and the point of reattachment is contingent upon the pressure gradient. The velocity gradients in the flow field cause turbulent production far off the wall region and their interaction with the mean flow influences the size of the separation bubble after the step. The extent of this bubble or the re-attachment length is a key quantity that must be predicted accurately by a turbulence model. Classical two-equation turbulence models under predicted the re-attachment length by a substantial amount of the order of over 10-25\% \cite{thangam1991}.This occurs due to inaccurate predictions for normal Reynolds stress differences arising from the use of an isotropic eddy viscosity \cite{thangam1991}. This configuration has been investigated experimentally by \cite{driver1985} and their data is used in our investigation.  
+Figure \ref{fig:backstep_config} illustrates the flow geometry and simulation conditions that are used. The inlet and outlet boundary conditions are chosen to yield the correct Mach number $\left ( M_{ref} = 0.128 \right )$ upstream from the step. The figure is scaled by the step height $\left ( H \right ) $. Note that the $x$ and $y$ axes have different scales. This helps in visualizing the geometry since the geometry is $\approx 20\times$ longer in the $x$ direction when compared to the channel height. The channel height, after the step, is $9H$. 
 
+The flow is allowed to fully develop before flowing over the step. The sudden expansion in the channel height results in flow separation and subsequent reattachment downstream from the step. The size of the resulting re-circulation region or the re-attachment length is a key quantity that must be predicted accurately by a turbulence model. Classical two-equation turbulence models under predicted the re-attachment length by 10-25\% \cite{thangam1991}.This occurs due to inaccurate predictions for normal Reynolds stress differences arising from the use of an isotropic eddy viscosity \cite{thangam1991}. This configuration has been investigated experimentally by \cite{driver1985} and their data is used in our investigation.
 
-Fig. \ref{fig:backstep_cf} outlines coefficient of friction ($c_f$) along the bottom wall. The uncertainty estimates are able to account for the discrepancy between model predictions and DNS data at most locations. Fig. \ref{fig:backstep_vel_prof} outlines the axial mean velocity profiles in the flow, after the step. While there is some discrepancy between the unperturbed RANS simulation and the experimental data, the uncertainty intervals are able to account for most of this discrepancy with almost all experimental data points lying in the uncertainty bounds. 
+Fig. \ref{fig:backstep_cf} shows the coefficient of friction ($c_f$) along the bottom wall. The uncertainty estimates are able to account for the discrepancy between model predictions and experimental data at most locations. Fig. \ref{fig:backstep_vel_prof} outlines the axial mean velocity profiles in the flow, after the step. While there is some discrepancy between the unperturbed RANS simulation and the experimental data, the uncertainty intervals are able to account for most of this discrepancy with almost all experimental data points lying in the uncertainty bounds. 
 
 \subsection{Turbulent flow through an asymmetric diffuser}
-
+\input{suthesis/images/diffuser.tikz}
 \begin{figure}
 \centering
 \subfigure[\label{fig:diffuser_cf_top}Coefficient of friction ($C_f$) over the top wall ] %
-  {\includegraphics[width=0.8\textwidth]{suthesis/images/diffuser_cf_top.png}}
+  {\includegraphics[width=0.8\textwidth]{code/image_gen/diffuser/images/diffuser_cf_top.png}}
 \subfigure[\label{fig:diffuser_cf_bot}Coefficient of friction ($C_f$) over the bottom wall ] %
-  {\includegraphics[width=0.8\textwidth]{suthesis/images/diffuser_cf_bot.png}}
-\caption{Coefficient of friction ($c_f$) over the top and bottom walls for the flow in an axisymmetric diffuser. The filled circles mark the experimental data of \cite{buice}, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty bounds.\label{fig:diffuser_cf}}
+  {\includegraphics[width=0.8\textwidth]{code/image_gen/diffuser/images/diffuser_cf_bot.png}}
+\caption{Coefficient of friction ($c_f$) over the top and bottom walls for the flow in an asymmetric diffuser. The filled circles mark the experimental data of \cite{buice}, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty bounds.\label{fig:diffuser_cf}}
 \end{figure}
 
-Turbulent flow in an asymmetric diffuser has many interesting properties, such as separation over a smooth wall, subsequent reattachment and redevelopment of the downstream boundary layer, that offer considerable challenges to eddy-viscosity based models. We use the experimental data of \cite{buice}. The data include mean velocities at various stations in the diffuser and skin friction data on the upper and lower walls. For the simulations, the inlet conditions are specified as a fully-developed channel flow at $Re=20,000$ based on the centerline velocity and the channel height. 
+Figure \ref{fig:diffuser_config} illustrates the flow geometry and simulation conditions that are used. The flow is allowed to fully develop in the channel leading up to the diffuser. The channel height, $H$, is used to normalize the geometry's length scale. As before, the $x$ and $y$ axes have different scales to make it easier to represent the geometry. This difference in scales greatly exaggerates the angle of the diffuser, which is $10^\circ$ as labeled in Figure \ref{fig:diffuser_config}. The reference pressure, $P_{ref}$, was adjusted to ensure the channel centerline velocity just upstream of the diffuser is $22.6 m/s$. 
+
+Turbulent flow in an asymmetric diffuser has many interesting properties, such as separation over a smooth wall, subsequent reattachment, and redevelopment of the downstream boundary layer, that offer considerable challenges to eddy-viscosity based models. We use the experimental data of \cite{buice}. The data include mean velocities at various stations in the diffuser and skin friction data on the upper and lower walls. 
 
 Fig. \ref{fig:diffuser_cf_top} and \ref{fig:diffuser_cf_bot} exhibit the coefficient of friction ($c_f$) over the top and bottom walls. While there is considerable discrepancy between the RANS prediction and the experimental data, the uncertainty intervals are able to account for a substantial proportion of this discrepancy. Most of the experimental data points lie inside the uncertainty intervals. Fig. \ref{fig:diffuser_vel_prof} exhibits the axial mean velocity profiles at a range of locations along the diffuser. The uncertainty bounds encompass most of the experimental data points, including in the region of flow separation. 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{suthesis/images/diffuser_vel_prof.png}
+\includegraphics[width=0.8\textwidth]{code/image_gen/diffuser/images/diffuser_vel_prof.png}
 \caption{Mean velocity profiles for the flow in the axisymmetric diffuser. The filled circles mark the experimental data of \cite{buice}, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty bounds\label{fig:diffuser_vel_prof}}
 \end{figure}
 
-
-
 \subsection{Jet efflux of the NASA Acoustic Response Nozzle}
-\begin{figure}
-\centering
-\subfigure[\label{fig:arn_sp23_center_vel}Coefficient of friction ($C_f$) over the top wall ] %
-  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{suthesis/images/arn_sp23_center_vel.png}}
-\subfigure[\label{fig:arn_sp23_vel_prof}Coefficient of friction ($C_f$) over the bottom wall ] %
-  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{suthesis/images/arn_sp23_vel_prof.png}}
- \subfigure[\label{fig:arn_sp23_k_prof}Coefficient of friction ($C_f$) over the bottom wall ] %
-  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{suthesis/images/arn_sp23_k_prof.png}}
-\caption{Coefficient of friction ($c_f$) over the top and bottom walls for the flow in an axisymmetric diffuser. The filled circles mark the experimental data of \cite{buice}, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty bounds.\label{fig:arn_sp23}}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=1.05\textwidth]{Figure11.pdf}
-\caption{Mean axial velocity profiles ($U$) in the NASA Acoustic Response Nozzle heated jet at $Ma=0.376$, delineated at $x/D_j= 4,8$ and $12$\label{fig:fig5a}}
-\end{figure}
+\input{suthesis/images/arn.tikz}
 
 
-\begin{figure}
-\includegraphics[width=1.05\textwidth]{Figure12.pdf}
-\caption{Turbulence kinetic energy ($k$) profiles in the NASA Acoustic Response Nozzle heated jet at $Ma=0.376$, delineated at $x/D_j= 4,8$ and $12$\label{fig:fig5b}}
-\end{figure}
+Reliable predictions of turbulent jets exhausting from aircraft nozzles are essential for a variety of aerospace design applications. However, these exhaust jets involve a multitude of complications such as the interaction of the jet efflux and the ambient, complicated nozzle geometries, compressibility effects, under or over-expanded flows, etc. These pose significant challenges to eddy-viscosity based models. As an illustration, lets focus on the mixing between the jet and the ambient fluid. In the vicinity of the nozzle exit, RANS models predict a significantly lower rate of jet mixing as compared with high-fidelity data. Farther downstream of the jet potential core, RANS models predict the far-field mixing rate to become substantially higher than is observed in experiments. Similarly, the fidelity of RANS predictions is highly inconsistent, having higher fidelity for cold jets than heated, for axi-symmetric than non-axi-symmetric geometries, varying significantly over different quantities of interest, etc. 
 
-Reliable predictions of turbulent jets exhausting from contoured aircraft nozzles are essential for a variety of aerospace design applications. However, these exhaust jets involve a multitude of complications such as the interaction of the jet efflux and the ambient, complicated nozzle geometries, compressibility effects, under or over-expanded flows, etc. These pose significant challenges to eddy-viscosity based models. As an illustration, we may focus on the mixing between the jet and the ambient fluid. In the vicinity of the nozzle exit, RANS models predict a significantly lower rate of jet mixing as compared with high-fidelity data. Farther downstream of the jet potential core, RANS models predict the far-field mixing rate to become substantially higher than is observed in experiments. Similarly, the fidelity of RANS predictions is highly inconsistent, having higher fidelity for cold jets than heated, for axisymmetric than nonaxisymmetric geometries, varying significantly over different quantities of interest, etc. 
+In this test case, we investigate sub-sonic jets from the NASA Acoustic Response Nozzle. This has been studied experimentally by \cite{nasajet} and extensive Particle Image Velocimetry data are available. The PIV data set was generated at the Small Hot Jet Acoustic Rig at the NASA Glenn Research Center. The tests were repeated on numerous instances during 2001-2007 with varying PIV configurations. In addition to a robust mean, this corpus provides insight into the data uncertainty. The raw data set consists of over 23,000 velocity fields available for statistical analysis at each location. The researchers have also shared a final consensus dataset, with the averaged mean over the raw data along with the standard deviations over the measurements at each point, termed as error bars in the data set by \cite{nasajet}. This data uncertainty attempts to account for any statistical bias and random errors in the measurements arising from PIV calibration, image analysis procedure, rig flow instrumentation, small errors in the instantaneous measurements, the size and number of ensembles used, etc. 
 
-
-In this test case, we investigate sub-sonic jets from the NASA Acoustic Response Nozzle. This has been studied experimentally by \cite{nasajet} and extensive Particle Image Velocimetry data are available. The PIV data set was generated at the Small Hot Jet Acoustic Rig at the NASA Glenn Research Center. The tests were repeated on numerous instances during 2001-2007 with varying PIV configurations. In addition to a robust mean, this corpus provides insight into the data uncertainty. The raw data set consists of over 23,000 velocity fields available for statistical analysis at each location. The researchers have also shared a final consensus dataset, with the averaged mean over the raw data along with the standard deviations over the measurements at each point, termed as error bars in the data set by \cite{nasajet}. This data uncertainty attempts to account for any statistical bias and random errors in the measurements arising from PIV calibration, image analysis procedure, rig flow instrumentation, small errors in the instantaneous measurements, the size and number of ensembles used, etc. While different jets with diverse flow parameters were tested, in the interest of brevity, we outline results for two cases, detailed in Table 2.
+Figure \ref{fig:arn_config} represents the geometry and flow conditions that are simulated. The ambient flow speed is kept very low, at $M = 0.01$. The inlet total pressure and temperature ratios are set according to the specific case that is being run. Outlined here are the results for different subsonic jet conditions. The inlet ratios and Mach number at the jet throat are detailed in Table 2.
 
 
 \begin{table}
 \caption{\label{tab:table2} Reference conditions for subsonic jet flow cases considered}
 %\begin{ruledtabular}
 \begin{center}
-\begin{tabular}{cccc}
-Test Case& Classification& $Ma$& ${T_0}/{T_{0,\infty}}$\\\hline
-Case I& heated, perfectly expanded& 0.376& 1.764\\
-Case II& cooled, perfectly expanded& 0.513& 0.950\\
+\begin{tabular}{ccccc}
+Test Case & Classification& $Ma$& ${T_T}/{T_{ref}}$& ${P_T}/{P_{ref}}$\\\hline
+Case I  & heated, perfectly expanded & 0.376 & 1.764 & 1.102\\
+Case II & cooled, perfectly expanded & 0.513 & 0.950 & 1.197\\
 \end{tabular}
 \end{center}
 %\end{ruledtabular}
 \end{table}
 
 \begin{figure}
+\centering
+\subfigure[\label{fig:arn_sp23_center_vel}Axial velocity variation over the centerline] %
+  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{code/image_gen/arn/sp23/images/arn_sp23_center_vel.png}}
+\subfigure[\label{fig:arn_sp23_vel_prof}Mean axial velocity profiles in the wake, delineated at $x/D_{jet}= 4,8, 12$ and $16$] %
+  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{code/image_gen/arn/sp23/images/arn_sp23_vel_prof.png}}
+ \subfigure[\label{fig:arn_sp23_k_prof}Turbulence kinetic energy ($k$) profiles in the wake, delineated at $x/D_{jet}= 4,8, 12$ and $16$] %
+  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{code/image_gen/arn/sp23/images/arn_sp23_k_prof.png}}
+\caption{Comparison of experimental data and RANS simulation data for Case I of flow through the NASA Acoustic Response Nozzle. The filled circles mark the mean PIV data of \cite{nasajet}, the error bars represent the $\pm 1-\sigma$ variance in the recorded data, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty estimates.\label{fig:arn_sp23}}
+\end{figure}
+
+\begin{figure}
+\centering
+\subfigure[\label{fig:arn_sp3_center_vel}Axial velocity variation over the centerline] %
+  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{code/image_gen/arn/sp3/images/arn_sp3_center_vel.png}}
+\subfigure[\label{fig:arn_sp3_vel_prof}Mean axial velocity profiles in the wake, delineated at $x/D_{jet}= 4,8, 12$ and $16$] %
+  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{code/image_gen/arn/sp3/images/arn_sp3_vel_prof.png}}
+ \subfigure[\label{fig:arn_sp3_k_prof}Turbulence kinetic energy ($k$) profiles in the wake, delineated at $x/D_{jet}= 4,8, 12$ and $16$] %
+  {\includegraphics[trim=25 0 25 0, clip,width=\textwidth]{code/image_gen/arn/sp3/images/arn_sp3_k_prof.png}}
+\caption{Comparison of experimental data and RANS simulation data for Case II of flow through the NASA Acoustic Response Nozzle. The filled circles mark the mean PIV data of \cite{nasajet}, the error bars represent the $\pm 1-\sigma$ variance in the recorded data, the solid line represents the unperturbed RANS simulation and the gray shaded zones are the uncertainty estimates.\label{fig:arn_sp3}}
+\end{figure}
+
+
+\begin{figure}
 \includegraphics[width=1.05\textwidth]{Figure13.pdf}
 \caption{Mean axial velocity profiles in the NASA ARN exhaust , delineated at $x/D_j= 4,8,12$ and $16$\label{fig:fig5}}
 \end{figure}
 
-The mean axial velocity profiles at $x/D_j= 4,8$ and $12$ are outlined in Fig. \ref{fig:fig5a} for Case I from Table 2. The error bars associated with the experimental data represent the standard deviation over multiple realizations of the experiment. The uncertainty bounds are able to account for a significant proportion of the discrepancy between the RANS simulations and the high fidelity data. Almost all the experimental data points are contained in the uncertainty bounds. 
+Figure \ref{fig:arn_sp23} and Figure \ref{fig:arn_sp3} present the results for Case I and II respectively. The mean experimental data is represented by the solid black dots and the associated error bars represent the reported standard deviation of the PIV data. The solid black line represents the baseline result using the unperturbed SST turbulence model and the gray area is the uncertainty estimated by the eigenspace perturbation methodology. The first subplot, Figure \ref{fig:arn_sp23_center_vel} and Figure \ref{fig:arn_sp3_center_vel}, plots the normalized axial velocity along the jet centerline. The centerline velocity at the jet exit, $U_{jet}$ is used as the normalizing factor. The second subplot, Figure \ref{fig:arn_sp23_vel_prof} and Figure \ref{fig:arn_sp3_vel_prof}, shows the normalized axial velocity in the jet wake at four different downstream locations: $x/D_{jet}= 4, 8, 12$, and $16$. The last subplot, Figure \ref{fig:arn_sp23_k_prof} and Figure \ref{fig:arn_sp3_k_prof}, plot the normalized turbulent kinetic energy in the jet wake at the same downstream locations. 
 
-Fig. \ref{fig:fig5b} exhibits the turbulent kinetic energy profiles at $x/D_j= 4,8$ and $12$ for Case I from Table 2. The uncertainty bounds are able to account for a significant ratio of the difference between the RANS predictions and the PIV measurements. At most locations, the uncertainty bounds envelope the experimental data, or have a non-trivial intersection with the associated error bars. A similar trend is observed in Fig. \ref{fig:fig5} for Case II from Table 2.
-
-
+The differences in the solid black line and black dots shows that the baseline turbulence model has great difficulty in accurately capturing the flow physics in the jet wake.  The uncertainty estimates, represented by the grey areas, are able to account for a significant proportion of the discrepancy between the RANS simulations and the high-fidelity experimental data. If the experimental data points themselves don't lie within the grey area, there is a non-trivial intersection between the error bars and the grey area. 
 
 \subsection{Heated Jet through the NASA Seiner Nozzle}
 

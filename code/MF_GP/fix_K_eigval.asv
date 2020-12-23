@@ -1,0 +1,24 @@
+function [K_post] = fix_K_eigval(K_post)
+% val1        = min(real(eig(K_post)));
+% min_eig     = 1e-12;
+% if val1<=min_eig
+%     iter        = 0;
+%     init_val    = abs(log10(abs(val1)));
+%     nKp         = size(K_post,1);
+%     while val1<=min_eig && iter < 100
+%         exp_val     = 10^(- (init_val-iter));
+%         K_post      = K_post + exp_val*eye(nKp);
+%         iter        = iter+1;
+%         val1        = min(real(eig(K_post)));
+%     end %while
+
+min_eig     = 1e-12;
+[V,D] = eig(K_post);
+if min(real(D)) < min_eig
+dD = diag(D);
+% dD(dD <= min_eig) = min_eig;
+dD = dD + eye(size(dD)
+Dn = diag(dD);
+K_post = real(V*Dn*V');
+
+end % if

@@ -1,0 +1,102 @@
+function [Mu,K_post] = get_Mu_K_MF_gratiet(x,y,x_samp,x_tilda,hyp,covfunc,order)
+% Created by Brian Whitehead and Jayant Mukhopadhaya
+% Function that combines the different trained additive models into the
+% scaled multi-fidelity representation
+% Inputs:
+% x - 1 by number of fidelity levels cell containing the flight
+%     conditions for the number of fidelity levels considered where
+%     each different fidelity level can have a arbitrary number of
+%     data points
+% y - 1 by number of fidelity levels cell containing aerodynamic
+%     coefficients of interest for the number of fidelity levels
+%     considered where each different fidelity level can have an
+%     arbitrary number of data points
+% x_samp  - Sample points of interest (number of data points considered by
+%           number of dimensions)
+% x_tilda - Sample points at which to get covariance function
+% hyp - Cell array containing each fidelity level of interest where each
+%       cell contains the learned hyper-parameters in addition to the error
+%       term provided for each data location
+% covfunc - Cell array with all the different fidelity levels corresponding
+%           covariance kernel functions
+% order - polynomial order for regression functions for bias terms 
+%         [additive; multiplicative]
+%
+% Outputs:
+% Mu      - Mean (best estimate) of the multi-fidelity Gaussian Process
+%           model at the sample points of interest
+% K       - Covariance matrix at (x_samp,x_tilda)
+
+% x,y,hyp,covfunc are cell arrays of the same length
+
+ii              = length(x);  % num elements in a cell array
+
+% Build relevant covariance matrices with x_samp, x_tilda, and x{ii}
+fit_cov         = @(x,z)  feval(covfunc,hyp{ii}.cov, x, z);
+K               = get_kern_mat(x_samp,x_tilda,fit_cov);
+K_cross_samp    = get_kern_mat(x_samp,x{ii},fit_cov);
+K_cross_tilda   = get_kern_mat(x{ii},x_tilda,fit_cov);
+K_meas          = get_kern_mat(x{ii},x{ii},fit_cov) ...
+                + diag(exp(hyp{ii}.lik).^2);
+
+if ii == 1
+    % No recursive formulation for fidelity 1
+    H = basis_functions(x{ii},order(1));
+    F_samp = basis_functions(x_samp,order(1));
+
+    % Learn the regression coefficients for basis function
+    b_dt       = (H'*(K_meas\H))\H'*(K_meas\y{ii});
+    
+    % Make mean and covariance predictions
+    Mu          = F_samp*b_dt + (K_cross_samp)/(K_meas)*(y{ii} - H*b_dt);
+    K_post      = K - K_cross_samp/K_meas*K_cross_tilda;
+    
+else
+    % Use recursive formulation for n_fid > 1`
+    
+    % Get relevant mean and variances at fidelity ii - 1
+    [~,K_x_samp_dt] = get_Mu_K_MF_gratiet(x(1:ii-1),...
+        y(1:ii-1),x_samp,x{ii},hyp(1:ii-1),covfunc,order);
+    [~,K_dt_x_tilda] = get_Mu_K_MF_gratiet(x(1:ii-1),...
+        y(1:ii-1),x{ii},x_tilda,hyp(1:ii-1),covfunc,order);
+    [Mu_dt_dt, K_dt_dt] = get_Mu_K_MF_gratiet(x(1:ii-1),...
+        y(1:ii-1),x{ii},x{ii},hyp(1:ii-1),covfunc,order);
+    [Mu_prev,K_prev] = get_Mu_K_MF_gratiet(x(1:ii-1),...
+        y(1:ii-1),x_samp,x_tilda,hyp(1:ii-1),covfunc,order);
+    
+    % Build basis functions for additive and multiplicative biases
+    F_dt        = basis_functions(x{ii},order(1));
+    G_dt        = basis_functions(x{ii},order(2));    
+    H           = [G_dt.*repmat(Mu_dt_dt,1,order(2)+1) F_dt];
+    
+    F_samp      = basis_functions(x_samp,order(1));
+    G_samp      = basis_functions(x_samp,order(2));
+    G_tilda     = basis_functions(x_tilda,order(2));
+        
+    if (length(x{ii}) == 1)
+        % Math is ill-posed for cases with one high-fidelity data point
+        % This is a simplification
+        b_dt            = (H(:,2:end)'*(K_meas\H(:,2:end)))\H(:,2:end)'*(K_meas\y{ii});
+        rho_dt          = 1;
+        rho_samp        = 1;
+        rho_tilda       = 1;
+    else
+        % Learn regression coefficients and calculate bias terms
+        coeff           = (H'*(K_meas\H))\H'*(K_meas\y{ii});
+        b_rho           = coeff(1:1+order(2));
+        b_dt            = coeff(2+order(2):end);
+        rho_dt          = G_dt * b_rho;
+        rho_samp        = G_samp * b_rho;
+        rho_tilda       = G_tilda * b_rho;
+    end
+    
+    % Build mean and covariance using fidelity ii-1 and data from level ii
+    Mu = rho_samp.*Mu_prev + F_samp*b_dt +  ...
+        (K_cross_samp + rho_samp*rho_dt'.*K_x_samp_dt)/...
+        (K_meas + rho_dt*rho_dt'.*K_dt_dt)*(y{ii} - rho_dt.*Mu_dt_dt - F_dt*b_dt);
+
+    K_post = rho_samp*rho_tilda'.*K_prev + K  - (K_cross_samp + rho_samp*rho_dt'.*K_x_samp_dt)/...
+        (K_meas + rho_dt*rho_dt'.*K_dt_dt)*(rho_dt*rho_tilda'.*K_dt_x_tilda+K_cross_tilda);% + ...
+
+    
+end

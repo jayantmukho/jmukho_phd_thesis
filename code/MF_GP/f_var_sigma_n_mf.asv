@@ -1,0 +1,54 @@
+function [Log_p] = f_var_sigma_n_mf(x,y,sigma,u,covfunc,hyp,order)
+% Created by Jayant Mukhopadhaya and Brian Whitehead
+% Produces the negative of the log likelihood used to train the model
+% hyper-parameters
+% Inputs:
+% x - Vector of data sample locations
+% y - Vector of corresponding outputs
+% sigma - Vector of externally provided error term corresponding to
+% each output
+% u - Vector containing the hyper-parameters to be optimized
+% covfunc - Term containing the covariance kernel to be used
+% hyp - hyperparameters for all fidelity levels lower than current one
+% % init_guess - initial guess for hyperparameters
+% 
+% order      - polynomial order for regression functions for bias terms 
+%              [additive; multiplicative]
+% Outputs:
+% Log_p - Negative of the log likelihood
+n_fid = length(x);
+fit_cov     = @(x,z)  feval(covfunc,u, x, z);
+K           = diag(sigma.^2) + get_kern_mat(x{end},x{end},fit_cov);% nx x nx
+
+% Build basis functions for bias terms
+if n_fid > 1
+    % If n_fid > 1 need to include multipicative bias term as well
+    F   = basis_functions(x{n_fid},order(1));
+    G   = basis_functions(x{n_fid},order(2));
+    
+    % Need n_fid-1 mean to learn multiplicative bias term
+    [Mu,~] = get_Mu_K_MF_gratiet(x(1:n_fid-1),...
+        y(1:n_fid-1),x{n_fid},x{n_fid},hyp,covfunc,order);
+    H   = [G.*repmat(Mu,1,order(2)+1) F];
+else
+    % if n_fid = 1, only additive bias term is used
+    H   = basis_functions(x{n_fid},order(1));
+end
+
+% Learn the regression coefficients
+L = chol(K,'lower');
+coeff    = (H'*(K\H))\H'*(K\y{end});
+
+% Subtract product of (n_fid - 1) level mean and multiplicative bias term 
+% from the n_fid level data
+if n_fid >1 
+    d       = y{end} - G*coeff(1:order(2)+1).*Mu;
+else
+    d       = y{end};
+end
+
+alpha = L'\(L\(d-H*coeff));
+n = length(x{end});
+
+% Negative of the log likelihood
+Log_p = 0.5.*(d-H*coeff)'*alpha + sum(log(diag(L))) + n/2*log(2*pi);% + n*u(end);%

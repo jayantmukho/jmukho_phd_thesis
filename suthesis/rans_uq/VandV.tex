@@ -119,30 +119,46 @@ Case II & cooled, perfectly expanded & 0.513 & 0.950 & 1.197\\
 \end{figure}
 
 
-\begin{figure}
-\includegraphics[width=1.05\textwidth]{Figure13.pdf}
-\caption{Mean axial velocity profiles in the NASA ARN exhaust , delineated at $x/D_j= 4,8,12$ and $16$\label{fig:fig5}}
-\end{figure}
+% \begin{figure}
+% \includegraphics[width=1.05\textwidth]{Figure13.pdf}
+% \caption{Mean axial velocity profiles in the NASA ARN exhaust , delineated at $x/D_j= 4,8,12$ and $16$\label{fig:fig5}}
+% \end{figure}
 
 Figure \ref{fig:arn_sp23} and Figure \ref{fig:arn_sp3} present the results for Case I and II respectively. The mean experimental data is represented by the solid black dots and the associated error bars represent the reported standard deviation of the PIV data. The solid black line represents the baseline result using the unperturbed SST turbulence model and the gray area is the uncertainty estimated by the eigenspace perturbation methodology. The first subplot, Figure \ref{fig:arn_sp23_center_vel} and Figure \ref{fig:arn_sp3_center_vel}, plots the normalized axial velocity along the jet centerline. The centerline velocity at the jet exit, $U_{jet}$ is used as the normalizing factor. The second subplot, Figure \ref{fig:arn_sp23_vel_prof} and Figure \ref{fig:arn_sp3_vel_prof}, shows the normalized axial velocity in the jet wake at four different downstream locations: $x/D_{jet}= 4, 8, 12$, and $16$. The last subplot, Figure \ref{fig:arn_sp23_k_prof} and Figure \ref{fig:arn_sp3_k_prof}, plot the normalized turbulent kinetic energy in the jet wake at the same downstream locations. 
 
 The differences in the solid black line and black dots shows that the baseline turbulence model has great difficulty in accurately capturing the flow physics in the jet wake.  The uncertainty estimates, represented by the grey areas, are able to account for a significant proportion of the discrepancy between the RANS simulations and the high-fidelity experimental data. If the experimental data points themselves don't lie within the grey area, there is a non-trivial intersection between the error bars and the grey area. 
 
-\subsection{Heated Jet through the NASA Seiner Nozzle}
+% \subsection{Heated Jet through the NASA Seiner Nozzle}
 
 
-\begin{figure}
-\subfigure[\label{fig:fig7a} Mach number variation over the centerline] %
-  {\includegraphics[width=0.5\textwidth]{Figure14a.pdf}}
-\subfigure[\label{fig:fig7b}Pressure variation over the centerline] %
-  {\includegraphics[width=0.5\textwidth]{Figure14b.pdf}}
-\caption{Variation in Quantities of Interest over the jet centerline for the cooled supersonic jet \cite{seiner}.}
-\end{figure}
+% \begin{figure}
+% \subfigure[\label{fig:fig7a} Mach number variation over the centerline] %
+%   {\includegraphics[width=0.5\textwidth]{Figure14a.pdf}}
+% \subfigure[\label{fig:fig7b}Pressure variation over the centerline] %
+%   {\includegraphics[width=0.5\textwidth]{Figure14b.pdf}}
+% \caption{Variation in Quantities of Interest over the jet centerline for the cooled supersonic jet \cite{seiner}.}
+% \end{figure}
 
-In this test case, we transition from sub-sonic to super-sonic jets. Herein, we replicate the experiment configuration of \cite{seiner}. The experiment was conducted on an axisymmetric, convergent-divergent nozzle with diameter $9.144 cm$. The jet exhausted into a quiescent ambient, with  $Ma=2.0$ and Reynolds number $1.3 \times 10^6$. Fig. \ref{fig:fig7a} and \ref{fig:fig7b} outline the variation in the Mach number and pressure along the jet centerline. Fig. \ref{fig:fig7a} indicates that the extent of the jet potential core is over predicted by the RANS model. The turbulence model also over predicts the spreading rate of the jet. This indicates a predicted rate of mixing that is higher than is suggested by the experimental data. However, the uncertainty bounds are able to account for most of the discrepancy in the length of the potential core and the ensuing mixing rate, with almost all the experimental data points lying inside the bounds. 
+% In this test case, we transition from sub-sonic to super-sonic jets. Herein, we replicate the experiment configuration of \cite{seiner}. The experiment was conducted on an axisymmetric, convergent-divergent nozzle with diameter $9.144 cm$. The jet exhausted into a quiescent ambient, with  $Ma=2.0$ and Reynolds number $1.3 \times 10^6$. Fig. \ref{fig:fig7a} and \ref{fig:fig7b} outline the variation in the Mach number and pressure along the jet centerline. Fig. \ref{fig:fig7a} indicates that the extent of the jet potential core is over predicted by the RANS model. The turbulence model also over predicts the spreading rate of the jet. This indicates a predicted rate of mixing that is higher than is suggested by the experimental data. However, the uncertainty bounds are able to account for most of the discrepancy in the length of the potential core and the ensuing mixing rate, with almost all the experimental data points lying inside the bounds. 
 
-\subsection{NACA 0012 airfoil at a range of angles of attack}
-In this test case, we consider the flow over a NACA 0012 airfoil at a range of angles of attack, varying from 0$^{\circ}$ to 20$^{\circ}$. This design was chosen specifically due to its adoption in the industry. These include in conventional aircraft for instance the wing tips of the Cessna 140A, 207; helicopter designs such as the inboard and outboard blades of the Aerospatiale AS365, Boeing 600N, Lockheed 475; in addition to numerous horizontal and vertical axis wind turbines. The Reynolds number for the simulations is $6\times 10^6$. The flow is sub-sonic with $Ma=0.15$. The experimental data \cite{ladson1988} report the coefficient of lift ($C_L$) and the surface pressure coefficient ($C_P$) for different angles of attack. 
+\subsection{NACA 0012 airfoil at a range of angles of attack} \label{sec:equips_naca0012}
+In this test case, we consider the flow over a NACA 0012 airfoil at a range of angles of attack, varying from 0$^{\circ}$ to 20$^{\circ}$. This design was chosen specifically due to its adoption in the industry. These include in conventional aircraft for instance the wing tips of the Cessna 140A, 207; helicopter designs such as the inboard and outboard blades of the Aerospatiale AS365, Boeing 600N, Lockheed 475; in addition to numerous horizontal and vertical axis wind turbines. The simulation conditions are shown in Table \ref{tab:naca0012_cond}. The experimental data \cite{ladson1988} report the coefficient of lift ($C_L$) and the surface pressure coefficient ($C_P$) for different angles of attack. 
+
+\begin{table}
+\centering
+    \renewcommand{\arraystretch}{1.2}
+    \captionsetup{justification=centering}
+    \caption{Simulation conditions for the NACA0012 test case.} 
+    \begin{tabular}{|c|c|}
+        \hline
+        Mach Number & $0.15$ \\ \hline
+        Reynolds Number & $6\times10^6$ \\ \hline
+        Reference chord length & $1$ m \\ \hline
+        Freestream Temperature & $300~\text{K}$ \\ \hline
+        $\alpha$ & $0^\circ \leq \alpha \leq 20^\circ$ \\ \hline 
+    \end{tabular}
+    \label{tab:naca0012_cond}
+\end{table}
 
 \begin{figure}
 \center
@@ -168,8 +184,6 @@ Fig. \ref{fig:naca0012_cpu_10aoa} and \ref{fig:naca0012_cpu_15aoa} outline the v
 In this test case, we investigate the turbulent flow over a McDonnell Douglas Aerospace (MDA) single-flap, three-element airfoil. The flap rigging used corresponds to the 30P/30N designated by MDA. The results correspond to the case with Mach number, $Ma=0.2$; Reynolds number, $Re=5 \times 10^6$ with an angle of attack of $\alpha=8^{\circ}$. We use the experimental data of \cite{chin1993}. 
 
 We outline this case as a test against the false positive. In cases where there is significant discrepancy in the RANS predictions, the uncertainty bounds should exhibit the same. However, in cases where the RANS predictions are accurate, having spurious uncertainty bounds that are significant in their extent would be misleading and would correspond to a false positive. \cite{klausmeyer1997} have tested this flow case for a range of RANS models and have found the RANS predictions to be accurate. In such a scenario, ideally, we would expect the uncertainty bounds to be negligible at most locations along the airfoil sections. Fig. \ref{fig:30p30n} outlines the distribution of the coefficient of pressure ($C_p$) on the surfaces of the different sections. The discrepancy between the RANS predictions and the experimental data is very small over the main element and the flap of the airfoil. Accordingly, the uncertainty bounds are negligibly small over these zones. The upper surface of the slat exhibits an appreciable amount of discrepancy between RANS predictions and the high-fidelity data. The uncertainty bounds over this surface are substantial and are able to envelope the experimental data.   
-
-
 
 \begin{figure}
 \center

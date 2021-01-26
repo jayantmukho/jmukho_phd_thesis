@@ -32,7 +32,7 @@ The coefficients that are used to create the aerodynamic database are listed in 
 
 Similarly, the coefficients used to create the controls database are listed in Table \ref{tab:control_db}. Except for the case with elevator deflections, all coefficients are three-dimensional functions of $\alpha$, $\beta$, and control surface deflection ($\delta_*$). Since flaps change the baseline aerodynamics of the aircraft, its effect on force coefficients is included in the controls database. This is not the case for the other control surfaces, where only their effect on moment coefficients is used. 
 
-\begin{table}[]
+\begin{table}
     \renewcommand{\arraystretch}{1.2}
     \centering
     \begin{tabular}{ c|c|c } 
@@ -56,4 +56,4 @@ It is important to note that true control derivatives, such as $C_{l_{\delta_a}}
     C_{l_{\delta_a}}(\alpha,\beta,\delta_a) = C_l(\alpha,\beta,\delta_a) - C_l(\alpha,\beta,\delta_a=0)
 \end{equation}
 
-The discrete data for each coefficient, and its associated uncertainty, is used to train a Gaussian process. Individual multi-fidelity Gaussian processes are used to model each coefficient 
+The discrete data for each coefficient, and its associated uncertainty, is used to train a Gaussian process. Individual multi-fidelity Gaussian processes are used to model each coefficient.

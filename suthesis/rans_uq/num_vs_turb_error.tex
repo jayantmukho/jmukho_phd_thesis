@@ -1,0 +1,46 @@
+\section{Numerical Discretization Error vs. Turbulence Modeling Uncertainty}\label{sec:num_vs_turb_error}
+
+Solving continuous equations on a discrete domain creates numerical discretization error.
+In RANS CFD simulations, the continuous RANS equations that define fluid flow are solved on a discrete domain known as the mesh or grid.
+Numerical discretization error can be reduced by increasing the number of discrete points in the domain.
+As the discretization increases and the grid spacing tends towards $0$, the numerical error approaches $0$ as well. 
+This is the basis for the "Grid Convergence Study" method for quantification of numerical discretization error \cite{american_society_of_mechanical_engineers_standard_2009}.
+
+The methodology requires the use of a family of grids that are sequentially coarser but are generated using the same grid generation parameters.
+This is most easily done with structured meshes where a very dense grid, which would result in minimal discretization error, is first generated.
+Then each successive coarser grid level removes every other grid line in each direction.
+In 2D and 3D computations, this results in the number of grid point reducing by a factor of 4 and 8 respectively, at each grid level.
+It results in grids that are uniformly refined which isolates the effect of the discretization on the simulations. 
+
+The eigenspace perturbation methodology discussed in \ref{sec:equips_rans_uq} only estimates uncertainties introduced by turbulence models.
+These simulations are run on grids that introduce some degree of discretization error.
+This section explores the relationship and the relative magnitudes of the two quantities.
+
+\subsection{NACA0012 Airfoil} \label{sec:num_err_naca0012}
+
+The same NACA0012 case presented in Section \ref{sec:equips_naca0012} is used here. 
+This case is used in the 5th and 6th Drag Prediction Workshops as a verification study \cite{levy2013summary,roy2017summary}.
+A grids that were used for those verification studies are used here. 
+Details of the grids are shown in Table \ref{tab:naca0012_meshes}.
+
+\begin{table}
+    \renewcommand{\arraystretch}{1.2}
+    \centering
+    \begin{tabular}{ c|c|c|c|c } 
+%  \hline
+         Mesh Level & Nodes & Surface Nodes & Wall spacing & Approx. $y^+$  \\ 
+         \hline
+         L1 & $14,687,744$ & $4,097$ & $1.0\times10^{-7}~m$ & 0.025\\
+         L2 & $3,673,856$ & $2049$ & $2.0\times10^-7~m$ & 0.05\\
+         L3 & $919,424$ & $1,025$ & $4.0\times10^{-7}~m$ & 0.1\\
+         L4 & $230,336$ & $513$ & $8.0\times10^{-7}~m$ & 0.2\\
+         L5 & $57,824$ & $257$ & $1.6\times10^{-6}~m$ & 0.4\\
+         L6 & $14,576$ & $129$ & $3.2\times10^{-6}~m$ & 0.8\\
+         L7 & $3,584$ & $65$ & $6.4\times10^{-6}~m$ & 1.6\\
+        
+    \end{tabular}
+    \caption{Details of the mesh family used to perform numerical discretization error quantification for the NACA0012 case.}
+    \label{tab:naca0012_meshes}
+\end{table}
+
+The grid convergence for $C_L$ and $C_D$ are shown in \textcolor{red}{Figure \ref{}}.

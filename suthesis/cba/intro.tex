@@ -1,0 +1,13 @@
+The increased reliance on simulation techniques for design analysis begs the question, can simulated analyses ever replace experimental ones?
+Is it possible to complete parts of the flight certification process without first having to build a prototype of the aircraft and then putting it through flight testing?
+This goal is of particular interest to the aerospace industry and is often referred to as Certification by Analysis (CbA).
+To achieve this, simulation capabilities would have to be as accurate, if not more accurate, than what is possible with flight testing.  
+There are many required improvements to simulation capabilities \cite{slotnick_cfd_nodate} that will take years to develop.
+In the interim, quantifying the uncertainties in the analysis techniques allows us to rigorously handle current shortcomings and visualize their effect on flight performance predictions and, ultimately, predicted performance in flight testing.
+
+This chapter presents the first steps in creating a rigorous methodology for CbA.
+Contributions made in uncertainty quantification (Chapter \ref{chap:rans_uq}), multi-fidelity modeling (Chapter \ref{chap:mf_gp}, and probabilistic aerodynamics and controls databases (Chapter \ref{chap:aero_db}) are combined to create this framework.
+Section \ref{sec:maneuver} presents a flight certification maneuver of interest that is taken directly from the official flight testing guide used by the Federal Aviation Administration (FAA) \cite{romanowski_flight_2018}.
+Then Section \ref{sec:sim_procedure} and \ref{sec:mc_analysis} detail the use of probabilistic aerodynamics and controls databases to simulate the maneuver of interest.
+Finally, Section \ref{sec:cba_results} presents the results of performing the virtual flight testing and compares the use of different fidelity levels, and amounts of data. 
+ 

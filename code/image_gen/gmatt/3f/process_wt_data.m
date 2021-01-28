@@ -9,7 +9,7 @@ if numvarargs > 0
 end
 [min_sig,r] = optargs{:};
 alpha_low = -5;
-alpha_high = 21;
+alpha_high = 20.5;
 beta_low = 0;
 defl_low = 0;
 inds_alpha = coeff.alphaRange < alpha_high & coeff.alphaRange > alpha_low;

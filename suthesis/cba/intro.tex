@@ -3,7 +3,20 @@ Is it possible to complete parts of the flight certification process without fir
 This goal is of particular interest to the aerospace industry and is often referred to as Certification by Analysis (CbA).
 To achieve this, simulation capabilities would have to be as accurate, if not more accurate, than what is possible with flight testing.  
 There are many required improvements to simulation capabilities \cite{slotnick_cfd_nodate} that will take years to develop.
+
 In the interim, quantifying the uncertainties in the analysis techniques allows us to rigorously handle current shortcomings and visualize their effect on flight performance predictions and, ultimately, predicted performance in flight testing.
+While this will not be replacing real-world air-worthiness testing any time soon, it provides aircraft designers a method to estimate the likelihood that a design will pass or fail a certification test. 
+
+The current aircraft design would have certain performance characteristics associated with it which can be represented as probabilistic aerodynamics and controls databases. 
+These databases can be stochastically sampled to create multiple representations of the same aircraft that vary slightly in their performance.
+The slight variations arise out of, and respect, the uncertainties in the analysis techniques used. 
+Flight simulation software is used to run each of these aircraft samples through a certification maneuver of interest.
+The results of the numerous simulations can be post-processed to calculate what percentage of the aircraft samples passed or failed the certification test.
+This provides a quantifiable metric for the probability that the aircraft design, as it is best understood at that time, will succeed in the air-worthiness test.
+
+In addition to a probability of success/failure, by looking at the variation in the flight characteristics of the different samples, this framework also provides data on how current uncertainties in performance predictions affect test results.
+Based to these results, the design might need to be changed to ensure a better success rate, or higher-fidelity analysis methods with less uncertainty might need to be used to reduce the spread in the flight characteristics. 
+These are direct benefits of the early handling of uncertainties in the design process to preempt possible issues in the future. 
 
 This chapter presents the first steps in creating a rigorous methodology for CbA.
 Contributions made in uncertainty quantification (Chapter \ref{chap:rans_uq}), multi-fidelity modeling (Chapter \ref{chap:mf_gp}, and probabilistic aerodynamics and controls databases (Chapter \ref{chap:aero_db}) are combined to create this framework.

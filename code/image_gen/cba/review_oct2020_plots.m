@@ -59,7 +59,7 @@ grid on; box on;
 saveas(gcf,'images/cfr147d_ail_defl.png')
 
 %% Plot mean response
-load('../Stanford_CFR25_147d/WT_trajectory_results')
+load('./Stanford_CFR25_147d/WT_trajectory_results')
 figure('units','inch','position',[0,0,8,5]); clf; hold on;
 % set(gcf,'Position',[589,456,755,420]);
 i=1;

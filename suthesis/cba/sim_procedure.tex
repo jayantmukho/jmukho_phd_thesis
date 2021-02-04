@@ -10,32 +10,65 @@ These samples are run through flight simulation software that can integrate the 
 This part of the work leans heavily on the expertise of the The Boeing Company in flight simulation and control law mixing.
 Due to proprietary and patent restrictions, exact implementation of the flight simulation code is unavailable but enough information is provided to outline the simulations' overarching methodology and workflow.
 
-Figure \ref{fig:cfr147d_inputs} represents the steps required to simulate the airworthiness test. 
-The first step in the simulation process is to convert the maneuver of interest, in this case the \textit{Lateral Control: Roll Capability \S 25.147(d)} maneuver, into a trajectory for the aircraft to follow. 
-This maneuver is mostly defined by roll angle of the aircraft and is shown in Figure \ref{subfig:roll_angle}.
+Instead of a full 6 Degree of Freedom (DoF) flight simulation, a slightly simplified 5 DoF flight simulation tool, ignoring displacements in y-axis (body fitted coordinate system), is used.
+While this is slightly less accurate than a 6DoF simulation, it is well suited for Monte Carlo analysis which requires the rapid analysis of hundreds of aircraft databases.
+Another simplification is that the maneuver is not performed in a closed-loop, trajectory-following manner. 
+Instead, the maneuver is processed into a set of required accelerations and control surface deflections that the flight simulator commands from the aircraft. 
+If the aircraft is able to perform the maneuver without over-saturating any of the control surface deflections, the maneuver is considered a success.
+
+For this section, the results use single-fidelity aerodynamics and controls databases that are created using experimental data from the NAART and FVWT experimental campaigns (Section \ref{sec:data_gen}). 
+Multi-fidelity databases are used and compared for the results in Section \ref{sec:cba_results}.
+
+\subsection{Preprocessing the Maneuver}
+
+This simulator requires a few data processing steps to convert the certification maneuver into appropriate inputs for the simulation.
+Figure \ref{fig:cfr147d_inputs} represents the processing steps required to simulate the airworthiness test. 
+The first step is to convert the maneuver of interest, in this case the \textit{Lateral Control: Roll Capability \S 25.147(d)} maneuver, into a trajectory for the aircraft to follow. 
+This maneuver is mostly defined by roll angle of the aircraft and is shown as a function of time in Figure \ref{subfig:roll_angle}.
 There are other parameters included in the trajectory definition, for example constant altitude to ensure a steady level turn, but the roll angle is of primary concern and is focused on here. 
 The aircraft starts with steady level flight, rolls to an angle $\psi = +30^\circ$, and then completes the roll maneuver from $\psi = +30^\circ$ to $=-30^\circ$ in 11 seconds, as required by the certification maneuver. 
 
-The required trajectory and 
+The trajectory is then converted into acceleration requirements using geometric properties and the aerodynamic database of the aircraft.
+Figure \ref{subfig:roll_acc} shows the roll acceleration vs. time that would be required to execute the maneuver.
+There are a few distinct sections of the roll acceleration plot. 
+For the first second, the aircraft stays level and the roll acceleration stays at zero.
+A large positive acceleration is required to start the roll to a bank angle of $+30^\circ$. 
+It tapers off to nearly zero at $13$ seconds, after which a moderate negative roll acceleration is required to stabilize the aircraft at that bank angle. 
+The heart of the certification maneuver starts at $16$ seconds, as indicated by the negative peak for the roll acceleration.
+The required acceleration reduces as the bank angle approaches zero, and then peaks again, once it is past $\psi=0^\circ$.
+Finally, around the $27$ second mark, a sharp positive roll acceleration is required to stabilize the aircraft at the $-30^\circ$ bank angle. 
+
+The final step in the pre-simulation processing involves using the controls database of the aircraft, and The Boeing Company's patented control law mixer \cite{control_law_patent}, to compute the control surface deflections needed to provide the roll accelerations that the maneuver demands. 
+The required right and left aileron deflections are shown in Figure \ref{subfig:ail_defl}.
+The mostly linear relationship between aileron deflection and the resulting roll acceleration results in the control surface deflections mimicking the trends seen in the roll acceleration plot. 
 
 \begin{figure}
     \centering
     \begin{subfigure}[Flight simulation trajectory definition for the roll angle of the aircraft. Derived from the air-worthiness test.] {
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{suthesis/images/cfr147d_roll_angle.png}
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_roll_angle.png}
         \label{subfig:roll_angle}
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[Roll acceleration that would be required for the aircraft to follow the roll angle trajectory]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{suthesis/images/cfr147d_roll_acc.png} 
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_roll_acc.png} 
         \label{subfig:roll_acc}
     } 
     \end{subfigure}
     \hfill
     \begin{subfigure}[Left and right aileron deflections commanded to create the requisite roll accelerations]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{suthesis/images/cfr147d_ail_defl.png} 
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_ail_defl.png} 
         \label{subfig:ail_defl}
     } 
     \end{subfigure}
     \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:cfr147d_inputs}}
 \end{figure}
+
+\subsection{Maneuver Simulation}
+
+
+\subsection{Evaluating Success or Failure}
+
+\subsection{Monte Carlo Analysis}
+
+\subsection{Modifications to the Simulation}

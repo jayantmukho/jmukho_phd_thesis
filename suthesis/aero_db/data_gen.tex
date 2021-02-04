@@ -4,7 +4,11 @@ As with the NASA CRM example in Section \ref{sec:mf_gp_nasa_crm}, three sources 
 The lowest fidelity is filled using analyses from the Athena Vortex Lattice (AVL) code, the middle fidelity uses RANS CFD analyses using SU2, and the highest fidelity uses experimental data from wind tunnel campaigns \cite{cunningham_generic_2018,cunningham_preliminary_2018}.
 The wind tunnel data was made available through our partnership with The Boeing Company and NASA. 
 The lower fidelity data, from AVL and SU2, had to be generated.
-This section details the data generation process. 
+The following subsections detail the data generation process. 
+
+In addition to aerodynamic and controls data, geometry and engine data for the aircraft is also required for the simulation process. 
+The published mass and aerodynamic reference dimensions for the GTT aircraft are used \cite{cunningham_generic_2018}.
+The engine data had to be taken from the engine specifications for the CRJ700 aircraft as there were no published values for the GTT aircraft.
 
 \subsection{Lowest Fidelity: Vortex Lattice Simulations in AVL} \label{sec:data_gen_avl}
 Creating the AVL model required extracting geometry information from Computer-Aided Design (CAD) files for the wind tunnel models. 

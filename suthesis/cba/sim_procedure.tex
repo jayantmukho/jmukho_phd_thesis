@@ -111,7 +111,48 @@ As stated in Section \ref{sec:maneuver}, the certification maneuver needs to com
 Specifically, the inoperative engine should be the one that makes the maneuver more difficult.
 In the coordinate system defined by the $x$-axis pointing out of the nose and the $z$-axis pointing down towards the ground, the roll from $\psi = +30^\circ$ to $\psi = -30^\circ$ is made more difficult with the right engine inoperative. 
 The asymmetric thrust causes the aircraft to yaw towards the inoperative engine, creating a rolling moment in the direction opposite to the roll maneuver.
-This is confirmed looking at Figure \ref{}
+This is confirmed looking at Figure \ref{fig:eo_cfr147d_inputs}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[Roll accelerations required for the maneuver with inoperative engines.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_roll_acc.png}
+        \label{subfig:yaw_acc}
+    }
+    \end{subfigure}
+     \hfill
+     \begin{subfigure}[Rudder deflection required to minimize sideslip.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_ail_defl.png} 
+        \label{subfig:rud_defl}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Yaw acceleration required during the maneuver to minimize sideslip.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_yaw_acc.png}
+        \label{subfig:yaw_acc}
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Rudder deflection required to minimize sideslip.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_rud_defl.png} 
+        \label{subfig:rud_defl}
+    } 
+    \end{subfigure}
+     \hfill
+    \begin{subfigure}[Pitch acceleration required during the maneuver to maintain altitude.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_pitch_acc.png} 
+        \label{subfig:pitch_acc}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Elevator deflection required to maintain altitude during the banked turn.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_elev_defl.png} 
+        \label{subfig:elev_defl}
+    } 
+    \end{subfigure}
+    \caption{Rudder and elevator control inputs are required to satisfy the yaw and pitch accelerations needed to complete the maneuver.  \label{fig:eo_cfr147d_inputs}}
+\end{figure}
+
 
 \subsection{Evaluating Success or Failure}
 

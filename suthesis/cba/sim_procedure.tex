@@ -25,7 +25,7 @@ This simulator requires a few data processing steps to convert the certification
 Figure \ref{fig:cfr147d_inputs} represents the processing steps required to simulate the airworthiness test. 
 The first step is to convert the maneuver of interest, in this case the \textit{Lateral Control: Roll Capability \S 25.147(d)} maneuver, into a trajectory for the aircraft to follow. 
 This maneuver is mostly defined by roll angle of the aircraft and is shown as a function of time in Figure \ref{subfig:roll_angle}.
-There are other parameters included in the trajectory definition, for example constant altitude to ensure a steady level turn, but the roll angle is of primary concern and is focused on here. 
+There are other parameters included in the trajectory definition, for example maintaining constant altitude, but the roll angle defines the trajectory and is focused on here. 
 The aircraft starts with steady level flight, rolls to an angle $\psi = +30^\circ$, and then completes the roll maneuver from $\psi = +30^\circ$ to $=-30^\circ$ in 11 seconds, as required by the certification maneuver. 
 
 The trajectory is then converted into acceleration requirements using geometric properties and the aerodynamic database of the aircraft.
@@ -64,10 +64,57 @@ The mostly linear relationship between aileron deflection and the resulting roll
     \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:cfr147d_inputs}}
 \end{figure}
 
-\subsection{Maneuver Simulation}
+Other parameters in the trajectory definition, such as minimizing sideslip or maintaining altitude, necessitate yaw and pitch accelerations as well.
+These are shown in Figure \ref{subfig:yaw_acc} and \ref{subfig:pitch_acc}.
+In turn, these require rudder and elevator inputs that are shown in Figure \ref{subfig:rud_defl} and \ref{subfig:elev_defl}. 
+Again, the linear relationship between accelerations, yaw and pitch, and the corresponding control surface deflections, rudder and elevator, results in the acceleration trends being closely matched by the surface deflection trends. 
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[Yaw acceleration required during the maneuver to minimize sideslip.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/cfr147d_yaw_acc.png}
+        \label{subfig:yaw_acc}
+    }
+    \end{subfigure}
+     \hfill
+    \begin{subfigure}[Pitch acceleration required during the maneuver to maintain altitude.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/cfr147d_pitch_acc.png} 
+        \label{subfig:pitch_acc}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Rudder deflection required to minimize sideslip.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/cfr147d_rud_defl.png} 
+        \label{subfig:rud_defl}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Elevator deflection required to maintain altitude during the banked turn.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/cfr147d_elev_defl.png} 
+        \label{subfig:elev_defl}
+    } 
+    \end{subfigure}
+    \caption{Rudder and elevator control inputs are required to satisfy the yaw and pitch accelerations needed to complete the maneuver.  \label{fig:cfr147d_pitch_yaw_inputs}}
+\end{figure}
+
+\subsection{Maneuver Simulation}
+Armed with the aircraft databases and the time history of the necessary control surface deflections,the flight certification maneuver can be flown using Boeing's 5DoF flight simulator. 
+At every time step during the simulation, the aircraft's state, as defined by its orientation and configuration, are tracked.
+The orientation is defined by the angle of attack and angle of sideslip of the aircraft.  
+Configuration refers to aircraft's parameters such as engine thrust, airspeed, flap position etc. 
+The aircraft's aerodynamics database defines the forces and moments that are experienced by the aircraft at that orientation and configuration. 
+The time history of the control surface deflections are translated into their resulting moments using the aircraft's controls database. 
+These forces and moments are integrated in time to calculate the aircraft's orientation and configuration at the next time step. 
+This integration in time is continued until the maneuver is complete.
+
+As stated in Section \ref{sec:maneuver}, the certification maneuver needs to completed with one engine inoperative.
+Specifically, the inoperative engine should be the one that makes the maneuver more difficult.
+In the coordinate system defined by the $x$-axis pointing out of the nose and the $z$-axis pointing down towards the ground, the roll from $\psi = +30^\circ$ to $\psi = -30^\circ$ is made more difficult with the right engine inoperative. 
+The asymmetric thrust causes the aircraft to yaw towards the inoperative engine, creating a rolling moment in the direction opposite to the roll maneuver.
+This is confirmed looking at Figure \ref{}
 
 \subsection{Evaluating Success or Failure}
+
 
 \subsection{Monte Carlo Analysis}
 

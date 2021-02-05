@@ -169,6 +169,28 @@ The time history of the control surface deflections are translated into their re
 These forces and moments are integrated in time to calculate the aircraft's orientation and configuration at the next time step. 
 This integration in time is continued until the maneuver is complete.
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[Flight simulation trajectory definition for the roll angle of the aircraft. Derived from the air-worthiness test.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/reo_cfr147d_roll_angle_mean.png}
+        \label{subfig:roll_angle}
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Roll acceleration that would be required for the aircraft to follow the roll angle trajectory]{
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/reo_cfr147d_roll_acc_mean.png} 
+        \label{subfig:roll_acc}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Left and right aileron deflections commanded to create the requisite roll accelerations]{
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_ail_defl.png} 
+        \label{subfig:ail_defl}
+    } 
+    \end{subfigure}
+    \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:cfr147d_inputs}}
+\end{figure}
+
 \subsection{Evaluating Success or Failure}
 
 \subsection{Monte Carlo Analysis}

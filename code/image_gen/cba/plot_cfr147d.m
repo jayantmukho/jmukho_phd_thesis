@@ -192,7 +192,7 @@ c = get(gca,'colororder');
 plot(CPR_traj_MC(4).rightout(i).phi_rad.time,CPR_traj_MC(4).rightout(i).phi_rad.values*180/pi,'LineStyle','--','color',c(2,:));
 xlabel('Time (s)');
 ylabel('Roll Angle $(^\circ)$');
-legend('Target','Actual');
+legend('Target','Simulated');
 grid on; box on;
 saveas(gcf,'images/reo_cfr147d_roll_angle_mean.png')
 
@@ -204,7 +204,7 @@ xlabel('Time (s)');
 ylabel('Roll Acceleration $(^\circ/s^2)$');
 xlim([0,30])
 ylim([-10 10])
-legend('Target','Actual','location','southwest');
+legend('Target','Simulated','location','northeast');
 grid on; box on;
 saveas(gcf,'images/reo_cfr147d_roll_acc_mean.png')
 
@@ -217,6 +217,7 @@ xlabel('Time (s)');
 ylabel('L. Aileron $(^\circ)$');
 xlim([0,30])
 ylim([-15 15])
+legend('Target','Simulated','location','northeast');
 grid on; box on;
 
 subplot(2,1,2); hold on;

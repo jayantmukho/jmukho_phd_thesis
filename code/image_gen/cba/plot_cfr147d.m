@@ -186,7 +186,6 @@ saveas(gcf,'images/eo_cfr147d_elev_defl.png')
 %% Plot mean response
 load('./Stanford_CFR25_147d/WT_trajectory_results')
 figure(14); clf; hold on;
-% set(gcf,'Position',[589,456,755,420]);
 i=1;
 plot(CPR_traj_mean(4).rightout.phi_rad.time,CPR_traj_mean(4).rightout.phi_rad.values*180/pi,'k');
 c = get(gca,'colororder');
@@ -198,10 +197,9 @@ grid on; box on;
 saveas(gcf,'images/reo_cfr147d_roll_angle_mean.png')
 
 figure(15); clf; hold on;
-% set(gcf,'Position',[589,456,755,420]);
-plot(CPR_traj_mean(4).rightout.pdot_dps2.time,CPR_traj_mean(4).rightout.pdot_dps2.values,'k');
+plot(CPR_traj_MC(4).rightout(i).pdot_dps2.time,CPR_traj_MC(4).rightout(i).pdot_dps2.values,'k');
 c = get(gca,'colororder');
-plot(CPA_traj_mean(4).rightout(i).pdot_dps2.time-2,CPA_traj_mean(4).rightout(i).pdot_dps2.values,'LineStyle','--','color',c(2,:));
+plot(CPA_traj_MC(4).rightout(i).pdot_dps2.time-2,CPA_traj_MC(4).rightout(i).pdot_dps2.values,'LineStyle','--','color',c(2,:));
 xlabel('Time (s)');
 ylabel('Roll Acceleration $(^\circ/s^2)$');
 xlim([0,30])
@@ -209,3 +207,25 @@ ylim([-10 10])
 legend('Target','Actual','location','southwest');
 grid on; box on;
 saveas(gcf,'images/reo_cfr147d_roll_acc_mean.png')
+
+figure(16); clf; hold on;
+subplot(2,1,1); hold on;
+plot(CPA_traj_mean(4).rightout.ail_left_deg.time-2,CPA_traj_mean(4).rightout.ail_left_deg.values,'k');
+c = get(gca,'colororder');
+plot(CPA_traj_MC(4).rightout(i).ail_left_deg.time-2,CPA_traj_MC(4).rightout(i).ail_left_deg.values,'LineStyle','--','color',c(2,:));
+xlabel('Time (s)');
+ylabel('L. Aileron $(^\circ)$');
+xlim([0,30])
+ylim([-15 15])
+grid on; box on;
+
+subplot(2,1,2); hold on;
+plot(CPA_traj_mean(4).rightout.ail_right_deg.time-2,CPA_traj_mean(4).rightout.ail_right_deg.values,'k');
+c = get(gca,'colororder');
+plot(CPA_traj_MC(4).rightout(i).ail_right_deg.time-2,CPA_traj_MC(4).rightout(i).ail_right_deg.values,'LineStyle','--','color',c(2,:));
+xlabel('Time (s)');
+ylabel('R Aileron $(^\circ)$');
+xlim([0,30])
+ylim([-15 15])
+grid on; box on;
+saveas(gcf,'images/reo_cfr147d_ail_defl_mean.png')

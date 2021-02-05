@@ -97,6 +97,68 @@ Again, the linear relationship between accelerations, yaw and pitch, and the cor
     \caption{Rudder and elevator control inputs are required to satisfy the yaw and pitch accelerations needed to complete the maneuver.  \label{fig:cfr147d_pitch_yaw_inputs}}
 \end{figure}
 
+\subsection{Engine Failure Simulations}
+As stated in Section \ref{sec:maneuver}, the certification maneuver needs to completed with one engine inoperative.
+Specifically, the inoperative engine should be the one that makes the maneuver more difficult.
+In the coordinate system defined by the $x$-axis pointing out of the nose and the $z$-axis pointing down towards the ground, the roll from $\psi = +30^\circ$ to $\psi = -30^\circ$ is made more difficult with the right engine inoperative. 
+The asymmetric thrust causes the aircraft to yaw towards the inoperative engine, creating a rolling moment in the direction opposite to the roll maneuver.
+
+This can be confirmed by looking at Figure \ref{fig:eo_cfr147d_inputs}. 
+There are three configurations for which the time history of the rotational accelerations (left column) and the control surface deflections (right column) are plotted.
+The blue line represents the nominal configuration with both engines operating. 
+The red line represents the case with an inoperative right engine (Right Engine Out) and the yellow line represents the case with an inoperative left engine (Left Engine Out).
+Since the engines are aligned with the $x$-axis, the asymmetric thrust does not induce any rolling moment and Figure \ref{subfig:eo_roll_acc} shows identical roll acceleration requirements for all three configurations.
+However, it does induce yawing and pitching moments. 
+The direction of the yawing moment depends on which engine is inoperative.
+Consequently, Figure \ref{subfig:eo_yaw_acc} shows the required yaw accelerations for the engine out cases to be symmetric about the nominal condition. 
+The induced pitching moment is independent of which engine is inoperative, and Figure \ref{subfig:eo_pitch_acc} confirms this with the red and yellow lines being coincident. 
+
+Even though the roll acceleration requirements are identical, the roll-yaw coupling necessitates different aileron deflections for the different configurations, as seen in Figure \ref{subfig:eo_ail_defl}. 
+Similar trends are seen for the rudder and elevator deflections in Figures \ref{subfig:eo_rud_defl} and \ref{subfig:eo_elev_defl} respectively. 
+The configuration that makes the maneuver more difficult would be the one that requires higher control surface deflection angles. 
+These figures show that the right engine out case (red line) requires higher aileron deflections, similar rudder deflections, and slightly higher elevator deflections. 
+This confirms that having an inoperative engine on the right side of the aircraft makes the maneuver more difficult. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[Roll accelerations vs. time.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_roll_acc.png}
+        \label{subfig:eo_roll_acc}
+    }
+    \end{subfigure}
+     \hfill
+     \begin{subfigure}[Aileron deflections vs. time.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_ail_defl.png} 
+        \label{subfig:eo_ail_defl}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Yaw accelerations vs. time.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_yaw_acc.png}
+        \label{subfig:eo_yaw_acc}
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Rudder deflections vs. time.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_rud_defl.png} 
+        \label{subfig:eo_rud_defl}
+    } 
+    \end{subfigure}
+     \hfill
+    \begin{subfigure}[Pitch accelerations vs. time.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_pitch_acc.png} 
+        \label{subfig:eo_pitch_acc}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Elevator deflections vs. time.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_elev_defl.png} 
+        \label{subfig:eo_elev_defl}
+    } 
+    \end{subfigure}
+    \caption{Rotational accelerations and control surface deflections required to perform the maneuver with both engines operative (blue), right engine inoperative (red), and left engine inoperative (yellow). \label{fig:eo_cfr147d_inputs}}
+\end{figure}
+
 \subsection{Maneuver Simulation}
 Armed with the aircraft databases and the time history of the necessary control surface deflections,the flight certification maneuver can be flown using Boeing's 5DoF flight simulator. 
 At every time step during the simulation, the aircraft's state, as defined by its orientation and configuration, are tracked.
@@ -107,55 +169,7 @@ The time history of the control surface deflections are translated into their re
 These forces and moments are integrated in time to calculate the aircraft's orientation and configuration at the next time step. 
 This integration in time is continued until the maneuver is complete.
 
-As stated in Section \ref{sec:maneuver}, the certification maneuver needs to completed with one engine inoperative.
-Specifically, the inoperative engine should be the one that makes the maneuver more difficult.
-In the coordinate system defined by the $x$-axis pointing out of the nose and the $z$-axis pointing down towards the ground, the roll from $\psi = +30^\circ$ to $\psi = -30^\circ$ is made more difficult with the right engine inoperative. 
-The asymmetric thrust causes the aircraft to yaw towards the inoperative engine, creating a rolling moment in the direction opposite to the roll maneuver.
-This is confirmed looking at Figure \ref{fig:eo_cfr147d_inputs}
-
-\begin{figure}
-    \centering
-    \begin{subfigure}[Roll accelerations required for the maneuver with inoperative engines.] {
-        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_roll_acc.png}
-        \label{subfig:yaw_acc}
-    }
-    \end{subfigure}
-     \hfill
-     \begin{subfigure}[Rudder deflection required to minimize sideslip.]{
-        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_ail_defl.png} 
-        \label{subfig:rud_defl}
-    } 
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[Yaw acceleration required during the maneuver to minimize sideslip.] {
-        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_yaw_acc.png}
-        \label{subfig:yaw_acc}
-    }
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[Rudder deflection required to minimize sideslip.]{
-        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_rud_defl.png} 
-        \label{subfig:rud_defl}
-    } 
-    \end{subfigure}
-     \hfill
-    \begin{subfigure}[Pitch acceleration required during the maneuver to maintain altitude.]{
-        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_pitch_acc.png} 
-        \label{subfig:pitch_acc}
-    } 
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[Elevator deflection required to maintain altitude during the banked turn.]{
-        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/eo_cfr147d_elev_defl.png} 
-        \label{subfig:elev_defl}
-    } 
-    \end{subfigure}
-    \caption{Rudder and elevator control inputs are required to satisfy the yaw and pitch accelerations needed to complete the maneuver.  \label{fig:eo_cfr147d_inputs}}
-\end{figure}
-
-
 \subsection{Evaluating Success or Failure}
-
 
 \subsection{Monte Carlo Analysis}
 

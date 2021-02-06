@@ -119,3 +119,69 @@ The finer meshes, L2 and L1, are computationally expensive to perform simulation
 So to compare the numerical discretization error and the uncertainties predicted by the eigenspace perturbation methodology, the L3, L4, and L5 meshes are used. 
 The L6 mesh, which has significant numerical error as evidenced by its under-prediction of $C_L$ and over-prediction of $C_D$, is also explored to see how the RANS UQ methodology handles insufficient discretization that might not capture relevant flow features. 
 
+The RANS UQ methodology is applied to each of the meshes in question, L3-L6.
+The same $\alpha$ sweep that was used in Section \ref{sec:equips_naca0012}, $0^\circ \leq \alpha \leq 20^\circ$, is used for these simulations. 
+The $C_L$ vs. $\alpha$ sweep for all the meshes are shown in Figure \ref{fig:naca0012_mesh_sweeps}. 
+Figure \ref{subfig:naca0012_CL_tmr_rans_uq} shows the results of the individual baseline simulations using the different mesh levels. 
+As the mesh refinement is increased, going from L6 to L3, the simulation results tend to agree more with the experimental data. 
+This is expected as the numerical discretization error in the simulations is being reduced by increasing the number of grid points in the mesh. 
+Figure \ref{subfig:naca0012_CL_tmr_rans_uq } overlays the turbulence modeling uncertainty estimates from the EQUIPS module onto the $\alpha$ sweep results.
+The color of the uncertainty area corresponds to the mesh level represented.
+It is hard to distinguish between the uncertainty areas from the L3-L5 meshes because all of these uncertainty areas are almost exactly coincident.
+The notable exception is the uncertainty estimate for the L6 mesh in blue. 
+These two observations indicate that while a minimum grid refinement that captures the relevant flow features is required, further grid refinement does not significantly impact the uncertainty estimate predicted by the eigenspace perturbation methodology.
+This is a significant conclusion as it means that uncertainty quantification can be performed using coarser meshes that reduce the computational cost of performing the 6 simulations required to engender the uncertainty estimate. 
+
+\begin{figure}
+\center
+\subfigure[\label{subfig:naca0012_CL_tmr} $C_L$ vs. $\alpha$ sweeps meshes of varying refinement.]
+  {\includegraphics[width=0.48\textwidth]{code/image_gen/naca0012/images/naca0012_cl_vs_alpha_tmr_meshes.png}}
+\subfigure[\label{subfig:naca0012_CL_tmr_rans_uq } $C_L$ vs. $\alpha$ sweeps with the corresponding turbulence modeling uncertainty areas overlaid on the plot]
+  {\includegraphics[width=0.48\textwidth]{code/image_gen/naca0012/images/naca0012_cl_vs_alpha_tmr_meshes_uq.png}}
+\caption{Effects of grid refinement on $C_L$ and $C_D$ predictions at $\alpha = 10^\circ$ for the NACA0012 airfoil.}\label{fig:naca0012_mesh_sweeps}
+\end{figure}
+
+Lastly, the relative magnitude of the numerical error to the turbulence modeling uncertainty is explored in Figure \ref{fig:naca0012_num+turb_uq}. 
+The L3-L5 meshes are used to compute the numerical error metrics. 
+The error bars on the simulation data points represent the $95\%$ confidence interval on the numerical discretization error as defined by Equation \ref{equ:num_error_bars}.
+The blue shaded area is the turbulence uncertainty estimate. 
+For most of the points, the discretization error bars are too small to be visible at this scale.
+The turbulence uncertainty is greater than the discretization error bars for most of the simulations, even those at lower angles of attack. 
+But care must be taken when talking about the simulations at higher angles of attack. 
+The mesh family is unlikely to be in the asymptotic range of convergence in the stall region of the $\alpha$ sweep and so the numerical discretization error metrics aren't necessarily valid for those simulations. 
+The solutions for $\alpha = 12^\circ$ suffered from oscillatory convergence and the ones for $\alpha = 20^\circ$ yielded a negative apparent order.
+The error bars for these two cases are omitted as they aren't valid.
+
+From this exploration for a 2D case it seems that, given sufficient grid refinement to capture the relevant flow physics, the uncertainty arising from turbulence modeling remains independent of further grid refinement. 
+The next section explores a 3D case to confirm these observations. 
+
+\begin{figure}
+\center
+\includegraphics[width=0.6\textwidth]{code/image_gen/naca0012/images/naca0012_CL_vs_alpha_num_uq_L3.png}
+\caption{Comparing the numerical discretization error bars with the turbulence modeling uncertainty areas predicted by the EQUIPS module. \label{fig:naca0012_num+turb_uq}}
+\end{figure}
+
+\subsection{ONERA M6 Wing}
+
+A classic CFD validation case, the ONERA M6 wing is chosen as the 3D case to investigate the relationship between numerical discretization errors and turbulence modeling uncertainties. 
+It is a swept, untwisted, semi-span wing that uses a symmetric airfoil, the ONERA D, as it's cross-sectional shape. 
+The simulations conditions are presented in Table \ref{tab:ONERAM6_test_cond}.
+
+\begin{table}
+\centering
+    \renewcommand{\arraystretch}{1.2}
+    \captionsetup{justification=centering}
+    \caption{Simulation conditions for the ONERAM6 wing.} 
+    \begin{tabular}{|c|c|}
+        \hline
+        Mach Number & $0.84$ \\ \hline
+        Reynolds Number & $14.6\times10^6$ \\ \hline
+        Reference chord length & $0.805$ m \\ \hline
+        Freestream Temperature & $300~\text{K}$ \\ \hline
+        $\alpha$ & $3.06^\circ, 6.06^\circ$ \\ \hline 
+    \end{tabular}
+    \label{tab:ONERAM6_test_cond}
+\end{table}
+
+
+The transonic flow over the wing results in a strong $\lambda$ shock on the upper surface of the 

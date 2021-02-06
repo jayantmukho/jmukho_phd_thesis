@@ -138,7 +138,7 @@ This is a significant conclusion as it means that uncertainty quantification can
   {\includegraphics[width=0.48\textwidth]{code/image_gen/naca0012/images/naca0012_cl_vs_alpha_tmr_meshes.png}}
 \subfigure[\label{subfig:naca0012_CL_tmr_rans_uq } $C_L$ vs. $\alpha$ sweeps with the corresponding turbulence modeling uncertainty areas overlaid on the plot]
   {\includegraphics[width=0.48\textwidth]{code/image_gen/naca0012/images/naca0012_cl_vs_alpha_tmr_meshes_uq.png}}
-\caption{Effects of grid refinement on $C_L$ and $C_D$ predictions at $\alpha = 10^\circ$ for the NACA0012 airfoil.}\label{fig:naca0012_mesh_sweeps}
+\caption{Results of using the eigenspace perturbation methodology to estimate the turbulence modeling uncertainties in $C_L$ predictions at a range of $\alpha$ values. }\label{fig:naca0012_mesh_sweeps}
 \end{figure}
 
 Lastly, the relative magnitude of the numerical error to the turbulence modeling uncertainty is explored in Figure \ref{fig:naca0012_num+turb_uq}. 
@@ -166,6 +166,10 @@ The next section explores a 3D case to confirm these observations.
 A classic CFD validation case, the ONERA M6 wing is chosen as the 3D case to investigate the relationship between numerical discretization errors and turbulence modeling uncertainties. 
 It is a swept, untwisted, semi-span wing that uses a symmetric airfoil, the ONERA D, as it's cross-sectional shape. 
 The simulations conditions are presented in Table \ref{tab:ONERAM6_test_cond}.
+A family of structured meshes is available from the NASA Turbulence Modeling Resource website.
+A subset of these structured meshes are used, details for which are shown in Table \ref{tab:oneram6_meshes}.
+The finest mesh level from this family, the L1 mesh, has $\ge 64$ million points. 
+It would be very computationally expensive to perform the eigenspace perturbation simulations on and so it is omitted from this study.
 
 \begin{table}
 \centering
@@ -183,5 +187,45 @@ The simulations conditions are presented in Table \ref{tab:ONERAM6_test_cond}.
     \label{tab:ONERAM6_test_cond}
 \end{table}
 
+\begin{table}
+    \renewcommand{\arraystretch}{1.2}
+    \centering
+    \begin{tabular}{ c|c|c } 
+%  \hline
+         Mesh Level & Nodes & Approx. $y^+$  \\ 
+         \hline
+         L2 & $8,677,681$ &  $1.0$\\
+         L3 & $1,087,665$ &  $2.0$\\
+         L4 & $136,793$ & $4.0$\\
+        
+    \end{tabular}
+    \caption{Details of the grid family used to perform numerical discretization error quantification for the ONERA M6 case.}
+    \label{tab:oneram6_meshes}
+\end{table}
 
-The transonic flow over the wing results in a strong $\lambda$ shock on the upper surface of the 
+\begin{figure}
+\center
+\includegraphics[width=0.6\textwidth]{code/image_gen/oneram6/images/oneram6_L3_mesh.png}
+\caption{The L3 structured surface mesh for the ONERA M6. \label{fig:oneram6_mesh}}
+\end{figure}
+
+\begin{figure}
+\center
+\includegraphics[width=0.6\textwidth]{code/image_gen/oneram6/images/oneram6_cp_contour.png}
+\caption{Surface contour for the $C_P$ at $\alpha= 3.06^\circ$ reveals the lambda-shaped shock wave that forms on the top surface of the wing. \label{fig:oneram6_cp}}
+\end{figure}
+
+The transonic flow over the wing results in a strong $\lambda$-shock on the upper surface of the wing, as depicted in Figure \ref{fig:oneram6_cp}.
+Accurate predictions for the relative locations of the two shocks and their meeting point requires sufficient mesh refinement. 
+It is also a difficult feature for RANS CFD solvers to predict correctly as the turbulence model can introduce significant uncertainty in the results.
+The relative magnitudes of the two are compared in Figure \ref{fig:oneram6_3aoa}.
+
+
+\begin{figure}
+\center
+\subfigure%[\label{subfig:oneram6_CL_3aoa} $C_L$ vs. $\alpha$ sweeps meshes of varying refinement.]
+  {\includegraphics[width=0.48\textwidth]{code/image_gen/oneram6/images/CL_03aoa.png}}
+\subfigure%[\label{subfig:oneram6_CD_3aoa} $C_D$ vs. $\alpha$ sweeps with the corresponding turbulence modeling uncertainty areas overlaid on the plot]
+  {\includegraphics[width=0.48\textwidth]{code/image_gen/oneram6/images/CD_03aoa.png}}
+\caption{Comparing the numerical discretization error and the turbulence modeling uncertainty estimate on $C_L$ and $C_D$ predictions at $\alpha = 3.06^\circ$ for the ONERAM6 wing.}\label{fig:oneram6_3aoa}
+\end{figure}

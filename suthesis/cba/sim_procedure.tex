@@ -117,7 +117,7 @@ Even though the roll acceleration requirements are identical, the roll-yaw coupl
 Similar trends are seen for the rudder and elevator deflections in Figures \ref{subfig:eo_rud_defl} and \ref{subfig:eo_elev_defl} respectively. 
 The configuration that makes the maneuver more difficult would be the one that requires higher control surface deflection angles. 
 These figures show that the right engine out case (red line) requires higher aileron deflections, similar rudder deflections, and slightly higher elevator deflections. 
-This confirms that having an inoperative engine on the right side of the aircraft makes the maneuver more difficult. 
+This confirms that having an inoperative engine on the right side of the aircraft makes the maneuver more difficult.
 
 \begin{figure}
     \centering
@@ -169,29 +169,35 @@ The time history of the control surface deflections are translated into their re
 These forces and moments are integrated in time to calculate the aircraft's orientation and configuration at the next time step. 
 This integration in time is continued until the maneuver is complete.
 
+The results of one such simulation, with the right engine inoperative, can be seen in Figure \ref{fig:reo_cfr147d_sim}.
+The solid black line represents the preprocessed inputs to the simulator and the red dashed line represents a simulated maneuver.
+The simulation is able to track the trajectory and the roll accelerations exactly as shown by the coincident lines in Figures \ref{subfig:reo_roll_angle} and \ref{subfig:reo_roll_acc}. 
+Figure \ref{subfig:reo_ail_defl} shows the slight changes to the aileron deflection angles in the simulations that ensure the roll acceleration is tracked correctly.
+
 \begin{figure}
     \centering
     \begin{subfigure}[Flight simulation trajectory definition for the roll angle of the aircraft. Derived from the air-worthiness test.] {
         \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/reo_cfr147d_roll_angle_mean.png}
-        \label{subfig:roll_angle}
+        \label{subfig:reo_roll_angle}
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[Roll acceleration that would be required for the aircraft to follow the roll angle trajectory]{
         \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/reo_cfr147d_roll_acc_mean.png} 
-        \label{subfig:roll_acc}
+        \label{subfig:reo_roll_acc}
     } 
     \end{subfigure}
     \hfill
     \begin{subfigure}[Left and right aileron deflections commanded to create the requisite roll accelerations]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_ail_defl.png} 
-        \label{subfig:ail_defl}
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/reo_cfr147d_ail_defl_mean.png} 
+        \label{subfig:reo_ail_defl}
     } 
     \end{subfigure}
-    \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:cfr147d_inputs}}
+    \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:reo_cfr147d_sim}}
 \end{figure}
 
 \subsection{Evaluating Success or Failure}
+
 
 \subsection{Monte Carlo Analysis}
 

@@ -54,16 +54,17 @@ gp = gp.Process();
 % gp.plot_input_data();
 figure(4); clf;
 gp.plot_GP_1D_slice(x_samp,x_samp)
-errorbar(X_HF,Y_HF,2.*sig_HF,'ko','MarkerSize',msz,'LineWidth',lw,'capsize',8)
+errorbar(X_HF,Y_HF,2.*sig_HF,'ko','MarkerSize',msz,'LineWidth',lw,'capsize',8,'HandleVisibility','off')
 hold on
 errorbar(X_LF,Y_LF,2.*sig_LF,'bx','MarkerSize',msz,'LineWidth',lw,'capsize',8)
 
-plot(x_samp,y_hf_func(x_samp))
+plot(x_samp,y_hf_func(x_samp),'HandleVisibility','off')
 plot(x_samp,y_lf_func(x_samp))
 [y_samp,~] = gp.Query(x_samp);
 rmse = sum((y_samp-y_hf_func(x_samp)).^2)/n_samp;
-title(sprintf('$RMSE =%.5f$',rmse));
-legend('$2\sigma$','GP Mean','Data points','True Function','location','northwest')
+% title(sprintf('$RMSE =%.5f$',rmse));
+legend('$2\sigma$','GP Mean','Low-fidelity data points','Low-fidelity function','location','northwest')
+
 saveas(gcf,sprintf('images/mf_%i_noise.png',n_hf))
 
 gp = MF_GP;

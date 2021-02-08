@@ -28,7 +28,6 @@ xlabel('Number of total data points');
 ylabel('Time (sec)');
 axis([min(n_total) max(n_total) min(min([t_process_grat t_process_ken])) max(max([t_process_grat t_process_ken]))])
 axis square
-grid('on')
 % set(gcf,'position',[540 100 560 540]);
 
 figure(2); clf;

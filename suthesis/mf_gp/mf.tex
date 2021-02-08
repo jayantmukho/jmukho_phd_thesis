@@ -71,7 +71,10 @@ More high-fidelity data would be required to reduce the uncertainty in the GP mo
     \caption{Comparison of single- and two-fidelity GP regression. \label{fig:mf_vs_sf_analytic}}
 \end{figure}
 
-As mentioned earlier in this section, the recursive formulation put forth by Gratiet \cite{le_gratiet_recursive_2014} improves on the work originally done by Kennedy and O'Hagan \cite{kennedy_predicting_2000} by reducing the computational complexity of the training and sampling steps of the multi-fidelity GP. This is achieved by splitting the dataset into each individual fidelity level instead of agglomerating the data from all levels into one set of equations. This results in having to invert smaller matrices, which greatly improves the computational cost of the process. Figure \ref{fig:time_comp} shows the comparative times for the training and sampling steps. Two simple one-dimensional, analytic functions were used to generate the result: 
+As mentioned earlier in this section, the recursive formulation put forth by Gratiet \cite{le_gratiet_recursive_2014} improves on the work originally done by Kennedy and O'Hagan \cite{kennedy_predicting_2000} by reducing the computational complexity of the training and sampling steps of the multi-fidelity GP.
+This is achieved by splitting the dataset into each individual fidelity level instead of agglomerating the data from all levels into one set of equations.
+This results in having to invert smaller matrices, which greatly improves the computational cost of the process.
+Figure \ref{fig:time_comp} shows the comparative times for the training and sampling steps. Two simple one-dimensional, analytic functions were used to generate the result: 
 
 \begin{equation}
     f_1(x) = 0.5 \left ( 6x - 2\right )^2 \sin{ \left (12x -4 \right )} + 10 \left ( x - 0.5 \right ) -5 ~\text{and}

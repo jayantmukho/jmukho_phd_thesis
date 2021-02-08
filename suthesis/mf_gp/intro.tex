@@ -1,0 +1,27 @@
+Most computational or experimental analysis techniques provide discrete realizations of the quantity of interest (QoI) at discrete points in the domain of interest. 
+Each analysis, referred to as a function evaluation, has a monetary and/or computational cost associated with it. 
+In practice, higher-fidelity function evaluations are more costly than lower-fidelity ones.
+If the converse were true, there would be no reason to use a lower-fidelity analysis in place of a higher-fidelity one.
+Fidelity here refers to how closely an analysis technique mirrors real-life physics. 
+
+In theory, the discretization of the domain can be fine enough that it results in a nearly continuous representation of the QoI.
+Additionally, only the highest-fidelity analysis techniques would be used so that there is very little uncertainty or error in the QoI. 
+In reality, this is not tractable. 
+Often cost minimization is a priority. 
+This equates to QoIs being represented as sparsely as possible and lower-fidelity analysis techniques replacing higher-fidelity ones wherever possible.  
+
+To squeeze the most out of the function evaluations that are available, numerous statistical methods have been developed that use these discrete realizations to create continuous representations of the QoI.
+These representations are called surrogate models and they assume that the underlying function of interest varies smoothly between discrete data points.
+Popular surrogate modeling techniques include radial basis function \cite{park1991universal}, Gaussian processes (GP) \cite{krige1951statistical,matheron1963principles,rasmussen_gaussian_2006}, stochastic collocation \cite{loeven2007probabilistic}, and polynomial chaos expansions (PCE) \cite{oladyshkin2012data,blatman2011adaptive}.
+
+Of these, the use of multi-fidelity data has been developed for GP \cite{kennedy_predicting_2000,gratiet_multi-fidelity_nodate} and, more recently, for PCE \cite{ng2012multifidelity, palar2018global}.
+Both methods handle the multi-fidelity data by using correction terms that are trained on the difference between the low-fidelity and high-fidelity data. 
+GP have a slight advantage in this regard as they use an additive and a multiplicative term in the correction, whereas PCE only use an additive term. 
+PCE have a distinct advantage in sensitivity analyses as Sobol indices can be directly post-processed \cite{sudret2008global,crestaux2009polynomial}.
+On the other hand, GP can handle uncertain inputs and provide a direct estimation of the error in its modeling, which can be used for adaptive sampling techniques that suggest additional function evaluations to reduce the uncertainty in the model.
+For this work GP are the surrogate model of choice due to its advanced handling of multi-fidelity data that have associated uncertainties, and the direct estimation of uncertainty in its predictions. 
+
+This chapter first introduces the basic equations of GP regression that are used to handle single-fidelity data that can have uncertainties associated with it.
+It builds upon this by introducing multi-fidelity GP regression that combines data from different sources to build a single, superior surrogate model for the QoI.
+These multi-fidelity GP equations are then used to create probabilistic aerodynamic databases that represent the performance characteristics of a model aircraft, the NASA CRM. 
+Emphasis is placed on the improvements in using multi-fidelity data vs. single-fidelity data. 

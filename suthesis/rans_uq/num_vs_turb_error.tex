@@ -125,7 +125,7 @@ The $C_L$ vs. $\alpha$ sweep for all the meshes are shown in Figure \ref{fig:nac
 Figure \ref{subfig:naca0012_CL_tmr_rans_uq} shows the results of the individual baseline simulations using the different mesh levels. 
 As the mesh refinement is increased, going from L6 to L3, the simulation results tend to agree more with the experimental data. 
 This is expected as the numerical discretization error in the simulations is being reduced by increasing the number of grid points in the mesh. 
-Figure \ref{subfig:naca0012_CL_tmr_rans_uq } overlays the turbulence modeling uncertainty estimates from the EQUIPS module onto the $\alpha$ sweep results.
+Figure \ref{subfig:naca0012_CL_tmr_rans_uq} overlays the turbulence modeling uncertainty estimates from the EQUiPS module onto the $\alpha$ sweep results.
 The color of the uncertainty area corresponds to the mesh level represented.
 It is hard to distinguish between the uncertainty areas from the L3-L5 meshes because all of these uncertainty areas are almost exactly coincident.
 The notable exception is the uncertainty estimate for the L6 mesh in blue. 
@@ -136,7 +136,7 @@ This is a significant conclusion as it means that uncertainty quantification can
 \center
 \subfigure[\label{subfig:naca0012_CL_tmr} $C_L$ vs. $\alpha$ sweeps meshes of varying refinement.]
   {\includegraphics[width=0.48\textwidth]{code/image_gen/naca0012/images/naca0012_cl_vs_alpha_tmr_meshes.png}}
-\subfigure[\label{subfig:naca0012_CL_tmr_rans_uq } $C_L$ vs. $\alpha$ sweeps with the corresponding turbulence modeling uncertainty areas overlaid on the plot]
+\subfigure[\label{subfig:naca0012_CL_tmr_rans_uq} $C_L$ vs. $\alpha$ sweeps with the corresponding turbulence modeling uncertainty areas overlaid on the plot]
   {\includegraphics[width=0.48\textwidth]{code/image_gen/naca0012/images/naca0012_cl_vs_alpha_tmr_meshes_uq.png}}
 \caption{Results of using the eigenspace perturbation methodology to estimate the turbulence modeling uncertainties in $C_L$ predictions at a range of $\alpha$ values. }\label{fig:naca0012_mesh_sweeps}
 \end{figure}
@@ -158,7 +158,7 @@ The next section explores a 3D case to confirm these observations.
 \begin{figure}
 \center
 \includegraphics[width=0.6\textwidth]{code/image_gen/naca0012/images/naca0012_CL_vs_alpha_num_uq_L3.png}
-\caption{Comparing the numerical discretization error bars with the turbulence modeling uncertainty areas predicted by the EQUIPS module. \label{fig:naca0012_num+turb_uq}}
+\caption{Comparing the numerical discretization error bars with the turbulence modeling uncertainty areas predicted by the EQUiPS module. \label{fig:naca0012_num+turb_uq}}
 \end{figure}
 
 \subsection{ONERA M6 Wing}
@@ -218,8 +218,12 @@ It would be very computationally expensive to perform the eigenspace perturbatio
 The transonic flow over the wing results in a strong $\lambda$-shock on the upper surface of the wing, as depicted in Figure \ref{fig:oneram6_cp}.
 Accurate predictions for the relative locations of the two shocks and their meeting point requires sufficient mesh refinement. 
 It is also a difficult feature for RANS CFD solvers to predict correctly as the turbulence model can introduce significant uncertainty in the results.
-The relative magnitudes of the two are compared in Figure \ref{fig:oneram6_3aoa}.
-
+The relative magnitudes of the two estimates are compared in Figure \ref{fig:oneram6_3aoa}.
+The black squares represent the baseline RANS CFD predictions and the gray shaded region represents the estimated uncertainty that is injected by the turbulence model. 
+The finest mesh data point, on the left on these plots, has the numerical discretization error bars associated with it. 
+Since 3 meshes are used, only the finest mesh has error metrics associated with it. 
+The uncertainty estimated by the EQUiPS module is significantly larger than the errors introduced due to insufficient numerical discretization.
+Additionally, the mesh refinement doesn't significantly impact the size of the uncertainty estimates. 
 
 \begin{figure}
 \center
@@ -229,3 +233,25 @@ The relative magnitudes of the two are compared in Figure \ref{fig:oneram6_3aoa}
   {\includegraphics[width=0.48\textwidth]{code/image_gen/oneram6/images/CD_03aoa.png}}
 \caption{Comparing the numerical discretization error and the turbulence modeling uncertainty estimate on $C_L$ and $C_D$ predictions at $\alpha = 3.06^\circ$ for the ONERAM6 wing.}\label{fig:oneram6_3aoa}
 \end{figure}
+
+When the angle of attack is increased to $\alpha = 6.06^\circ$, a different story unfolds. 
+At such a high angle of attack, this mesh family is no longer in the asymptotic region of convergence for this case. 
+This is evidenced by the oscillatory convergence characteristics seen in Figure \ref{fig:oneram6_6aoa}.
+The error metrics for the discretization error are no longer valid as the grids are not sufficiently large to capture all the relevant flow physics. 
+Consequently, the uncertainty estimates change drastically as the grid is refined. 
+
+\begin{figure}
+\center
+\subfigure%[\label{subfig:oneram6_CL_3aoa} $C_L$ vs. $\alpha$ sweeps meshes of varying refinement.]
+  {\includegraphics[width=0.48\textwidth]{code/image_gen/oneram6/images/CL_06aoa.png}}
+\subfigure%[\label{subfig:oneram6_CD_3aoa} $C_D$ vs. $\alpha$ sweeps with the corresponding turbulence modeling uncertainty areas overlaid on the plot]
+  {\includegraphics[width=0.48\textwidth]{code/image_gen/oneram6/images/CD_06aoa.png}}
+\caption{Comparing the numerical discretization error and the turbulence modeling uncertainty estimate on $C_L$ and $C_D$ predictions at $\alpha = 6.06^\circ$ for the ONERAM6 wing.}\label{fig:oneram6_6aoa}
+\end{figure}
+
+In summary, the 2D and 3D investigations into the relationship between numerical discretization errors and the turbulence modeling uncertainty estimates yield similar results and provide guidelines for the grids that should be used with the EQUiPS module.
+A minimum level of grid refinement that can capture all the relevant flow physics is required.
+More specifically, the grids should be in the asymptotic region of grid convergence for the particular flow configuration in question.
+This ensures that the numerical discretization error is small and that the turbulence modeling uncertainty estimate is the dominant source of error in the simulations. 
+Once a grid of sufficient refinement is used, additional refinement doesn't significantly impact the turbulence modeling uncertainty estimate.
+These conclusions are kept in mind when creating grids for the use with the EQUiPS module. 

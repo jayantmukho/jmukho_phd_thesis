@@ -47,6 +47,23 @@ with $J_1 = H_1$ and for $t > 1$, $J_t =  \begin{bmatrix} G_{t-1} \odot \left ( 
 \end{equation}
 where $\alpha = \left (\mathbf{y_t} - \rho_{t-1} \beta_{\rho_{t-1}}-F_t\beta_t \right )$.
 
+To show the potential advantage of using multi-fidelity data to estimate a function of interest, the analytic functions defined by Equations \ref{equ:lf_function} and \ref{equ:hf_function} are used as the low-fidelity approximation and the high-fidelity function of interest respectively. 
+
+Figure \ref{fig:mf_vs_sf_analytic}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[\label{subfig:sf_gpr} Single-fidelity fit.] {
+        \includegraphics[width=.45\textwidth]{code/image_gen/gp_analytical/images/hf_4_noise.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[\label{subfig:mf_gpr} Two-fidelity fit.]{
+        \includegraphics[width=.45\textwidth]{code/image_gen/gp_analytical/images/mf_4_noise.png} 
+    }
+    \end{subfigure}
+    \caption{Comparison of single- and two-fidelity GP regression. \label{fig:mf_vs_sf_analytic}}
+\end{figure}
+
 As mentioned earlier in this section, the recursive formulation put forth by Gratiet \cite{le_gratiet_recursive_2014} improves on the work originally done by Kennedy and O'Hagan \cite{kennedy_predicting_2000} by reducing the computational complexity of the training and sampling steps of the multi-fidelity GP. This is achieved by splitting the dataset into each individual fidelity level instead of agglomerating the data from all levels into one set of equations. This results in having to invert smaller matrices, which greatly improves the computational cost of the process. Figure \ref{fig:time_comp} shows the comparative times for the training and sampling steps. Two simple one-dimensional, analytic functions were used to generate the result: 
 
 \begin{equation}

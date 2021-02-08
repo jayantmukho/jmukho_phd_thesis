@@ -39,11 +39,14 @@ For consistency across sections, the following low- and high-fidelity analytic f
 
 To show a basic example of how single-fidelity GP regression uses discrete function evaluations to create a continuous representation of the QoI, only the high fidelity function is used.
 Figure \ref{fig:gpr_predictions} shows the GP regression results when using 8 discrete data points to estimate the function defined by Equation \ref{equ:hf_function}.
-The data points are uniformly distributed between $0$ and $1$.
+This function is represented by the red line. 
+The data points, shown as black circles, are uniformly distributed between $0$ and $1$.
+The GP regression mean prediction is the solid black line and the $2\sigma$ error estimate is represented by the gray area.
 In the case of Figure \ref{subfig:gpr_deterministic}, the function evaluations are considered exact, with no associated uncertainty ($\sigma_i = 0$). 
-The error estimate from the GP regression goes to zero near these data points, but increases between them where there is greater uncertainty in the underlying function. 
+The error estimate from the GP regression goes to zero near these data points where the uncertainty in the value of the underlying function is zero. 
+The error increases between the data points where the uncertainty in the inferred hyperparameters introduces uncertainty in the prediction of the surrogate model in those areas. 
 Figure \ref{subfig:gpr_uncertain} assumes that there is uncertainty associated with the function evaluations ($\sigma_i = 1.0$).
-The GP regression respects this uncertainty in the data and the error estimate incorporates it into the prediction of the underlying function, even at the data locations. 
+The larger, near constant size error estimate shows that GP regression respects this uncertainty in the data and the error estimate incorporates it into the prediction of the underlying function.
 
 \begin{figure}
     \centering
@@ -58,3 +61,24 @@ The GP regression respects this uncertainty in the data and the error estimate i
     \caption{ GP regression mean and $2\sigma$ error estimates when using deterministic and uncertain input data for an underlying analytic function of interest. \label{fig:gpr_predictions}}
 \end{figure}
 
+An important feature of GP regression that is used extensively in this work, is the ability to create samples of the GP that are potential representations of the underlying function and take into account the error in the GP. 
+A sample mean, $\mu_i(X_*)$ at $X_*$ locations is generated as
+\begin{equation}
+    mu_i(X_*) = \mu(X_*) + \sigma^2(X_*,X_*) U,
+\end{equation}
+where $U$ is a $n_* \times 1$ vector of random variables drawn from a standard normal distribution $\mathcal{N}(0,1)$.
+Figure \ref{fig:gpr_predictions_sample} show samples drown from the two GP regressions performed on \ref{equ:hf_function} using deterministic and uncertain data. 
+Each colored line is a separate sample and represents a potential candidate for the underlying function that is being estimated, based on the limited data that is provided. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[\label{subfig:gpr_deterministic_sample} With deterministic inputs.] {
+        \includegraphics[width=.45\textwidth]{code/image_gen/gp_analytical/images/hf_8_samples.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[\label{subfig:gpr_uncertain_sample} With uncertain inputs.]{
+        \includegraphics[width=.45\textwidth]{code/image_gen/gp_analytical/images/hf_8_noise_samples.png} 
+    }
+    \end{subfigure}
+    \caption{Samples of the surrogate models that are candidate functions given the GP regression on the deterministic and the uncertain data. \label{fig:gpr_predictions_sample}}
+\end{figure}

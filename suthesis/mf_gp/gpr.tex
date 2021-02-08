@@ -29,3 +29,17 @@ where $\hat{\beta} = (H^TV^{-1}H)^{-1}H^TV^{-1}y$ is the best linear estimator f
     \log~p(y|x;\theta) = -\frac{1}{2} \log|V| - \frac{1}{2}\alpha^T V^{-1}\alpha - \frac{n}{2}\log 2\pi,
 \end{equation}
 where $\alpha = \left ( y-H^T\hat{\beta} \right )$.
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[With de.] {
+        \includegraphics[width=.45\textwidth]{suthesis/images/time_process.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Time taken to sample the multi-fidelity GP.]{
+        \includegraphics[width=.45\textwidth]{suthesis/images/time_query.png} 
+    }
+    \end{subfigure}
+    \caption{Wall clock time comparison to train and query the multi-fidelity Gaussian Process formulations put forth by Kennedy and O'Hagan \cite{kennedy_predicting_2000}, and Gratiet \cite{gratiet_multi-fidelity_nodate}. \label{fig:time_comp}}
+\end{figure}

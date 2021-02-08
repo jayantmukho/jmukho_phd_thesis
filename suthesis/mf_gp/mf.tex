@@ -48,8 +48,15 @@ with $J_1 = H_1$ and for $t > 1$, $J_t =  \begin{bmatrix} G_{t-1} \odot \left ( 
 where $\alpha = \left (\mathbf{y_t} - \rho_{t-1} \beta_{\rho_{t-1}}-F_t\beta_t \right )$.
 
 To show the potential advantage of using multi-fidelity data to estimate a function of interest, the analytic functions defined by Equations \ref{equ:lf_function} and \ref{equ:hf_function} are used as the low-fidelity approximation and the high-fidelity function of interest respectively. 
-For this case, the number of high-fidelity data points is restricted to $4. 
-Figure \ref{fig:mf_vs_sf_analytic}
+For this case, the number of high-fidelity data points is restricted to $4$. 
+Figure \ref{subfig:sf_gpr} shows the mean and error estimates for a one-fidelity GP trained on just the 4 high-fidelity data points. 
+$\sigma_i^{HF} = 0.3$ in this case.
+There aren't enough data points for the GP regression to learn all the nuanced trends in the high-fidelity function of interest. 
+For Figure \ref{subfig:mf_gpr}, the low-fidelity function (yellow line) is introduced by using 11 equally spaced function evaluations (blue squares). 
+The low-fidelity data doesn't have some of the higher-frequency information that is present in the high-fidelity data, but it approximates the general trends fairly well. 
+In this case, the low-fidelity data bolsters the scant $4$ high-fidelity data points, and the multi-fidelity GP that combines both sets of data, is able to provide a more accurate representation of the underlying function of interest. 
+It is also important to notice the large error estimates in GP prediction. 
+More high-fidelity data would be required to reduce the uncertainty in the GP modeling. 
 
 \begin{figure}
     \centering

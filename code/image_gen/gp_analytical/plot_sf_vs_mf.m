@@ -64,7 +64,8 @@ plot(x_samp,y_lf_func(x_samp))
 rmse = sum((y_samp-y_hf_func(x_samp)).^2)/n_samp;
 % title(sprintf('$RMSE =%.5f$',rmse));
 legend('$2\sigma$','GP Mean','Low-fidelity data points','Low-fidelity function','location','northwest')
-
+xlabel('$x$')
+ylabel('$y$')
 saveas(gcf,sprintf('images/mf_%i_noise.png',n_hf))
 
 gp = MF_GP;

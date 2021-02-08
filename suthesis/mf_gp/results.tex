@@ -57,16 +57,16 @@ In the three-fidelity fits of Figures \ref{fig:cl_alpha_mf}(c) -- \ref{fig:cm_al
     \hfill
     \centering
     \begin{subfigure}[Single fidelity fit.] {
-        \includegraphics[width=.31\textwidth]{images/cm_1f.eps} }
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_1f.png} }
     \end{subfigure}
     \hfill
     \begin{subfigure}[Two-fidelity fit.]{
-        \includegraphics[width=.31\textwidth]{images/cm_2f.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_2f.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[Three-fidelity fit.]{
-        \includegraphics[width=.31\textwidth]{images/cm_3f.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_3f.png} 
     }
     \end{subfigure}
     \caption{$C_m$ vs $\alpha$ for the NASA CRM, using data from multiple sources of varying fidelity.\label{fig:cm_alpha_mf}}
@@ -84,16 +84,16 @@ Since the QoIs are simple functions of $\alpha$, not many high-fidelity data poi
 \begin{figure}
     \centering
     \begin{subfigure}[RMSE for $C_L$ vs. $\alpha$.] {
-        \includegraphics[width=.31\textwidth]{images/cl_rsme_comp.eps} }
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cl_rsme_comp.png} }
     \end{subfigure}
     \hfill
     \begin{subfigure}[RMSE for $C_D$ vs. $\alpha$.]{
-        \includegraphics[width=.31\textwidth]{images/cd_rsme_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cd_rsme_comp.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[RMSE for $C_m$ vs. $\alpha$.]{
-        \includegraphics[width=.31\textwidth]{images/cm_rsme_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_rsme_comp.png} 
     }
     \end{subfigure}
     \caption{Root Mean Square error when using three-fidelity data vs. using only high-fidelity data points.\label{fig:mf_vs_hf}}
@@ -106,41 +106,41 @@ To simulate such a situation, a multi-fidelity GP is created that uses AVL and S
 \begin{figure}
     \centering
     \begin{subfigure}[$C_L vs. \alpha$: Three-fidelity fit.] {
-        \includegraphics[width=.31\textwidth]{images/cl_3f_partial.eps} }
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cl_3f_partial.png} }
     \end{subfigure}
     \begin{subfigure}[$C_L vs. \alpha$: Single fidelity fit.]{
-        \includegraphics[width=.31\textwidth]{images/cl_hf_partial.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cl_hf_partial.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[$C_L vs. \alpha$: RMSE trends when data is added sequentially from high to low values of $\alpha$.]{
-        \includegraphics[width=.31\textwidth]{images/cl_rsme_local_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cl_rsme_local_comp.png} 
     }
     \end{subfigure}
 
     \begin{subfigure}[$C_D vs. \alpha$: Three-fidelity fit.] {
-        \includegraphics[width=.31\textwidth]{images/cd_3f_partial.eps} }
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cd_3f_partial.png} }
     \end{subfigure}
     \begin{subfigure}[$C_D vs. \alpha$: Single fidelity fit.]{
-        \includegraphics[width=.31\textwidth]{images/cd_hf_partial.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cd_hf_partial.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[$C_D vs. \alpha$: RMSE trends when data is added sequentially from high to low values of $\alpha$.]{
-        \includegraphics[width=.31\textwidth]{images/cd_rsme_local_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cd_rsme_local_comp.png} 
     }
     \end{subfigure}
 
     \begin{subfigure}[$C_m vs. \alpha$: Three-fidelity fit.] {
-        \includegraphics[width=.31\textwidth]{images/cm_3f_partial.eps} }
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_3f_partial.png} }
     \end{subfigure}
     \begin{subfigure}[$C_m vs. \alpha$: Single fidelity fit.]{
-        \includegraphics[width=.31\textwidth]{images/cm_hf_partial.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_hf_partial.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[$C_m vs. \alpha$: RMSE trends when data is added sequentially from high to low values of $\alpha$.]{
-        \includegraphics[width=.31\textwidth]{images/cm_rsme_local_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/images/cm_rsme_local_comp.png} 
     }
     \end{subfigure}
     
@@ -154,24 +154,24 @@ To explore the performance of the multi-fidelity predictive capability in multip
     \centering
     \begin{subfigure}[AVL and wind tunnel data points.] {
         \label{fig:cl_2d_2f_points}
-        \includegraphics[trim=70 10 90 20, clip, width=.45\textwidth]{images/cl_2d_2f_points.png} }
+        \includegraphics[trim=0 0 0 0, clip, width=.45\textwidth]{code/image_gen/nasa_crm/images/cl_2d_2f_points.png} }
     \end{subfigure}
     \hfill
     \begin{subfigure}[Surfaces representing mean and $2\sigma$ predictions from GP. Red slice shows one-dimensional location for sampling the GP which is shown in \subref{fig:cl_2d_2f_sample}.]{
         \label{fig:cl_2d_2f_surf}
-        \includegraphics[trim=70 10 90 20, clip, width=.45\textwidth]{images/cl_2d_2f_surf.png} 
+        \includegraphics[trim=0 0 0 0, clip, width=.45\textwidth]{code/image_gen/nasa_crm/images/cl_2d_2f_surf.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[Zoomed in view of surfaces in \subref{fig:cl_2d_2f_surf} at high angles of attack (and lower Mach number). The mean and $2\sigma$ predictions interval surfaces are more discernible at this scale.]{
         \label{fig:cl_2d_2f_surf_zoom}
-        \includegraphics[trim=70 10 90 20, clip, width=.45\textwidth]{images/cl_2d_2f_surf_zoom.png} 
+        \includegraphics[trim=0 0 0 0, clip, width=.45\textwidth]{code/image_gen/nasa_crm/images/cl_2d_2f_surf_zoom.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[One-dimensional representation of mean and $2\sigma$ estimates at slice location shown in \subref{fig:cl_2d_2f_surf}. Multiple samples (colored lines) of the GP are also overlaid to show examples of deterministic sampling. Inset plot focuses in on high angles of attack.]{
         \label{fig:cl_2d_2f_sample}
-        \includegraphics[trim=60 0 50 20, clip, width=.45\textwidth]{images/cl_2d_2f_sample.png} 
+        \includegraphics[trim=0 0 0 0, clip, width=.45\textwidth]{code/image_gen/nasa_crm/images/cl_2d_2f_sample.png} 
     }
     \end{subfigure}
     \caption{Two-dimensional representation of $C_L$ as a function of $\alpha$ and Mach number.\label{fig:2d_2f_cl_data}}
@@ -182,16 +182,16 @@ Predictions from the two-fidelity GPs are compared to those made from single-fid
 \begin{figure}
     \centering
     \begin{subfigure}[RMSE for $C_L$.] {
-        \includegraphics[width=.31\textwidth]{images/cl_2d_rsme_lhs_comp.eps} }
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/suthesis/images/cl_2d_rsme_lhs_comp.png} }
     \end{subfigure}
     \hfill
     \begin{subfigure}[RMSE for $C_D$.]{
-        \includegraphics[width=.31\textwidth]{images/cd_2d_rsme_lhs_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/suthesis/images/cd_2d_rsme_lhs_comp.png} 
     }
     \end{subfigure}
     \hfill
     \begin{subfigure}[RMSE for $C_m$.]{
-        \includegraphics[width=.31\textwidth]{images/cm_2d_rsme_lhs_comp.eps} 
+        \includegraphics[width=.31\textwidth]{code/image_gen/nasa_crm/suthesis/images/cm_2d_rsme_lhs_comp.png} 
     }
     \end{subfigure}
     \caption{Root-mean-square-error for two-dimensional functions of Mach and $\alpha$ when using two-fidelity data vs. using only high-fidelity data points.\label{fig:2d_mf_vs_hf}}

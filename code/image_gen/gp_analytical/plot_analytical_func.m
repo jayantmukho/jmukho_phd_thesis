@@ -35,11 +35,11 @@ legend('True function','Low-fidelity approximation','location','northwest')
 %% High Fidelity
 
 for i = 3:1:6
-    rng(10)
+    rng(1)
     n_hf=i;
     X_HF = lhsdesign(n_hf,1);
     X_HF = linspace(0.0,1.0,n_hf)';
-    Y = y_hf_func(X_HF);
+    Y = y_hf_func(X_HF) + randn(size(X_HF))*0.2;
     sig = ones(n_hf,1)*.001;
     gp = MF_GP;
     gp = gp.add_data(X_HF,Y,sig);

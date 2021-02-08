@@ -1,0 +1,159 @@
+clear variables
+load SU2_HT_0.mat
+
+%% Organize the UQ data
+data_1c = dlmread('1c_data.dat');
+data_2c = dlmread('2c_data.dat');
+data_3c = dlmread('3c_data.dat');
+data_p1c1 = dlmread('p1c1_data.dat');
+data_p1c2 = dlmread('p1c2_data.dat');
+data_baseline = dlmread('baseline_data.dat');
+
+data_1c = sortrows(data_1c,12);
+data_2c = sortrows(data_2c,12);
+data_3c = sortrows(data_1c,12);
+data_p1c1 = sortrows(data_1c,12);
+data_p1c2 = sortrows(data_1c,12);
+data_baseline = sortrows(data_1c,12);
+
+%%
+alpha = [0;1;2.3581;3;4;5;6;8;10;12;-2];
+CL = [data_baseline(:,2), data_1c(:,2), data_2c(:,2), data_3c(:,2), data_p1c1(:,2), data_p1c2(:,2)];
+CD = [data_baseline(:,3), data_1c(:,3), data_2c(:,3), data_3c(:,3), data_p1c1(:,3), data_p1c2(:,3)];
+Cl = [data_baseline(:,5), data_1c(:,5), data_2c(:,5), data_3c(:,5), data_p1c1(:,5), data_p1c2(:,5)];
+Cm = [data_baseline(:,6), data_1c(:,6), data_2c(:,6), data_3c(:,6), data_p1c1(:,6), data_p1c2(:,6)];
+Cn = [data_baseline(:,7), data_1c(:,7), data_2c(:,7), data_3c(:,7), data_p1c1(:,7), data_p1c2(:,7)];
+
+CL_filt = mid_sig(CL);
+CD_filt = mid_sig(CD);
+Cl_filt = mid_sig(Cl);
+Cm_filt = mid_sig(Cm);
+Cn_filt = mid_sig(Cn);
+
+SU2_M85_uq = [alpha, CL_filt, CD_filt, Cl_filt, Cm_filt, Cn_filt]; 
+save('SU2_HT_0.mat','SU2_M7', 'SU2_M85', 'SU2_M85_full', 'SU2_M85_uq');
+
+%% Organize the data
+data = dlmread('t216R77.csv',',',1);
+alpha_WT    = data(:,5);
+CL_WT       = data(:,24);
+CD_WT       = data(:,25);
+Cm_WT       = data(:,28);
+
+CL_sig_WT   = ones(size(alpha_WT)) * 0.001;
+CD_sig_WT   = ones(size(alpha_WT)) * 0.001;
+Cm_sig_WT   = ones(size(alpha_WT)) * 0.001;
+
+gray=1/255*[200,200,200];
+
+minCL= min(CL')';
+maxCL=max(CL')';
+baseCL= CL(:,1);
+
+minCD= min(CD')';
+maxCD= max(CD')';
+baseCD = CD(:,1);
+
+minCm= min(Cm')';
+maxCm= max(Cm')';
+baseCm = Cm(:,1);
+
+aInterp= linspace(min(alpha),max(alpha),100)';
+minClInterp = interp1(alpha,minCL,aInterp,'cubic');
+maxClInterp = interp1(alpha,maxCL,aInterp,'cubic');
+baseClInterp = interp1(alpha,baseCL,aInterp,'cubic');
+
+minCdInterp = interp1(alpha,minCD,aInterp,'cubic');
+maxCdInterp = interp1(alpha,maxCD,aInterp,'cubic');
+baseCdInterp = interp1(alpha,baseCD,aInterp,'cubic');
+
+minCmInterp = interp1(alpha,minCm,aInterp,'cubic');
+maxCmInterp = interp1(alpha,maxCm,aInterp,'cubic');
+baseCmInterp = interp1(alpha,baseCm,aInterp,'cubic');
+
+
+%% For CL
+
+figure(7); clf;
+betweenX= [aInterp;flipud(aInterp)];
+betweenY= [minClInterp;flipud(maxClInterp)];
+fill(betweenX,betweenY,gray,'EdgeColor',gray);
+hold on
+plot(aInterp,baseClInterp(:,1),'k')%,expData(:,1),expData(:,2),'k.','MarkerSize',12)
+% errorbar(WT_Mach85.alpha,WT_Mach85.CL,2*WT_Mach85.CL_sig,'kx','LineWidth',2)
+errorbar(alpha_WT,CL_WT,2*CL_sig_WT,'kx','LineWidth',2)
+
+set(gca,'FontSize',12)
+axis([-2 12 -.2 1.2])
+xlabel('\alpha')
+ylabel('C_L')
+legend('Uncertainty bounds','Baseline','Experimental Data','Location','northwest')
+t = sprintf('C_L vs alpha for NASA CRM');
+set(gcf,'position',[404 277 560 540]);
+% title(t)
+axis square
+
+
+%% FOR DRAG
+
+figure(8); clf;
+betweenX= [aInterp;flipud(aInterp)];
+betweenY= [minCdInterp;flipud(maxCdInterp)];
+fill(betweenX,betweenY,gray,'EdgeColor',gray);
+hold on
+plot(aInterp,baseCdInterp(:,1),'k')%,expData(:,1),expData(:,2),'k.','MarkerSize',12)
+% errorbar(WT_Mach85.alpha,WT_Mach85.CL,2*WT_Mach85.CL_sig,'kx','LineWidth',2)
+errorbar(alpha_WT,CD_WT,2*CD_sig_WT,'kx','LineWidth',2)
+
+set(gca,'FontSize',12)
+axis([-2 12 0 .3])
+xlabel('\alpha')
+ylabel('C_L')
+legend('Uncertainty bounds','Baseline CFD','Experimental Data','Location','northwest')
+t = sprintf('C_L vs alpha for NASA CRM');
+% title(t)
+set(gcf,'position',[404 277 560 540]);
+axis square
+
+%% For Cm
+
+figure(9); clf;
+betweenX= [aInterp;flipud(aInterp)];
+betweenY= [minCmInterp;flipud(maxCmInterp)];
+fill(betweenX,betweenY,gray,'EdgeColor',gray);
+hold on
+plot(aInterp,baseCmInterp(:,1),'k')%,expData(:,1),expData(:,2),'k.','MarkerSize',12)
+% errorbar(WT_Mach85.alpha,WT_Mach85.CL,2*WT_Mach85.CL_sig,'kx','LineWidth',2)
+errorbar(alpha_WT,Cm_WT,2*Cm_sig_WT,'kx','LineWidth',2)
+
+set(gca,'FontSize',12)
+axis([-2 12 -.2 .3])
+xlabel('\alpha')
+ylabel('C_m')
+legend('Uncertainty bounds','Baseline CFD','Experimental Data','Location','northwest')
+t = sprintf('C_m vs alpha for NASA CRM');
+% title(t)
+set(gcf,'position',[404 277 560 540]);
+axis square
+
+%% CL vs CD
+
+figure(10); clf;
+betweenX= [aInterp;flipud(aInterp)];
+betweenY= [minCmInterp;flipud(maxCmInterp)];
+% fill(betweenX,betweenY,gray,'EdgeColor',gray);
+hold on
+plot(baseCD,baseCL,'k')%,expData(:,1),expData(:,2),'k.','MarkerSize',12)
+% errorbar(WT_Mach85.alpha,WT_Mach85.CL,2*WT_Mach85.CL_sig,'kx','LineWidth',2)
+errorbar(CD_WT,CL_WT,2*Cm_sig_WT,'kx','LineWidth',2)
+
+set(gca,'FontSize',12)
+axis([0 .3 -.2 1.2])
+xlabel('C_L')
+ylabel('C_D')
+legend('Uncertainty bounds','Baseline CFD','Experimental Data','Location','northwest')
+t = sprintf('C_m vs alpha for NASA CRM');
+% title(t)
+set(gcf,'position',[404 277 560 540]);
+axis square
+

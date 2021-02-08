@@ -1,7 +1,7 @@
 clear variables
 close all
 set(groot,'defaultAxesFontSize',18)
-set(groot,'defaultAxesTickLength',[0.01 0.01])
+set(groot,'defaultAxesTickLength',[0.02 0.02])
 set(groot,'defaultAxesLineWidth',2)
 
 

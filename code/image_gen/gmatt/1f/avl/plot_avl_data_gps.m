@@ -1,10 +1,19 @@
 % load GMATT_AVL;
-if ~exist('GMATT_AVL','var')
-    load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\model\gmatt_final\GMATT_AVL_Database_Generation\gmatt_avl_3d_plotting.mat');
-end
-close all
-setup_plots(plotting_options('thesis'))
+load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\model\gmatt_final\GMATT_AVL_Database_Generation\gmatt_avl_3d_plotting.mat');
 
+close all
+
+fs = 18;
+lw = 2.0;
+msz= 8;
+plot_options = plotting_options('thesis');
+plot_options.width = 5;
+plot_options.height = 5;
+plot_options.font_size = fs;
+plot_options.line_width = lw;
+setup_plots(plot_options);
+
+%%
 alpha_lim = 21;     % upper limit on alpha
 ctab = GMATT_AVL.CTAB;
 ctab_coeffs = fieldnames(ctab);
@@ -64,6 +73,7 @@ for i=1:length(ctab_coeffs)
         plot(X_GP, Y_GP,'k','linewidth',2);
         h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         
+        xlim([-4,20]);
         set_figure_size(gcf,5,5);
         legend('AVL Data','GP Mean','$2\sigma$','location','best')
         grid('on')
@@ -132,6 +142,7 @@ for i=1:length(ctab_coeffs)
         set_figure_size(gcf,5,5);
         xlabel('$\alpha$');
         ylabel(coeff_labels{i});
+        xlim([-4,20]);
         grid('on')
         legend('AVL Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'_beta=4.fig']);

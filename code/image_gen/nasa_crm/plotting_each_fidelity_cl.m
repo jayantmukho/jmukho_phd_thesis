@@ -7,7 +7,7 @@ set(groot,'defaultAxesLineWidth',2)
 
 fs = 18;
 lw = 2.0;
-msz= 8;
+msz= 12;
 
 plot_options = plotting_options('thesis');
 plot_options.width = 5;

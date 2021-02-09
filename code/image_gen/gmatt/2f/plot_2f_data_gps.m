@@ -3,9 +3,17 @@ load GMATT_SU2;
 if ~exist('GMATT_2F','var')
     load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\2f_gps\gmatt_2f_3d_plotting.mat');
 end
+fs = 18;
+lw = 2.0;
+msz= 8;
+plot_options = plotting_options('thesis');
+plot_options.width = 5;
+plot_options.height = 5;
+plot_options.font_size = fs;
+plot_options.line_width = lw;
+setup_plots(plot_options);
 
 close all
-setup_plots(plotting_options('thesis'))
 
 alpha_lim = 21;     % upper limit on alpha
 ctab = GMATT_AVL.CTAB;
@@ -68,6 +76,7 @@ for i=1:length(ctab_coeffs)
         h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         
         set_figure_size(gcf,5,5);
+        xlim([-4,20]);
         legend('AVL Data','GP Mean','$2\sigma$','location','best')
         grid('on')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
@@ -208,6 +217,7 @@ for i=1:length(ctab_coeffs)
         xlabel('$\beta$');
         ylabel(coeff_labels{i});
         grid('on')
+        xlim([-4,20]);
         legend('AVL Data','SU2 Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'_alpha=8.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'_alpha=8.png'])

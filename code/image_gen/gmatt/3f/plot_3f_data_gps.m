@@ -53,11 +53,12 @@ for i=1:length(ctab_coeffs)
         
         figure(i*3); clf;
         e=errorbar(X_AVL, Y_AVL, 2*sn,'o');
-        format_plot(e,plotting_options('thesis'))
         xlabel('$\alpha$')
         ylabel(coeff_labels{i})
         hold all
-        
+        format_plot(e,plotting_options('thesis'))
+        grid('on')
+
         % WT Data 
         [X_WT,Y_WT,sn] = process_wt_data(coeff_wt);
         e=errorbar(X_WT,Y_WT,2*sn,'x');
@@ -70,13 +71,15 @@ for i=1:length(ctab_coeffs)
         fill_x1 = [X_GP;flipud(X_GP)];
         fill_SD = [ Y_GP - 2*sn;...
                     flipud( Y_GP + 2*sn)];
-        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         plot(X_GP, Y_GP,'k','linewidth',2);
+        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         
-        legend('AVL Data','WT Data','$2\sigma$','GP Mean','location','best')
+        set_figure_size(gcf,5,5);
+        legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','best')
         grid('on')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'.png'])
+    
     else
         coeff_su2 = GMATT_SU2.CTAB.(ctab_coeffs{i});
         
@@ -121,6 +124,13 @@ for i=1:length(ctab_coeffs)
         legend('AVL Data','SU2 Data','WT Data','location','northeast')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'.png'])
+        
+        % Include all beta data
+        inds_a = coeff.alphaRange<alpha_lim;
+        alpha = coeff.alphaRange(inds_a);
+        beta = coeff.betaRange;
+        X_AVL = combvec(alpha',beta')';
+        Y_AVL = reshape(coeff.data(inds_a,:),[],1);
  
         % 1D plot for beta = 4
         figure(i*3-1); clf;
@@ -150,25 +160,24 @@ for i=1:length(ctab_coeffs)
         Y_WT = Y_WT(inds_b);
         sn = sn(inds_b);
         e = errorbar(X_WT(:,1),Y_WT,sn/2,'kx');
-        format_plot(e,plotting_options('thesis'))
         
         % GP Predictions
-        X_GP = combvec(coeff_gp.alphaSamp',coeff_gp.betaSamp')';
-        Y_GP = coeff_gp.muSamp;
-        sn   = sqrt(diag(coeff_gp.qSamp*coeff_gp.qSamp'));
-        inds_b = abs(X_GP(:,2)-4)<0.5;
-        X_GP = X_GP(inds_b,:);
-        Y_GP = Y_GP(inds_b,:);
-        sn   = sn(inds_b,:);
+        inds = X2_S == 4;
+        X_GP = X1_S(inds);
+        Y_GP = reshape(coeff_gp.muSamp,size(X1_S'))';
+        Y_GP = Y_GP(inds);
+        sn_GP   = reshape(sqrt(diag(coeff_gp.qSamp*coeff_gp.qSamp')),size(X1_S'))';
+        sn_GP   = sn_GP(inds);
         fill_x1 = [X_GP;flipud(X_GP)];
-        fill_SD = [ Y_GP - 2*sn;...
-                    flipud( Y_GP + 2*sn)];
-        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
+        fill_SD = [ Y_GP - 2*sn_GP;...
+                    flipud( Y_GP + 2*sn_GP)];
         plot(X_GP(:,1), Y_GP,'k','linewidth',2);
+        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         
-        %             set_figure_size(gcf,6,6);
+        format_plot(e,plotting_options('thesis'))
+        set_figure_size(gcf,5,5);
         grid('on')
-        legend('AVL Data','SU2 Data','WT Data','$2\sigma$','GP Mean','location','best')
+        legend('AVL Data','SU2 Data','WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'_beta=4.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'_beta=4.png'])
         
@@ -185,8 +194,6 @@ for i=1:length(ctab_coeffs)
         sn = get_sig_avl(X_AVL,Y_AVL);
         e = errorbar(X_AVL(inds,2),Y_AVL(inds),2*sn(inds),'o');
         format_plot(e,plotting_options('thesis'))
-        xlabel('$\beta$');
-        ylabel(coeff_labels{i});
         hold all
         
         % SU2 Data
@@ -225,11 +232,14 @@ for i=1:length(ctab_coeffs)
         fill_x1 = [X_GP;flipud(X_GP)];
         fill_SD = [ Y_GP - 2*sn;...
                     flipud( Y_GP + 2*sn)];
-        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         plot(X_GP(:,2), Y_GP,'k','linewidth',2);
+        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
+        set_figure_size(gcf,5,5);
+        xlabel('$\beta$');
+        ylabel(coeff_labels{i});
         grid('on')
-        legend('AVL Data','WT Data','$2\sigma$','GP Mean','location','best')
+        legend('AVL Data','SU2 Data','WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'_alpha=8.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'_alpha=8.png'])
     end

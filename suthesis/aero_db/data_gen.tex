@@ -65,6 +65,24 @@ The second term takes into account the inaccuracy of AVL at higher $\alpha$, $\b
 Using the range allows the equation to generalize to all coefficients, which can be quite different in absolute values.
 The $0.002$ factor is a normalizing factor that yields reasonable uncertainty estimates for coefficients.
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[NASA Langley Research Center 12-Foot Low-Speed Tunnel] {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/1f/avl/images/gps/CRMTAB.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Boeing North American Aviation Research Tunnel]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/1f/avl/images/gps/CRMTAB_alpha=8.png} 
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Boeing Flow Visualization Water Tunnel]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/1f/avl/images/gps/CRMTAB_beta=4.png} 
+    }
+    \end{subfigure}
+    \caption{The GTT model mounted in the various experimental setups that were used.\label{fig:gtt_exp_images}}
+\end{figure}
+
 \subsection{Medium Fidelity: RANS CFD Simulations in SU2}
 
 The medium fidelity level is filled using RANS CFD simulations performed in SU2.

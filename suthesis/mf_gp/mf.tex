@@ -1,8 +1,12 @@
 \section{Multi-Fidelity Gaussian Process Regression} \label{sec:mf_modeling}
 
-It is often the case that simulations or experiments of a sufficiently-high fidelity are too expensive to perform over the entire domain of interest for a modeled problem. In many cases, there are lower-fidelity approximations available that can be evaluated quickly to perform parameter studies. The aim of the multi-fidelity GP is to use data from different fidelity levels to create a surrogate model that can best approximate the highest-fidelity function and its uncertainty, while reducing the required number of high-fidelity function evaluations. 
+It is often the case that simulations or experiments of a sufficiently-high fidelity are too expensive to perform over the entire domain of interest for a modeled problem.
+In many cases, there are lower-fidelity approximations available that can be evaluated quickly to perform parameter studies.
+The aim of the multi-fidelity GP is to use data from different fidelity levels to create a surrogate model that can best approximate the highest-fidelity function and its uncertainty, while reducing the required number of high-fidelity function evaluations. 
 
-Assume there are $s$ information sources $f_t(\mathbf{x})$, where $t\in\{1,2,...,s\}$, and the function at the highest fidelity level, $f_s(\mathbf{x})$, is being approximated using a Gaussian Processes, $Z_s(\mathbf{x}) \sim \mathcal{N}(\mu_{s}(\mathbf{x}), \sigma_s^2(\mathbf{x}))$. An auto-regressive formulation of the multi-fidelity framework is used. This was first put forward in \cite{kennedy_predicting_2000} and was improved upon by \cite{gratiet_multi-fidelity_nodate} to reduce computational cost and improve predictions. The GP approximation at the $t$ fidelity level is modeled as
+Assume there are $s$ information sources $f_t(\mathbf{x})$, where $t\in\{1,2,...,s\}$, and the function at the highest fidelity level, $f_s(\mathbf{x})$, is being approximated using a Gaussian Processes, $Z_s(\mathbf{x}) \sim \mathcal{N}(\mu_{s}(\mathbf{x}), \sigma_s^2(\mathbf{x}))$.
+An auto-regressive formulation of the multi-fidelity framework is used. This was first put forward in \cite{kennedy_predicting_2000} and was improved upon by \cite{gratiet_multi-fidelity_nodate} to reduce computational cost and improve predictions.
+The GP approximation at the $t$ fidelity level is modeled as
 
 \begin{equation}
     Z_t(\mathbf{x}) = \rho_{t-1}(\mathbf{x})Z_{t-1}(\mathbf{x}) + \delta_t(\mathbf{x}),
@@ -10,9 +14,13 @@ Assume there are $s$ information sources $f_t(\mathbf{x})$, where $t\in\{1,2,...
 \begin{equation}
     \rho_{t-1}(\mathbf{x}) = \mathbf{g}_{t-1}^T(\mathbf{x})\beta_{\rho_{t-1}},
 \end{equation}
-where $\mathbf{g}_{t-1}(\mathbf{x})$ is a set of $q$ basis functions, similar to $\mathbf{h}(\mathbf{x})$ in the previous section, $\beta_{\rho_{t-1}}$ is the learned regression coefficients, and $\delta_t(\mathbf{x})$ is modeled using a GP. A way to interpret these terms is to consider $\delta_t(\mathbf{x})$ the additive bias and $\rho_{t-1}(\mathbf{x})$ the multiplicative bias between fidelity levels $t$ and $t-1$. To account for the different fidelity levels and their corresponding data, the subscript $t$ is added to the notation introduced in Section \ref{sec:gpr}. For example, $X_t$ refers to all the input data at level $t$. Additionally, the term $\Sigma_t = \text{diag}(\sigma^2_{i,t})$ is introduced, which refers to the noise in the outputs $\mathbf{y_t}$. 
+where $\mathbf{g}_{t-1}(\mathbf{x})$ is a set of $q$ basis functions, similar to $\mathbf{h}(\mathbf{x})$ in the previous section, $\beta_{\rho_{t-1}}$ is the learned regression coefficients, and $\delta_t(\mathbf{x})$ is modeled using a GP.
+A way to interpret these terms is to consider $\delta_t(\mathbf{x})$ the additive bias and $\rho_{t-1}(\mathbf{x})$ the multiplicative bias between fidelity levels $t$ and $t-1$.
+To account for the different fidelity levels and their corresponding data, the subscript $t$ is added to the notation introduced in Section \ref{sec:gpr}.
+For example, $X_t$ refers to all the input data at level $t$. Additionally, the term $\Sigma_t = \text{diag}(\sigma^2_{i,t})$ is introduced, which refers to the noise in the outputs $\mathbf{y_t}$. 
 
-In Appendix B of \cite{gratiet_multi-fidelity_nodate}, Gratiet presents the predictive equations for the case when the design sets are not nested ($\mathcal{D}_t \notin \mathcal{D}_{t-1}$) and the data has no process noise, such that $\Sigma_t$ is a null matrix. This work extends those equations to include process noise $\Sigma_t \neq \emptyset$, which produces the following representations for the mean and covariance equations for fidelity level $t \neq 1$ as
+In Appendix B of \cite{gratiet_multi-fidelity_nodate}, Gratiet presents the predictive equations for the case when the design sets are not nested ($\mathcal{D}_t \notin \mathcal{D}_{t-1}$) and the data has no process noise, such that $\Sigma_t$ is a null matrix.
+This work extends those equations to include process noise $\Sigma_t \neq \emptyset$, which produces the following representations for the mean and covariance equations for fidelity level $t \neq 1$ as
 
 \begin{equation}\label{equ:mu_Zt}
 \begin{split}
@@ -31,16 +39,22 @@ and
     & \left [ \left ( \rho_{t-1} \left (X_t \right ) \rho_{t-1} ( \Tilde{X} )^T \right ) \odot \sigma^2_{t-1} (X_t, \Tilde{X} ) + K_{t} ( X_t, \Tilde{X} ) \right], 
 \end{split}
 \end{equation}
-where $(X, \Tilde{X})$ are generic input arguments, $V_t = K_{t} \left(X_t,X_t \right) + \Sigma_t $, and $\rho_{t-1} (X) = G_{t-1}(X)^T \beta_{\rho_{t-1}}$. $G_{t-1}(X)$ is a $q \times n$ matrix where each column is a $q$-dimensional result of the basis functions for the corresponding $m$-dimensional row of input samples in $X$, and $\beta_{\rho_{t-1}}$ are learned regression coefficients. For the lowest fidelity level, $t=1$, the regular GP regression equations, Equations (\ref{equ:mu_gpr}, \ref{equ:sig_gpr}) are used. For a set of sample locations $X_*$, the mean predictions at fidelity level $t$ is given by $\mu_t(X_*)$ and the variance in the predictions is given by the diagonal of $\sigma^2_t(X_*,X_*)$. 
+where $(X, \Tilde{X})$ are generic input arguments, $V_t = K_{t} \left(X_t,X_t \right) + \Sigma_t $, and $\rho_{t-1} (X) = G_{t-1}(X)^T \beta_{\rho_{t-1}}$.
+$G_{t-1}(X)$ is a $q \times n$ matrix where each column is a $q$-dimensional result of the basis functions for the corresponding $m$-dimensional row of input samples in $X$, and $\beta_{\rho_{t-1}}$ are learned regression coefficients.
+For the lowest fidelity level, $t=1$, the regular GP regression equations, Equations \ref{equ:mu_gpr} and \ref{equ:sig_gpr}, are used.
+For a set of sample locations $X_*$, the mean predictions at fidelity level $t$ is given by $\mu_t(X_*)$ and the variance in the predictions is given by the diagonal of $\sigma^2_t(X_*,X_*)$. 
 
-To fully define the GP of each fidelity level, the regression coefficients ($\beta_{\rho_{t-1}}$ and $\beta_t$) and the hyperparameters of the kernel functions of each fidelity level need to be learned from the data. The parameter estimation equations from  \cite{gratiet_multi-fidelity_nodate} are extended for noisy observations:
+To fully define the GP of each fidelity level, the regression coefficients ($\beta_{\rho_{t-1}}$ and $\beta_t$) and the hyperparameters of the kernel functions of each fidelity level need to be learned from the data.
+The parameter estimation equations from  \cite{gratiet_multi-fidelity_nodate} are extended for noisy observations:
 
 \begin{equation}
     \begin{bmatrix}
     \beta_t & \beta_{\rho_{t-1}}
     \end{bmatrix} = \left [ J_t^T \left ( K_t(X_t,X_t) + \Sigma_t \right )^{-1} J_t \right ]^{-1} \left [ J_t^T \left ( K_t(X_t,X_t) + \Sigma_t \right ) ^{-1} \mathbf{y_t} \right ], 
 \end{equation}
-with $J_1 = H_1$ and for $t > 1$, $J_t =  \begin{bmatrix} G_{t-1} \odot \left ( \mu_{t-1} \left ( X_t \right )  \mathbf{1}_{q_{t-1}} \right ) & F_t \end{bmatrix}$. $\mathbf{1}_{q_{t-1}} \in \mathbb{R} ^{q_{t-1} \times n_t} $ is a matrix of ones. The hyperparameters of the kernel functions are learned by minimizing the negative marginal log-likelihood of each fidelity level.
+with $J_1 = H_1$ and for $t > 1$, $J_t =  \begin{bmatrix} G_{t-1} \odot \left ( \mu_{t-1} \left ( X_t \right )  \mathbf{1}_{q_{t-1}} \right ) & F_t \end{bmatrix}$.
+$\mathbf{1}_{q_{t-1}} \in \mathbb{R} ^{q_{t-1} \times n_t} $ is a matrix of ones.
+The hyperparameters of the kernel functions are learned by minimizing the negative marginal log-likelihood of each fidelity level.
 
 \begin{equation}
     \log~p(\mathbf{y}_t|X;\theta) = -\left (\frac{1}{2} \log|V_t| + \frac{1}{2} \alpha^T V_t^{-1} \alpha + \frac{n_t}{2}\log 2\pi \right),
@@ -76,7 +90,7 @@ This is achieved by splitting the dataset into each individual fidelity level in
 This results in having to invert smaller matrices, which greatly improves the computational cost of the process.
 Figure \ref{fig:time_comp} shows the comparative times for the training and sampling steps. 
 The same analytic functions used thus far, Equations \ref{equ:lf_function} and \ref{equ:hf_function}, are used to train the GP regressions.
-In this case, the number of high-fidelity data points ($n_{HF}$) and low-fidelity data points ($n_{LF}$) had a constant ratio: $\frac{n_2}{n_1} = 0.2$.
+In this case, the number of high-fidelity data points ($n_{HF}$) and low-fidelity data points ($n_{LF}$) had a constant ratio: $\frac{n_{HF}}{n_{LF}} = 0.2$.
 These savings in computational time increase with more fidelity levels and higher-dimensional functions. 
 
 \begin{figure}

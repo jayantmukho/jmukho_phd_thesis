@@ -1,26 +1,38 @@
 \section{Application to NASA CRM} \label{sec:mf_gp_nasa_crm}
 
-To provide more quantitative applications of the RANS UQ methodology introduced in Chapter \ref{chap:rans_uq}, we demonstrate its inclusion in the multi-fidelity GP framework. To showcase the predictive capabilities of the multi-fidelity GP framework, the CFD data is augmented with both low-fidelity simulations, using the Athena Vortex Lattice (AVL) code \cite{drela2008athena}, and high-fidelity experimental data, from the wind tunnel campaigns \cite{rivers_further_2012,rivers_experimental_2010} used in the preceding section. For the vortex-lattice simulations, the uncertainty information is provided by subject matter experts (industry users and academics), while for the experimental data, the uncertainty intervals used are those described in the wind-tunnel campaign reports. 
+To provide more quantitative applications of the RANS UQ methodology introduced in Chapter \ref{chap:rans_uq}, we demonstrate its inclusion in the multi-fidelity GP framework.
+To showcase the predictive capabilities of the multi-fidelity GP framework, the CFD data is augmented with both low-fidelity simulations, using the Athena Vortex Lattice (AVL) code \cite{drela2008athena}, and high-fidelity experimental data, from the wind tunnel campaigns \cite{rivers_further_2012,rivers_experimental_2010} used in the preceding section.
+For the vortex-lattice simulations, the uncertainty information is provided by subject matter experts (industry users and academics), while for the experimental data, the uncertainty intervals used are those described in the wind-tunnel campaign reports. 
 
-For the ease of illustration, $C_L$, $C_D$, and $C_m$ are initially considered one-dimensional functions of $\alpha$ ($m = 1$). The methodology described earlier in Section \ref{sec:mf_modeling} is generally applicable to functions of many variables. Aerodynamic databases are often multi-dimensional functions, often with a maximum of 5 input variables (angle of attack, side-slip angle, Mach number, altitude, and dynamic pressure). Multi-dimensional, multi-fidelity databases are explored towards the end of this section. 
+For the ease of illustration, $C_L$, $C_D$, and $C_m$ are initially considered one-dimensional functions of $\alpha$ ($m = 1$).
+The methodology described earlier in Section \ref{sec:mf_modeling} is generally applicable to functions of many variables.
+Aerodynamic databases are often multi-dimensional functions, often with a maximum of 5 input variables (angle of attack, side-slip angle, Mach number, altitude, and dynamic pressure).
+Multi-dimensional, multi-fidelity databases are explored towards the end of this section. 
 
-The results of the multi-fidelity modeling with one input variable ($\alpha$) are presented in Figures \ref{fig:cl_alpha_mf} -- \ref{fig:cm_alpha_mf}. For each figure, the solid black line represents the mean predicted by the GP and the grey area represents the $\pm 2\sigma$ interval as predicted by the GP. The left column of figures shows purely the AVL data and a single-fidelity GP fit on that data. In the middle we introduce the SU2 RANS CFD data with uncertainty bounds informed by the RANS UQ methodology, and show the two-fidelity GP fit. On the right we introduce a limited set of wind tunnel data points to inform the highest fidelity, and show the resulting three-fidelity fit. For each QoI the build-up of the database is shown, and the distribution of data points across fidelity levels is shown in Table \ref{table:data_points}.
+The results of the multi-fidelity modeling with one input variable ($\alpha$) are presented in Figures \ref{fig:cl_alpha_mf} -- \ref{fig:cm_alpha_mf}.
+For each figure, the solid black line represents the mean predicted by the GP and the grey area represents the $\pm 2\sigma$ error estimate as predicted by the GP.
+The left column of figures shows purely the AVL data and a single-fidelity GP fit on that data.
+In the middle we introduce the SU2 RANS CFD data with uncertainty bounds informed by the RANS UQ methodology, and show the two-fidelity GP fit.
+On the right we introduce a limited set of wind tunnel data points to inform the highest fidelity, and show the resulting three-fidelity fit.
+For each QoI the build-up of the database is shown, and the distribution of data points across fidelity levels is shown in Table \ref{table:data_points}.
 
 \begin{table}
 \centering
+    \renewcommand{\arraystretch}{1.2}
     \captionsetup{justification=centering}
     \caption{Number of data points of each fidelity that are used to create Figures \ref{fig:cl_alpha_mf}-\ref{fig:cm_alpha_mf}.} 
-    \begin{tabular}{|c|c|}
-        \hline
-        Data Source & Data Points \\ \hline \hline
-        Low Fidelity (AVL) & 23 \\ \hline
-        Medium Fidelity (CFD) & 11 \\ \hline 
-        High Fidelity (Wind Tunnel) & 5 \\ \hline 
+    \begin{tabular}{c|c}
+        Data Source & Data Points \\ \hline
+        Low Fidelity (AVL) & 23 \\ 
+        Medium Fidelity (CFD) & 11 \\  
+        High Fidelity (Wind Tunnel) & 5 \\  
     \end{tabular}
     \label{table:data_points}
 \end{table}
 
-In the three-fidelity fits of Figures \ref{fig:cl_alpha_mf}(c) -- \ref{fig:cm_alpha_mf}(c) the wind tunnel data points are evenly spread across the domain of interest, $-2^\circ \leq \alpha \leq 12^\circ$. These data points also have uncertainties associated with them, but these are very small and cannot be seen on this scale in the figures. For the second and third column of figures, the mean and standard deviation predictions are made by the multi-fidelity GP methodology from Section \ref{sec:mf_modeling}. 
+In the three-fidelity fits of Figures \ref{fig:cl_alpha_mf}(c) -- \ref{fig:cm_alpha_mf}(c) the wind tunnel data points are evenly spread across the domain of interest, $-2^\circ \leq \alpha \leq 12^\circ$.
+These data points also have uncertainties associated with them, but these are very small and cannot be seen on this scale in the figures.
+For the second and third column of figures, the mean and standard deviation predictions are made by the multi-fidelity GP methodology from Section \ref{sec:mf_modeling}. 
 
 \begin{figure}
     \centering
@@ -72,14 +84,21 @@ In the three-fidelity fits of Figures \ref{fig:cl_alpha_mf}(c) -- \ref{fig:cm_al
     \caption{$C_m$ vs $\alpha$ for the NASA CRM, using data from multiple sources of varying fidelity.\label{fig:cm_alpha_mf}}
 \end{figure}
 
-The multi-fidelity GPs are able to learn the biases between the different fidelity levels and provide predictions that fit very well with the highest fidelity. To show the benefit of using multi-fidelity data vs. using only high-fidelity data points, the root-mean-square error (RMSE) for both cases and for each QoI is presented in Figure \ref{fig:mf_vs_hf}. The error is calculated using the $N$ highest-fidelity data points that aren't used in training the model as:
+The multi-fidelity GP is able to learn the biases between the different fidelity levels and provide predictions that fit very well with the highest fidelity.
+To show the benefit of using multi-fidelity data vs. using only high-fidelity data points, the root-mean-square error (RMSE) for both cases and for each QoI is presented in Figure \ref{fig:mf_vs_hf}
+The error is calculated using the $N$ highest-fidelity data points that aren't used in training the model as:
 
 \begin{equation}\label{equ:rmse}
     RMSE = \sqrt{\frac{\sum_{i=1}^{N}\left ( \mu_{s,i} - y_{s,i} \right )^2}{N}},
 \end{equation}
 where $y_{s,i}$ is the $i$-th data point of the highest ($s$) fidelity, and $\mu_{s,i}$ is the highest-fidelity prediction from the GP at the same input conditions.  
 
-Since the QoIs are simple functions of $\alpha$, not many high-fidelity data points are required to accurately capture the functional dependence. The differences between the prediction accuracy for a single- vs. multi-fidelity fit is not significant. Nonetheless, the trends are what would be expected. When high-fidelity data is scarce, the multi-fidelity predictions perform better for all QoIs since the low-fidelity data helps provide general trends that are learned by the multi-fidelity GP. As the number of high-fidelity data points increases, the RMSEs converge since there is enough data for both fits to accurately reproduce the functional dependence. When the domain is very well covered by high-fidelity data, the single-fidelity fits can do marginally better since the low-fidelity data (in the multi-fidelity fits) doesn't provide any useful information and can serve to introduce noise in the predictions.
+Since the QoIs are simple functions of $\alpha$, not many high-fidelity data points are required to accurately capture the functional dependence.
+The differences between the prediction accuracy for a single- vs. multi-fidelity fit is not significant.
+Nonetheless, the trends are what would be expected.
+When high-fidelity data is scarce, the multi-fidelity predictions perform better for all QoIs since the low-fidelity data helps provide general trends that are learned by the multi-fidelity GP.
+As the number of high-fidelity data points increases, the RMSE converges since there is enough data for both fits to accurately reproduce the functional dependence.
+When the domain is very well covered by high-fidelity data, the single-fidelity fits can do marginally better since the low-fidelity data (in the multi-fidelity fits) doesn't provide any useful information and can serve to introduce noise in the predictions.
 
 \begin{figure}
     \centering
@@ -99,9 +118,20 @@ Since the QoIs are simple functions of $\alpha$, not many high-fidelity data poi
     \caption{Root Mean Square error when using three-fidelity data vs. using only high-fidelity data points.\label{fig:mf_vs_hf}}
 \end{figure}
 
-Another strength of this multi-fidelity GP methodology is apparent when the high-fidelity data is localized to a certain part of the domain. Such a situation might arise if resources are limited and it is not feasible to perform high-fidelity evaluations over the entire domain of interest. It might also be the case that the lower-fidelity simulations are fairly accurate in a certain part of the domain and, consequently, introduce smaller uncertainties in these regions of the domain. For the NASA CRM it is mentioned in Section \ref{sec:crm_rans_uq} that at low angles of attack, where the flow remains attached to the aircraft, RANS CFD simulations are quite successful at predicting performance metrics. This is evidenced by the smaller uncertainty bounds predicted by the RANS UQ methodology in Figure \ref{fig:crm_su2_uq} at $\alpha < 5^\circ$. In this case, an engineer might conclude that highest-fidelity evaluations are not necessary at $\alpha < 5^\circ$ and that sufficient accuracy can be achieved with just the lower-fidelity sources. 
+Another strength of this multi-fidelity GP methodology is apparent when the high-fidelity data is localized to a certain part of the domain.
+Such a situation might arise if resources are limited and it is not feasible to perform high-fidelity evaluations over the entire domain of interest.
+It might also be the case that the lower-fidelity simulations are fairly accurate in a certain part of the domain and, consequently, introduce smaller uncertainties in these regions of the domain.
+For the NASA CRM it is mentioned in Section \ref{sec:crm_rans_uq} that at low angles of attack, where the flow remains attached to the aircraft, RANS CFD simulations are quite successful at predicting performance metrics.
+This is evidenced by the smaller uncertainty bounds predicted by the RANS UQ methodology in Figure \ref{fig:crm_su2_uq} at $\alpha < 5^\circ$.
+In this case, an engineer might conclude that highest-fidelity evaluations are not necessary at $\alpha < 5^\circ$ and that sufficient accuracy can be achieved with just the lower-fidelity sources. 
 
-To simulate such a situation, a multi-fidelity GP is created that uses AVL and SU2 data that spans the entire domain of interest, but uses wind tunnel evaluations only at high angles of attack $(\alpha > 5^\circ)$. This is a manufactured situation where we choose to ignore some of the wind tunnel data to illustrate the ability of the multi-fidelity GP framework to perform reliably without high-fidelity information that spans the domain of interest. Figure \ref{fig:mf_partial} presents the predictions made by a three-fidelity GP trained on AVL, SU2, and wind tunnel data (left column), and a single-fidelity GP trained on just the wind tunnel data (middle column). The wind tunnel data used to train the models is restricted to high angles of attack, but the unused wind tunnel data is also included in the plots to discern the quality of the predictions. The right column presents the RMSE of the predictions made by the single- and multi-fidelity GPs when using localized high-fidelity data. The case that is shown in the left and middle columns, is highlighted in this error comparison. From the RMSE comparison, it is clear that having accurate low-fidelity data at low angles of attack informs the GP prediction in that region, and allows it to follow the trend of the physical phenomena more accurately than when only the localized high-fidelity data is used. 
+To simulate such a situation, a multi-fidelity GP is created that uses AVL and SU2 data that spans the entire domain of interest, but uses wind tunnel evaluations only at high angles of attack $(\alpha > 5^\circ)$.
+This is a manufactured situation where we choose to ignore some of the wind tunnel data to illustrate the ability of the multi-fidelity GP framework to perform reliably without high-fidelity information that spans the domain of interest.
+Figure \ref{fig:mf_partial} presents the predictions made by a three-fidelity GP trained on AVL, SU2, and wind tunnel data (left column), and a single-fidelity GP trained on just the wind tunnel data (middle column).
+The wind tunnel data used to train the models is restricted to high angles of attack, but the unused wind tunnel data is also included in the plots to discern the quality of the predictions.
+The right column presents the RMSE of the predictions made by the single- and multi-fidelity GP when using localized high-fidelity data.
+The case that is shown in the left and middle columns, is highlighted in this error comparison.
+From the RMSE comparison, it is clear that having accurate low-fidelity data at low angles of attack informs the GP prediction in that region, and allows it to follow the trend of the physical phenomena more accurately than when only the localized high-fidelity data is used. 
 
 \begin{figure}
     \centering
@@ -144,11 +174,25 @@ To simulate such a situation, a multi-fidelity GP is created that uses AVL and S
     }
     \end{subfigure}
     
-    \caption{Showcasing the superior predictive capability of multi-fidelity data fusion when high-fidelity data is localized in the design space. The left column represents the multi-fidelity GP formulation result, while the middle column shows the results for the single-fidelity formulation. The right column shows the RMSE error trends when high-fidelity data is localized. The black circles correspond to the specific case shown in the left and middle columns. \label{fig:mf_partial}}
+    \caption{Showcasing the superior predictive capability of multi-fidelity data fusion when high-fidelity data is localized in the design space. The left column represents the multi-fidelity GP formulation result, while the middle column shows the results for the single-fidelity formulation. The right column shows the RMSE trends when high-fidelity data is localized. The black circles correspond to the specific case shown in the left and middle columns. \label{fig:mf_partial}}
     
 \end{figure}
 
-To explore the performance of the multi-fidelity predictive capability in multiple dimensions, the same aerodynamic coefficients from before ($C_L$, $C_D$, and $C_m$) are considered functions of both $\alpha$ and Mach number. Two sources of information, AVL simulations and wind tunnel data, are used to create two-fidelity, two-dimensional GPs. Visualizing the GP predictions in two dimensions is difficult but the results for $C_L$ are shown in Figure \ref{fig:2d_2f_cl_data}. Figure \ref{fig:cl_2d_2f_points} shows the two-fidelity data sets that are used to train the multi-fidelity GP. Figure \ref{fig:cl_2d_2f_surf} shows the surfaces that represent the mean (as a contoured solid surface), and $2\sigma$ interval estimates (as translucent surfaces sandwiching the mean prediction). The difference between the mean and intervals is hard to discern at that scale. Figure \ref{fig:cl_2d_2f_surf_zoom} focuses in on the high-angle of attack (and low Mach number) area when the uncertainties are larger, to show the different surfaces clearly. To show a one-dimensional representation of the data, a slice spanning the two dimensions is taken (shown in red). The mean and $2\sigma$ intervals along that slice are plotted in Figure \ref{fig:cl_2d_2f_sample}, along with some deterministic samples of the GP (multi-colored lines) that show how they might vary spatially. Again since uncertainties are small, an inset focuses on the high-angle of attack (and low Mach number) area of the domain where the individual samples can be recognized.
+To explore the performance of the multi-fidelity predictive capability in multiple dimensions, the same aerodynamic coefficients from before ($C_L$, $C_D$, and $C_m$) are considered functions of both $\alpha$ and Mach number.
+Two sources of information, AVL simulations and wind tunnel data, are used to create two-fidelity, two-dimensional GP.
+Visualizing the GP predictions in two dimensions is difficult but the results for $C_L$ are shown in Figure \ref{fig:2d_2f_cl_data}.
+Figure \ref{fig:cl_2d_2f_points} shows the two-fidelity data sets that are used to train the multi-fidelity GP.
+Figure \ref{fig:cl_2d_2f_surf} shows the surfaces that represent the mean (as a contoured solid surface), and $2\sigma$ interval estimates (as translucent surfaces sandwiching the mean prediction).
+The difference between the mean and intervals is hard to discern at that scale.
+Figure \ref{fig:cl_2d_2f_surf_zoom} focuses in on the high-angle of attack (and low Mach number) area when the uncertainties are larger, to show the different surfaces clearly.
+To show a one-dimensional representation of the data, a slice spanning the two dimensions is taken (shown in red).
+The mean and $2\sigma$ intervals along that slice are plotted in Figure \ref{fig:cl_2d_2f_sample}, along with some deterministic samples of the GP (multi-colored lines) that show how they might vary spatially.
+Again since uncertainties are small, an inset focuses on the high-angle of attack (and low Mach number) area of the domain where the individual samples can be recognized.
+
+These samples of the GP represent candidates for possible functions that would be explained by the data that is provided. 
+The slight variations between the samples are dictated by the error estimate from the GP, which in turn depends on the uncertainty in the input data and GP parameters that are learned. 
+This GP sampling procedure is used extensively in later chapters to create multiple representations of the same aircraft. 
+These samples can be put through the same flight simulations to analyze how the uncertainties in data affect predicted flight performance.
 
 \begin{figure}
     \centering
@@ -177,7 +221,13 @@ To explore the performance of the multi-fidelity predictive capability in multip
     \caption{Two-dimensional representation of $C_L$ as a function of $\alpha$ and Mach number.\label{fig:2d_2f_cl_data}}
 \end{figure}
 
-Predictions from the two-fidelity GPs are compared to those made from single-fidelity GPs that use only the wind tunnel data. The change in the root-mean-square-error (Equation \eqref{equ:rmse}) is shown in Fig \ref{fig:2d_mf_vs_hf}. When trying to represent two-dimensional functions, the multi-fidelity fit retains its advantage for longer, with the single-fidelity fit taking $\approx 50$ high-fidelity data points to achieve similar accuracy. If the number of high-fidelity points is increased beyond that, the two fits behave identically. For these results, the high-fidelity data was spread evenly across the domain of interest: $-2^\circ \leq \alpha \leq 12^\circ$ and $0.7 \leq \text{Mach} \leq 0.87$. As the number of input dimensions is increased, more data points would be required to capture the functional trends. Leveraging the multi-fidelity improvement in these high-dimensional spaces would be beneficial in reducing time spent collecting high-fidelity data where a lower-fidelity might suffice.
+Predictions from the two-fidelity GP are compared to those made from single-fidelity GP that use only the wind tunnel data.
+The change in the root-mean-square-error (Equation \eqref{equ:rmse}) is shown in Fig \ref{fig:2d_mf_vs_hf}.
+When trying to represent two-dimensional functions, the multi-fidelity fit retains its advantage for longer, with the single-fidelity fit taking $\approx 50$ high-fidelity data points to achieve similar accuracy.
+If the number of high-fidelity points is increased beyond that, the two fits behave identically.
+For these results, the high-fidelity data was spread evenly across the domain of interest: $-2^\circ \leq \alpha \leq 12^\circ$ and $0.7 \leq \text{Mach} \leq 0.87$.
+As the number of input dimensions is increased, more data points would be required to capture the functional trends.
+Leveraging the multi-fidelity improvement in these high-dimensional spaces would be beneficial in reducing time spent collecting high-fidelity data where a lower-fidelity might suffice.
 
 \begin{figure}
     \centering

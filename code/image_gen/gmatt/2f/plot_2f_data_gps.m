@@ -112,11 +112,11 @@ for i=1:length(ctab_coeffs)
         hold all
         plot3(X_SU2(:,1),X_SU2(:,2),Y_SU2,'^');
         surf(X1_S,X2_S,Mu_S,'facealpha',0.75);
-        set_figure_size(gcf,6,6);
+        set_figure_size(gcf,5,5);
         xlim([-5,25])
         view(views(i,:));
         grid('on')
-        legend('AVL Data','SU2 Data','location','northeast')
+        legend('AVL Data','SU2 Data','position',[0.1,0.75,0.3,0.2])
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'.png'])
         
@@ -161,6 +161,7 @@ for i=1:length(ctab_coeffs)
         plot(X_GP(:,1), Y_GP,'k','linewidth',2);
         h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
         
+        xlim([-4,20]);
         format_plot(e,plotting_options('thesis'))
         set_figure_size(gcf,5,5);
         grid('on')
@@ -217,7 +218,6 @@ for i=1:length(ctab_coeffs)
         xlabel('$\beta$');
         ylabel(coeff_labels{i});
         grid('on')
-        xlim([-4,20]);
         legend('AVL Data','SU2 Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'_alpha=8.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'_alpha=8.png'])

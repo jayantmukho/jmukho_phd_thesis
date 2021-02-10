@@ -5,10 +5,18 @@ if ~exist('GMATT_3F','var')
     load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\3f\3f_full\gmatt_3f_3d_plotting.mat');
 end
 GMATT_WT = add_zeros(GMATT_new);
+fs = 18;
+lw = 2.0;
+msz= 8;
+plot_options = plotting_options('thesis');
+plot_options.width = 5;
+plot_options.height = 5;
+plot_options.font_size = fs;
+plot_options.line_width = lw;
+setup_plots(plot_options);
 
 close all
-setup_plots(plotting_options('thesis'))
-
+%%
 alpha_lim = 21;     % upper limit on alpha
 ctab = GMATT_AVL.CTAB;
 ctab_coeffs = fieldnames(ctab);
@@ -77,6 +85,7 @@ for i=1:length(ctab_coeffs)
         set_figure_size(gcf,5,5);
         legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','best')
         grid('on')
+        xlim([-4,20]);
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'.png'])
     
@@ -117,11 +126,11 @@ for i=1:length(ctab_coeffs)
         plot3(X_SU2(:,1),X_SU2(:,2),Y_SU2,'^');
         plot3(X_WT(:,1),X_WT(:,2),Y_WT,'kx');
         surf(X1_S,X2_S,Mu_S,'facealpha',0.75);
-        set_figure_size(gcf,6,6);
+        set_figure_size(gcf,5,5);
         xlim([-5,25])
         view(views(i,:));
         grid('on')
-        legend('AVL Data','SU2 Data','WT Data','location','northeast')
+        legend('AVL Data','SU2 Data','WT Data','position',[0.1,0.75,0.3,0.2])
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'.png'])
         
@@ -176,6 +185,7 @@ for i=1:length(ctab_coeffs)
         
         format_plot(e,plotting_options('thesis'))
         set_figure_size(gcf,5,5);
+        xlim([-4,20]);
         grid('on')
         legend('AVL Data','SU2 Data','WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'_beta=4.fig']);

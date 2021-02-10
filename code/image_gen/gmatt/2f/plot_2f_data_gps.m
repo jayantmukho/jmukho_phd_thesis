@@ -116,7 +116,7 @@ for i=1:length(ctab_coeffs)
         xlim([-5,25])
         view(views(i,:));
         grid('on')
-        legend('AVL Data','SU2 Data','position',[0.1,0.75,0.3,0.2])
+        legend('AVL Data','SU2 Data','location','northwest')
         savefig(gcf,['figs/gps/', ctab_coeffs{i},'.fig']);
         saveas(gcf,['images/gps/', ctab_coeffs{i},'.png'])
         

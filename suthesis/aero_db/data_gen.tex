@@ -67,20 +67,20 @@ The $0.002$ factor is a normalizing factor that yields reasonable uncertainty es
 
 \begin{figure}
     \centering
-    \begin{subfigure}[NASA Langley Research Center 12-Foot Low-Speed Tunnel] {
+    \begin{subfigure}[2-Dimensional function in $\alpha$ and $\beta$] {
         \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/1f/avl/images/gps/CRMTAB.png} }
     \end{subfigure}
     \hfill
-    \begin{subfigure}[Boeing North American Aviation Research Tunnel]{
+    \begin{subfigure}[Variation in $\beta$ at $\alpha=8^\circ$]{
         \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/1f/avl/images/gps/CRMTAB_alpha=8.png} 
     }
     \end{subfigure}
     \hfill
-    \begin{subfigure}[Boeing Flow Visualization Water Tunnel]{
+    \begin{subfigure}[Variation in $\alpha$ at $\beta=4^\circ$]{
         \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/1f/avl/images/gps/CRMTAB_beta=4.png} 
     }
     \end{subfigure}
-    \caption{The GTT model mounted in the various experimental setups that were used.\label{fig:gtt_exp_images}}
+    \caption{Visualization of the 2-Dimensional AVL data and resulting single-fidelity GP for the rolling moment coefficient. \label{fig:gtt_avl_data_gps}}
 \end{figure}
 
 \subsection{Medium Fidelity: RANS CFD Simulations in SU2}
@@ -137,6 +137,24 @@ To estimate the uncertainty injected due to the turbulence model, the eigenspace
 Accordingly $6$ simulations ($1$ baseline $+~5$ perturbed) are required at each flight condition. 
 With $\alpha \in \left \{ -4^\circ,2^\circ,8^\circ,14^\circ,20^\circ \right \}$ and $\beta \in \left \{ 0^\circ,5^\circ,10^\circ,15^\circ,20^\circ \right \}$, a total of $5\times5\times6 = 150$ RANS CFD simulations are run to create the medium-fidelity data and associated uncertainties. 
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[2-Dimensional function in $\alpha$ and $\beta$] {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Variation in $\beta$ at $\alpha=8^\circ$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB_alpha=8.png} 
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Variation in $\alpha$ at $\beta=4^\circ$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB_beta=4.png} 
+    }
+    \end{subfigure}
+    \caption{Visualization of the 2-Dimensional AVL and SU2 data and resulting two-fidelity GP for the rolling moment coefficient. \label{fig:gtt_2f_data_gps}}
+\end{figure}
+
 \subsection{Highest Fidelity: Wind/Water Tunnel Experiments}
 
 The main motivation for using the GTT configuration for this work is the wealth of experimental wind tunnel data that is available \cite{cunningham_generic_2018,cunningham_preliminary_2018}. 
@@ -190,4 +208,20 @@ Control surface deflections cause step changes in the control derivatives as cal
 This necessitates the breakup of the uncertainty estimation according to control surface deflection angle. 
 It prevents the higher control derivatives at higher deflection angles from influencing the uncertainty estimates at lower deflection angles.
 
-
+\begin{figure}
+    \centering
+    \begin{subfigure}[2-Dimensional function in $\alpha$ and $\beta$] {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/3f/images/gps/CRMTAB.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Variation in $\beta$ at $\alpha=8^\circ$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/3f/images/gps/CRMTAB_alpha=8.png} 
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Variation in $\alpha$ at $\beta=4^\circ$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/3f/images/gps/CRMTAB_beta=4.png} 
+    }
+    \end{subfigure}
+    \caption{Visualization of the 2-Dimensional AVL, SU2, and wind tunnel data and resulting three-fidelity GP for the rolling moment coefficient. \label{fig:gtt_2f_data_gps}}
+\end{figure}

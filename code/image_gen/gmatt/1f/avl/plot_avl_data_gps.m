@@ -101,7 +101,7 @@ for i=1:length(ctab_coeffs)
         zlabel(coeff_labels{i});
         hold all
         surf(X1_S,X2_S,Mu_S,'facealpha',0.75);
-        set_figure_size(gcf,6,6);
+        set_figure_size(gcf,5,5);
         grid('on')
         legend('AVL Data','location','northeast')
         xlim([-5,25])

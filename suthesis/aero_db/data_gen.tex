@@ -100,8 +100,23 @@ The uncertainty information is provided using the Eigenspace perturbation method
 These simulations are computationally expensive so the number of evaluations was limited to a coarse grid-sampling across the $\alpha$ and $\beta$ domain.
 Simulations were run for $\alpha \in \left \{ -4^\circ,2^\circ,8^\circ,14^\circ,20^\circ \right \}$ and $\beta \in \left \{ 0^\circ,5^\circ,10^\circ,15^\circ,20^\circ \right \}$.
 The results were suitably reflected to create the data for negative sideslip angles. 
-Simulation conditions are outlined in \textcolor{red}{Table \ref{}}. 
+Simulation conditions are outlined in \textcolor{red}{Table \ref{tab:gtt_test_cond}}. 
 The SST turbulence model is used for all the simulations.
+
+\begin{table}
+\centering
+    \renewcommand{\arraystretch}{1.2}
+    \captionsetup{justification=centering}
+    \caption{Simulation conditions for the GTT aircraft.} 
+    \begin{tabular}{|c|c|}
+        \hline
+        Mach Number & $0.1655$ \\ \hline
+        Reynolds Number & $1.98\times10^6$ \\ \hline
+        Reference chord length & $0.53986$ m \\ \hline
+        Freestream Temperature & $295~\text{K}$ \\ \hline
+    \end{tabular}
+    \label{tab:gtt_test_cond}
+\end{table}
 
 Modeling stability and control derivatives using CFD is challenging.
 For stability derivatives, running unsteady simulations with forced oscillations is required \cite{mcmillin_computational_2019}. 

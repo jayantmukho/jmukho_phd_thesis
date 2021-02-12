@@ -44,7 +44,7 @@ The prediction from the surrogate model $Z(X_*)$ is defined by the mean $\mu(X_*
 To fully define the GP, the hyperparameters of the kernel function need to be learned from the data.
 The hyperparameters are chosen by maximizing the marginal log-likelihood of the model, 
 
-\begin{equation}
+\begin{equation} \label{equ:hyp_param_sf}
     \log~p(y|x;\theta) = -\frac{1}{2} \log|V| - \frac{1}{2}\alpha^T V^{-1}\alpha - \frac{n}{2}\log 2\pi,
 \end{equation}
 where $\alpha = \left ( y-H^T\hat{\beta} \right )$.

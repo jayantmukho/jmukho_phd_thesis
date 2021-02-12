@@ -71,7 +71,7 @@ views(:,2) = 30;
 
 for i=2:2 %length(ctrl_coeffs)
     coeff_gp = ctrl.(ctrl_coeffs{i});
-    coeff_wt = GMATT_new.CTRL.(ctrl_coeffs{i});
+    coeff_wt = coeff_gp; %GMATT_new.CTRL.(ctrl_coeffs{i});
     fields = fieldnames(coeff_wt);
     if ~isfield(coeff_wt,'betaRange')
         % 1D function
@@ -128,6 +128,9 @@ for i=2:2 %length(ctrl_coeffs)
         sn_GP   = sqrt(diag(coeff_gp.qSamp*coeff_gp.qSamp'));
         
         for j = 1:length(coeff_wt.deflRange)
+            if coeff_wt.deflRange(j) == 0
+                continue
+            end
             j_gp = find(coeff_gp.deflSamp == coeff_wt.deflRange(j));
             
             %%%%% Contour plot %%%%%
@@ -169,7 +172,7 @@ for i=2:2 %length(ctrl_coeffs)
             set_figure_size(gcf,5,5);
             xlim([-4,20]);
             grid('on')
-            legend('WT Data','GP Mean','$2\sigma$','location','best')
+%             legend('WT Data','GP Mean','$2\sigma$','location','best')
             
             %%%%% 1D plot for alpha = 8 %%%%%
             figure(i*4-1);
@@ -189,7 +192,7 @@ for i=2:2 %length(ctrl_coeffs)
 
             set_figure_size(gcf,5,5);
             grid('on')
-            legend('WT Data','GP Mean','$2\sigma$','location','best')
+%             legend('WT Data','GP Mean','$2\sigma$','location','best')
 
         end
         
@@ -228,7 +231,7 @@ for i=2:2 %length(ctrl_coeffs)
 
         set_figure_size(gcf,5,5);
         grid('on')
-        legend('WT Data','GP Mean','$2\sigma$','location','best')
+        legend('WT Data','GP Mean','$2\sigma$','location','southeast')
         savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.fig']);
         saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.png'])
     end

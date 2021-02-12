@@ -13,10 +13,10 @@ Due to proprietary and patent restrictions, exact implementation of the flight s
 Instead of a full 6 Degree of Freedom (DoF) flight simulation, a slightly simplified 5 DoF flight simulation tool, ignoring displacements in y-axis (body fitted coordinate system), is used.
 While this is slightly less accurate than a 6DoF simulation, it is well suited for Monte Carlo analysis which requires the rapid analysis of hundreds of aircraft databases.
 Another simplification is that the maneuver is not performed in a closed-loop, trajectory-following manner. 
-Instead, the maneuver is processed into a set of required accelerations and control surface deflections that the flight simulator commands from the aircraft. 
+Instead, the maneuver is first processed into a set of rotational accelerations that are required to complete the maneuver, and then the control inputs needed to provide those accelerations are calculated. 
 If the aircraft is able to perform the maneuver without over-saturating any of the control surface deflections, the maneuver is considered a success.
 
-For this section, the results use single-fidelity aerodynamics and controls databases that are created using experimental data from the NAART and FVWT experimental campaigns (Section \ref{sec:data_gen}). 
+For this section, the results use the single-fidelity aerodynamics and controls databases that are created using experimental data from the NAART and FVWT experimental campaigns (Section \ref{sec:gtt_dbs}). 
 Multi-fidelity databases are used and compared for the results in Section \ref{sec:cba_results}.
 
 \subsection{Preprocessing the Maneuver}

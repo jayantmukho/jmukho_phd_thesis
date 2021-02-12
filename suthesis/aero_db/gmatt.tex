@@ -123,3 +123,6 @@ If the lower-fidelity trends contradict those seen in the high-fidelity data, th
 The multi-fidelity GP is trained on the difference between the low-fidelity data and the high-fidelity data. 
 If there is no correlation between the low-fidelity and the high-fidelity data, then the difference between the two sets of data provides no useful information and only serves to add noise to the system. 
 This, in turn, would prevent the multi-fidelity fit from performing as well, or better than, the single-fidelity fits. 
+
+With the numerous multi-fidelity GP defining the aerodynamics and controls databases for the GTT aircraft created, flight simulations can be run using deterministic samples taken from these models.
+These samples introduce small variations in the aircraft's performance metrics that respect the uncertainty in the underlying analysis data which, in turn, informs the GP error estimates.

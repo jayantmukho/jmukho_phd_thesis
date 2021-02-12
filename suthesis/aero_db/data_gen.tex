@@ -118,6 +118,29 @@ The SST turbulence model is used for all the simulations.
     \label{tab:gtt_test_cond}
 \end{table}
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[Surface mesh of the NASA CRM.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.98\textwidth]{code/image_gen/gmatt/mesh/iso_mesh.png} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Details of the wing surface mesh.]{
+        \includegraphics[trim=700 0 500 0, clip, width=.48\textwidth]{code/image_gen/gmatt/mesh/wing.png} 
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Details of the nacelle surface mesh.]{
+        \includegraphics[trim=1200 0 0 0, clip, width=.48\textwidth]{code/image_gen/gmatt/mesh/nacelle.png} 
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Details of the vetical tail surface mesh.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.98\textwidth]{code/image_gen/gmatt/mesh/tail_symm.png} 
+    }
+    \end{subfigure}
+    \caption{Images of the GTT mesh that was used for the CFD simulations.\label{fig:gtt_mesh}}
+\end{figure}
+
 Modeling stability and control derivatives using CFD is challenging.
 For stability derivatives, running unsteady simulations with forced oscillations is required \cite{mcmillin_computational_2019}. 
 For controls derivatives, modeling control surface deflections significantly increases the mesh density required to capture surface gaps and the resulting shear layers in the flow. 
@@ -130,7 +153,7 @@ Pointwise is used to generate meshes from the GTT geometry.
 First, a family of three unstructured, half-span meshes are generated.
 These meshes are used run a grid convergence study to estimate the numerical discretization error \cite{american_society_of_mechanical_engineers_standard_2009}. 
 Details of the meshes are shown in Table \ref{tab:gtt_meshes}.
-Some representative images of the mesh are shown in \textcolor{red}{Figure \ref{}}.
+Some representative images of the mesh are shown in \textcolor{red}{Figure \ref{fig:gtt_mesh}}.
 The mesh shown is a half-span one.
 This is mirrored along the $x-z$ plane to generate a full-span mesh that is used for all simulations involving non-zero $\beta$.
 The surface mesh utilizes anisotropic stretching of grid elements along the chord of lifting surfaces. 

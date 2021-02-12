@@ -69,7 +69,7 @@ views(:,2) = 30;
 % views(5,:) = [-215,30]; % CPMTAB
 % views(6,:) = [60,30];   % CYMTAB
 
-for i=2:2 %length(ctrl_coeffs)
+for i=6:6 %length(ctrl_coeffs)
     coeff = ctrl.(ctrl_coeffs{i});
     coeff_wt = GMATT_WT.CTRL.(ctrl_coeffs{i});
     coeff_gp = GMATT_3F.CTRL.(ctrl_coeffs{i});
@@ -182,10 +182,13 @@ for i=2:2 %length(ctrl_coeffs)
 
             % GP Predictions
             inds = abs(X_GP(:,2)-4)<0.5 & X_GP(:,3) == coeff_wt.deflRange(j);
-            fill_x1 = [X_GP(inds,1);flipud(X_GP(inds,1))];
-            fill_SD = [ Y_GP(inds) - 2*sn_GP(inds);...
-                        flipud( Y_GP(inds) + 2*sn_GP(inds))];
-            plot(X_GP(inds,1), Y_GP(inds),'k','linewidth',2);
+            X_interp = linspace(min(X_GP(inds,1)),max(X_GP(inds,1)),101)';
+            Y_interp = interp1(X_GP(inds,1),Y_GP(inds),X_interp,'spline');
+            sn_interp = interp1(X_GP(inds,1),sn_GP(inds),X_interp,'spline');
+            fill_x1 = [X_interp;flipud(X_interp)];
+            fill_SD = [ Y_interp - 2*sn_interp;...
+                flipud( Y_interp + 2*sn_interp)];
+            plot(X_interp, Y_interp,'k','linewidth',2);
             h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
             format_plot(e,plotting_options('thesis'))
@@ -211,10 +214,13 @@ for i=2:2 %length(ctrl_coeffs)
 
             % GP Predictions
             inds = X_GP(:,1) == 8 & X_GP(:,3) == coeff_wt.deflRange(j);
-            fill_x1 = [X_GP(inds,2);flipud(X_GP(inds,2))];
-            fill_SD = [ Y_GP(inds) - 2*sn_GP(inds);...
-                        flipud( Y_GP(inds) + 2*sn_GP(inds))];
-            plot(X_GP(inds,2), Y_GP(inds),'k','linewidth',2);
+            X_interp = linspace(min(X_GP(inds,2)),max(X_GP(inds,2)),101)';
+            Y_interp = interp1(X_GP(inds,2),Y_GP(inds),X_interp,'spline');
+            sn_interp = interp1(X_GP(inds,2),sn_GP(inds),X_interp,'spline');
+            fill_x1 = [X_interp;flipud(X_interp)];
+            fill_SD = [ Y_interp - 2*sn_interp;...
+                flipud( Y_interp + 2*sn_interp)];
+            plot(X_interp, Y_interp,'k','linewidth',2);
             h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
             format_plot(e,plotting_options('thesis'))
@@ -256,17 +262,21 @@ for i=2:2 %length(ctrl_coeffs)
         e = errorbar(X_WT(inds,3),Y_WT(inds),sn_WT(inds),'kx');
 
         % GP Predictions
+        
         inds = abs(X_GP(:,1)-8)<0.75 & X_GP(:,2) == 4;
-        fill_x1 = [X_GP(inds,3);flipud(X_GP(inds,3))];
-        fill_SD = [ Y_GP(inds) - 2*sn_GP(inds);...
-                    flipud( Y_GP(inds) + 2*sn_GP(inds))];
-        plot(X_GP(inds,3), Y_GP(inds),'k','linewidth',2);
+        X_interp = linspace(min(X_GP(inds,3)),max(X_GP(inds,3)),101)';
+        Y_interp = interp1(X_GP(inds,3),Y_GP(inds),X_interp,'spline');
+        sn_interp = interp1(X_GP(inds,3),sn_GP(inds),X_interp,'spline');
+        fill_x1 = [X_interp;flipud(X_interp)];
+        fill_SD = [ Y_interp - 2*sn_interp;...
+                    flipud( Y_interp + 2*sn_interp)];
+        plot(X_interp, Y_interp,'k','linewidth',2);
         h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
         format_plot(e,plotting_options('thesis'))
         set_figure_size(gcf,5,5);
         grid('on')
-        legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','southeast')
+        legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.fig']);
         saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.png'])
     end

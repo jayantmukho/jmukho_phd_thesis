@@ -1,8 +1,9 @@
+load GMATT_AVL;
 load GMATT_aero+ctrl_corrected;
-load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\1f\wt\gmatt_wt_3d_plotting.mat');
-% load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\New Folder\GMATT_aero+ctrl+3d_GPs_zeros.mat');
-
-GMATT_new = add_zeros(GMATT_new);
+if ~exist('GMATT_3F','var')
+    load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\3f\3f_full\gmatt_3f_3d_plotting.mat');
+end
+GMATT_WT = add_zeros(GMATT_new);
 
 close all
 
@@ -19,10 +20,9 @@ setup_plots(plot_options);
 %%
 alpha_lim = 21;     % upper limit on alpha
 close all
-
-ctrl = GMATT_WT.CTRL;
+ctrl = GMATT_AVL.CTRL;
 ctrl_coeffs = fieldnames(ctrl);
-
+plotting = 1;
 coeff_labels = {'$C_{m_{\delta_a}}$';
                 '$C_{l_{\delta_a}}$';
                 '$C_{n_{\delta_a}}$';
@@ -70,10 +70,10 @@ views(:,2) = 30;
 % views(6,:) = [60,30];   % CYMTAB
 
 for i=6:6 %length(ctrl_coeffs)
-    coeff_gp = ctrl.(ctrl_coeffs{i});
-%     coeff_wt = coeff_gp;
-    coeff_wt = GMATT_new.CTRL.(ctrl_coeffs{i});
-    fields = fieldnames(coeff_wt);
+    coeff = ctrl.(ctrl_coeffs{i});
+    coeff_wt = GMATT_WT.CTRL.(ctrl_coeffs{i});
+    coeff_gp = GMATT_3F.CTRL.(ctrl_coeffs{i});
+    fields = fieldnames(coeff);
     if ~isfield(coeff_wt,'betaRange')
         % 1D function
         
@@ -115,6 +115,14 @@ for i=6:6 %length(ctrl_coeffs)
     
     else
         % Process Data
+        % AVL
+        inds_a = coeff.alphaRange<alpha_lim;
+        alpha = coeff.alphaRange(inds_a);
+        beta = coeff.betaRange;
+        defl = coeff.deflRange;
+        X_AVL = combvec(alpha',beta',defl')';
+        Y_AVL = reshape(coeff.data(inds_a,:),[],1);
+        sn_AVL = get_sig_avl(X_AVL,Y_AVL);
         
         % WT
         [X_WT,Y_WT,sn_WT] = process_wt_data(coeff_wt);
@@ -132,13 +140,16 @@ for i=6:6 %length(ctrl_coeffs)
             if coeff_wt.deflRange(j) == 0
                 continue
             end
+            
             j_gp = find(coeff_gp.deflSamp == coeff_wt.deflRange(j));
+            j_avl = find(coeff.deflRange == coeff_wt.deflRange(j));
             
             %%%%% Contour plot %%%%%
             alpha = coeff_gp.alphaSamp;
             beta = coeff_gp.betaSamp;
             defl = coeff_gp.deflSamp;
             [X1_S,X2_S] = meshgrid(alpha',beta');
+            X_GP = combvec(alpha',beta',defl')';
             inds = X_GP(:,3) == coeff_wt.deflRange(j);
             Mu_S = reshape(coeff_gp.muSamp(inds),size(X1_S'))';
             
@@ -156,54 +167,59 @@ for i=6:6 %length(ctrl_coeffs)
             %%%%% 1D plot for beta = 4 %%%%%
             figure(i*4-2);
 
+            % AVL Data
+            sn_AVL = get_sig_avl(X_AVL,Y_AVL);
+            inds = X_AVL(:,2) == 4 & X_AVL(:,3) == coeff_wt.deflRange(j);
+%             e = errorbar(X_AVL(inds,1),Y_AVL(inds),2*sn_AVL(inds),'o');
+%             format_plot(e,plotting_options('thesis'))
+            xlabel('$\alpha$');
+            ylabel(coeff_labels{i});
+            hold all
+
             % WT Data
             inds = abs(X_WT(:,2)-4)<0.5 & X_WT(:,3) == coeff_wt.deflRange(j);
             e = errorbar(X_WT(inds,1),Y_WT(inds),sn_WT(inds),'kx');
-            format_plot(e,plotting_options('thesis'))
-            hold all
 
             % GP Predictions
             inds = abs(X_GP(:,2)-4)<0.5 & X_GP(:,3) == coeff_wt.deflRange(j);
-            X_interp = linspace(min(X_GP(inds,1)),max(X_GP(inds,1)),101)';
-            Y_interp = interp1(X_GP(inds,1),Y_GP(inds),X_interp,'spline');
-            sn_interp = interp1(X_GP(inds,1),sn_GP(inds),X_interp,'spline');
-            fill_x1 = [X_interp;flipud(X_interp)];
-            fill_SD = [ Y_interp - 2*sn_interp;...
-                flipud( Y_interp + 2*sn_interp)];
-            plot(X_interp, Y_interp,'k','linewidth',2);
+            fill_x1 = [X_GP(inds,1);flipud(X_GP(inds,1))];
+            fill_SD = [ Y_GP(inds) - 2*sn_GP(inds);...
+                        flipud( Y_GP(inds) + 2*sn_GP(inds))];
+            plot(X_GP(inds,1), Y_GP(inds),'k','linewidth',2);
             h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
+            format_plot(e,plotting_options('thesis'))
             set_figure_size(gcf,5,5);
             xlim([-4,20]);
             grid('on')
-            xlabel('$\alpha$');
-            ylabel(coeff_labels{i});
 %             legend('WT Data','GP Mean','$2\sigma$','location','best')
             
             %%%%% 1D plot for alpha = 8 %%%%%
             figure(i*4-1);
 
+            % AVL Data
+            inds = X_AVL(:,1) == 8 & X_AVL(:,3) == coeff_wt.deflRange(j);
+%             e = errorbar(X_AVL(inds,2),Y_AVL(inds),2*sn_AVL(inds),'o');
+%             format_plot(e,plotting_options('thesis'))
+            xlabel('$\beta$');
+            ylabel(coeff_labels{i});
+            hold all
+
             % WT Data
             inds = abs(X_WT(:,1)-8)<0.75 & X_WT(:,3) == coeff_wt.deflRange(j);
             e = errorbar(X_WT(inds,2),Y_WT(inds),sn_WT(inds),'kx');
-            format_plot(e,plotting_options('thesis'))
-            hold all
-            
+
             % GP Predictions
             inds = X_GP(:,1) == 8 & X_GP(:,3) == coeff_wt.deflRange(j);
-            X_interp = linspace(min(X_GP(inds,2)),max(X_GP(inds,2)),101)';
-            Y_interp = interp1(X_GP(inds,2),Y_GP(inds),X_interp,'spline');
-            sn_interp = interp1(X_GP(inds,2),sn_GP(inds),X_interp,'spline');
-            fill_x1 = [X_interp;flipud(X_interp)];
-            fill_SD = [ Y_interp - 2*sn_interp;...
-                flipud( Y_interp + 2*sn_interp)];
-            plot(X_interp, Y_interp,'k','linewidth',2);
+            fill_x1 = [X_GP(inds,2);flipud(X_GP(inds,2))];
+            fill_SD = [ Y_GP(inds) - 2*sn_GP(inds);...
+                        flipud( Y_GP(inds) + 2*sn_GP(inds))];
+            plot(X_GP(inds,2), Y_GP(inds),'k','linewidth',2);
             h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
+            format_plot(e,plotting_options('thesis'))
             set_figure_size(gcf,5,5);
             grid('on')
-            xlabel('$\beta$');
-            ylabel(coeff_labels{i});
 %             legend('WT Data','GP Mean','$2\sigma$','location','best')
 
         end
@@ -227,28 +243,32 @@ for i=6:6 %length(ctrl_coeffs)
         %%%%% 1D plot for alpha = 8, beta = 4 %%%%%
         figure(i*4);
 
+        % AVL Data
+        inds = X_AVL(:,1) == 8 & X_AVL(:,2) == 4;
+        e = errorbar(X_AVL(inds,3),Y_AVL(inds),2*sn_AVL(inds),'o');
+        format_plot(e,plotting_options('thesis'))
+        xlabel(defl_labels{i});
+        ylabel(coeff_labels{i});
+        hold all
 
         % WT Data
         inds = abs(X_WT(:,1)-8)<0.75 & abs(X_WT(:,2)-4)<0.5;
         e = errorbar(X_WT(inds,3),Y_WT(inds),sn_WT(inds),'kx');
-        format_plot(e,plotting_options('thesis'))
-        hold all
+
         % GP Predictions
+        
         inds = abs(X_GP(:,1)-8)<0.75 & X_GP(:,2) == 4;
-        X_interp = linspace(min(X_GP(inds,3)),max(X_GP(inds,3)),101)';
-        Y_interp = interp1(X_GP(inds,3),Y_GP(inds),X_interp,'spline');
-        sn_interp = interp1(X_GP(inds,3),sn_GP(inds),X_interp,'spline');
-        fill_x1 = [X_interp;flipud(X_interp)];
-        fill_SD = [ Y_interp - 2*sn_interp;...
-                    flipud( Y_interp + 2*sn_interp)];
-        plot(X_interp, Y_interp,'k','linewidth',2);
+        defl_interp = linspace(min(
+        fill_x1 = [X_GP(inds,3);flipud(X_GP(inds,3))];
+        fill_SD = [ Y_GP(inds) - 2*sn_GP(inds);...
+                    flipud( Y_GP(inds) + 2*sn_GP(inds))];
+        plot(X_GP(inds,3), Y_GP(inds),'k','linewidth',2);
         h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
 
+        format_plot(e,plotting_options('thesis'))
         set_figure_size(gcf,5,5);
         grid('on')
-        xlabel(defl_labels{i});
-        ylabel(coeff_labels{i});
-        legend('WT Data','GP Mean','$2\sigma$','location','best')
+        legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','southeast')
         savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.fig']);
         saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.png'])
     end

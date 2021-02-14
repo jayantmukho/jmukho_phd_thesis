@@ -64,7 +64,7 @@ The mostly linear relationship between aileron deflection and the resulting roll
         \label{subfig:ail_defl}
     } 
     \end{subfigure}
-    \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:cfr147d_inputs}}
+    \caption{Flight simulation of the CFR 147(d) air-worthiness test using the GTT aircraft. \label{fig:cfr147d_inputs}}
 \end{figure}
 
 Other parameters in the trajectory definition, such as minimizing sideslip or maintaining altitude, necessitate yaw and pitch accelerations.
@@ -200,7 +200,7 @@ This confirms that having an inoperative engine on the right side of the aircraf
 %     \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:reo_cfr147d_sim}}
 % \end{figure}
 
-\subsection{Evaluating Success or Failure}
+\subsection{Evaluating Success or Failure} \label{subsec:success_failure}
 
 The metric for the successful completion of the certification maneuver is defined in the FAA's guide \cite{romanowski_flight_2018} as being able to perform the $60^\circ$ change in bank angle under 11 seconds. 
 Enforcing this criteria directly would require a closed-loop, trajectory-following flight simulation where the aircraft continuously calculates and adjusts the control input required to complete the maneuver as fast as possible without exceeding the physical limits on the control systems. 
@@ -243,30 +243,80 @@ The deflection limits for each of the control surfaces is shown in Table \ref{ta
 
 To show a concrete example, the maneuver definition is tweaked to force the over-saturation of the ailerons.
 The maneuver is made more aggressive by shortening the time taken to perform the $60^\circ$ change in bank angle from $11 sec$ to $2.5 sec$.
-The maneuver trajectory, required roll accelerations, and simulated control surface deflections are shown in 
+The maneuver trajectory, required roll accelerations, and simulated control surface deflections for the aggressive maneuver are shown in Figure \ref{fig:cfr147d_agg} as the solid blue lines. 
+This is contrasted with the original maneuver in the solid black lines. 
+The aileron saturation limits of $\pm 25^circ$ are indicated in Figure \ref{subfig:agg_ail_defl} as the dashed black lines. 
+Over-saturation of the aileron deflection is visible with the blue line extending past the saturation limit. 
+For this case, the absolute maximum deflection angle for the right aileron is $34^\circ$ which exceeds the saturation limit by $9^\circ$
+The resulting roll metric $\rho_{roll} = -0.36$
 
 \begin{figure}
     \centering
-    \begin{subfigure}[Flight simulation trajectory definition for the roll angle of the aircraft. Derived from the air-worthiness test.] {
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_roll_angle.png}
-        \label{subfig:roll_angle}
+    \begin{subfigure}[Trajectory definitions for aggressive maneuver compared to that for the original certification maneuver.] {
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_roll_angle.png}
+        \label{subfig:agg_roll_angle}
     }
     \end{subfigure}
     \hfill
-    \begin{subfigure}[Roll acceleration that would be required for the aircraft to follow the roll angle trajectory]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_roll_acc.png} 
-        \label{subfig:roll_acc}
+    \begin{subfigure}[Roll accelerations that would be required for the two maneuvers]{
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_roll_acc.png} 
+        \label{subfig:agg_roll_acc}
     } 
     \end{subfigure}
     \hfill
-    \begin{subfigure}[Left and right aileron deflections commanded to create the requisite roll accelerations]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_ail_defl.png} 
-        \label{subfig:ail_defl}
+    \begin{subfigure}[Left and right aileron deflections needed to perform the two maneuvers.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_ail_defl.png} 
+        \label{subfig:agg_ail_defl}
     } 
     \end{subfigure}
-    \caption{Steps required to convert the air-worthiness test into a the required inputs for the flight simulation of the maneuver. \label{fig:cfr147d_inputs}}
+    \caption{Comparing the results of performing an aggressive roll maneuver that over-saturates the aileron control authority (solid blue line) vs. those of performing the original certification maneuver. Note the over-saturation of the ailerons for the aggressive maneuver. \label{fig:cfr147d_agg}}
 \end{figure}
- 
+
+It is important to note that aircraft analysis data is only available within the saturation limits of the control surfaces. 
+When the simulator commands a control surface deflection that is greater than the limit, it is estimating the effect of that deflection by extrapolating from the provided data. 
+While this extrapolation might be prone to error, it does provide an estimate for how much additional control authority would be required to complete the maneuver as planned. 
+
+This highlights an advantage of using this simulation method and the control-surface-based metrics in the design process. 
+When running a potential aircraft design through this virtual flight testing framework, the metrics provide a direct estimation of the amount of additional control authority that would be required to complete the maneuver successfully. 
+If a simulation yields $\rho_{roll} = -0.25$, that means that the aircraft would require $25\%$ more aileron control authority. 
+This could be achieved by increasing the control surface deflection limits by $25\%$, or by increasing the size of the ailerons. 
+Additionally, by breaking up the calculations of the accelerations and the control surface deflections, different control laws can be tested without having to repeat the first step of the simulation. 
+Perhaps instead of increasing the size of the aileron, greater spoiler deflections can be mixed into the control law, which would serve the same purpose of increasing the control authority in the roll direction. 
+
 \subsection{Monte Carlo Analysis}
+
+The GP models provide a probabilistic representation of the aerodynamics and controls databases. 
+Random sampling from these models creates instances of the databases that have slight variations that are dependent on the uncertainties present in the GP model.
+The sampling methodology is explained in Section \ref{sec:gpr} using Equation \ref{equ:gp_sampling}.
+Each sample can be run through the flight simulator independently.
+Results of runnin g
+The variations in the aerodynamic databases would result in varied acceleration requirements.
+These differences would be compounded in the next step, where variations in the controls databases would result in varied control surface deflection requirements. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[Roll accelerations that would be required for the two maneuvers]{
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_roll_acc.png} 
+        \label{subfig:agg_roll_acc}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Left and right aileron deflections needed to perform the two maneuvers.]{
+        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_ail_defl.png} 
+        \label{subfig:agg_ail_defl}
+    } 
+    \end{subfigure}
+    \caption{Comparing the results of performing an aggressive roll maneuver that over-saturates the aileron control authority (solid blue line) vs. those of performing the original certification maneuver. Note the over-saturation of the ailerons for the aggressive maneuver. \label{fig:cfr147d_agg}}
+\end{figure}
+
+The database uncertainties are 
+
+To rigorously understand the effect of the uncertainties in the databases on the certification of the aircraft, the Monte Carlo method is used. 
+This is a brute-force method of characterizing the effect of input uncertainties on an output quantity of interest. 
+In the context of this work, the input uncertainty is the uncertainty in the analysis data that is used to create the GP models. 
+The output quantity of interest is the success/failure of the aircraft in performing a flight certification maneuver. 
+This is quantified by the metrics introduced in Section \ref{subsec:success_failure}.
+
+
 
 \subsection{Modifications to the Simulation}

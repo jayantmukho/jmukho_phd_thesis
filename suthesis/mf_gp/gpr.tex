@@ -84,7 +84,7 @@ The larger, near constant size, error estimate shows that GP regression respects
 
 An important feature of GP regression that is used extensively in this work is the ability to create samples of the GP that are potential representations of the underlying function and take into account the potential errors in the GP. 
 A sample mean, $\mu_S(X_*)$ at $X_*$ locations is generated as
-\begin{equation}
+\begin{equation} \label{equ:gp_sampling}
     \mu_S(X_*) = \mu(X_*) + \sigma^2(X_*,X_*) U,
 \end{equation}
 where $U$ is a $n_* \times 1$ vector of random variables drawn from a standard normal distribution $\mathcal{N}(0,1)$.

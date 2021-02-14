@@ -209,7 +209,7 @@ There is very little variation in actual time taken for the aircraft to complete
 
 To work around this, the metric for success is re-framed. 
 Since the time to complete the maneuver is predefined, the metric of success becomes the level of saturation of the control surfaces required to complete the maneuver. 
-Specifically, three metrics are defined, one for each rotational acceleration: pitch, roll, yaw. 
+Specifically, three success metrics are defined, one for each rotational acceleration: pitch, roll, yaw. 
 These are calculated for a simulated maneuver as
 \begin{align}
     \rho_{pitch} = 1- \max\left \{ \frac{\left \vert \delta_e^{req}(t) \right \vert }{\delta_e^{lim}} \right \}
@@ -222,6 +222,7 @@ where $\delta_e$, $\delta_a$, and $\delta_r$ correspond to elevator, aileron, an
 The superscript $req$ indicates the value that is calculated by the simulator, and the superscript $lim$ indicates the maximum allowable control surface deflection angle. 
 The maximum saturation over the entire duration of the flight simulation is taken and subtracted from $1$.
 If at any point during the flight simulation a control surface is completely saturated, say $\delta_e^{req} = \delta_e^{lim}$, the corresponding metric is $0$, in this case $\rho_{pitch} = 0$.
+Consequently, a flight maneuver is considered a success if all three success metrics are $>0$.
 The deflection limits for each of the control surfaces is shown in Table \ref{tab:gtt_defl_limits}.
 
 \begin{table}
@@ -289,33 +290,42 @@ The GP models provide a probabilistic representation of the aerodynamics and con
 Random sampling from these models creates instances of the databases that have slight variations that are dependent on the uncertainties present in the GP model.
 The sampling methodology is explained in Section \ref{sec:gpr} using Equation \ref{equ:gp_sampling}.
 Each sample can be run through the flight simulator independently.
-Results of running 10 such samples is shown in Figure \ref{fig:cfr147d_mc}.
-The variations in the aerodynamic databases would result in varied acceleration requirements.
-These differences would be compounded in the next step, where variations in the controls databases would result in varied control surface deflection requirements. 
+Using the original flight certification maneuver with the right engine inoperative, the results of running 10 aircraft samples through the flight simulator are shown in Figure \ref{fig:cfr147d_mc}.
+As mentioned before, a single-fidelity GP trained on all the wind tunnel data is used for these results. 
+The roll acceleration and the aileron deflections for the database that represents the GP model's mean prediction, is shown as a solid black line. 
+The results of the samples are the individual colored lines. 
+The variations in the aerodynamic databases results in varied acceleration requirements, as seen in Figure \ref{subfig:roll_acc_mc}.
+These differences are compounded upon in the next step, where variations in the controls databases result in varied control surface deflection requirements (Figure \ref{subfig:ail_defl_mc}.
+Each simulation results in new set of success metrics. 
 
 \begin{figure}
     \centering
-    \begin{subfigure}[Roll accelerations that would be required for the two maneuvers]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_roll_acc.png} 
+    \begin{subfigure}[Roll acceleration vs. time]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/reo_cfr147d_roll_acc_mc.png} 
         \label{subfig:roll_acc_mc}
     } 
     \end{subfigure}
     \hfill
-    \begin{subfigure}[Left and right aileron deflections needed to perform the two maneuvers.]{
-        \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_ail_defl.png} 
+    \begin{subfigure}[Left and right aileron deflections vs. time]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/images/reo_cfr147d_ail_defl_mc.png} 
         \label{subfig:ail_defl_mc}
     } 
     \end{subfigure}
-    \caption{Comparing the results of performing an aggressive roll maneuver that over-saturates the aileron control authority (solid blue line) vs. those of performing the original certification maneuver. Note the over-saturation of the ailerons for the aggressive maneuver. \label{fig:cfr147d_mc}}
+    \caption{Results of running 10 samples of the aerodynamics and controls databases for the GTT aircraft. Each sample exhibits small variations on the mean results.  \label{fig:cfr147d_mc}}
 \end{figure}
 
-The database uncertainties are 
-
 To rigorously understand the effect of the uncertainties in the databases on the certification of the aircraft, the Monte Carlo method is used. 
-This is a brute-force method of characterizing the effect of input uncertainties on an output quantity of interest. 
+This is a brute-force method of characterizing the effect of input uncertainties on an output quantity of interest (QoI), where independently, randomly sampled inputs are run through the function in question, so that the distribution of the output QoI can be studied. 
 In the context of this work, the input uncertainty is the uncertainty in the analysis data that is used to create the GP models. 
-The output quantity of interest is the success/failure of the aircraft in performing a flight certification maneuver. 
-This is quantified by the metrics introduced in Section \ref{subsec:success_failure}.
+The function in question is the simulation of the flight certification maneuver.
+The output QoI is the success/failure of the aircraft in performing a flight certification maneuver, which is quantified by the metrics introduced in Section \ref{subsec:success_failure}.
+Running flight simulations on hundreds of randomly sampled databases results in hundreds of success metrics which can be treated as a random variable as well.
+Statistical methods can then be used to characterize the distribution of the success metrics. 
+
+To analyze the distribution of the success metrics, cumulative distribution functions (CDF) are used. 
+The CDF for a random variable $X$ evaluated at $x$ represents the probability that $X$ will take a value less than or equal to $x$.
+As a concrete example, $1000$ samples of the GTT aerodynamics and controls databases are used to perform the flight certification maneuver with engine failures. 
+The CDF of each of the metrics for each engine-out situation is shown in Figure \ref{}.
 
 
 

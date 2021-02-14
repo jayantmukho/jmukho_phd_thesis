@@ -8,7 +8,7 @@ fs = 18;
 lw = 3.0;
 
 plot_options = plotting_options('thesis');
-plot_options.width = 5;
+plot_options.width = 8;
 plot_options.height = 5;
 plot_options.font_size = fs;
 plot_options.line_width = lw;
@@ -20,25 +20,6 @@ figs = {};
 for i = 1:length(batches)
     batch = batches(i);
     figure; hold on;
-    [f1,x1] = ecdf(perf_metrics_MC.normal.pitch(1:batch));
-    [f2,x2] = ecdf(perf_metrics_MC.rightout.pitch(1:batch));
-    [f3,x3] = ecdf(perf_metrics_MC.leftout.pitch(1:batch));
-    plot(x1,f1);
-    plot(x2,f2);
-    plot(x3,f3)
-    set(gca,'ColorOrderIndex',1)
-    plot([perf_metrics_mean.normal.pitch,perf_metrics_mean.normal.pitch],[0 1],'--');
-    plot([perf_metrics_mean.rightout.pitch,perf_metrics_mean.rightout.pitch],[0 1],'--');
-    plot([perf_metrics_mean.leftout.pitch,perf_metrics_mean.leftout.pitch],[0 1],'--');
-    xlabel('Pitch Metric');
-    ylabel('Cumulative Probability');
-    legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
-    xlim([-0.1, 0.8]);
-    grid on; box on;
-    fn = sprintf('images/orig_pitch_metric_%i.png',batch);
-    saveas(gcf,fn)
-    
-    figure; hold on;
     [f1,x1] = ecdf(perf_metrics_MC.normal.roll(1:batch));
     [f2,x2] = ecdf(perf_metrics_MC.rightout.roll(1:batch));
     [f3,x3] = ecdf(perf_metrics_MC.leftout.roll(1:batch));
@@ -46,34 +27,15 @@ for i = 1:length(batches)
     plot(x2,f2);
     plot(x3,f3)
     set(gca,'ColorOrderIndex',1)
-    plot([perf_metrics_mean.normal.roll,perf_metrics_mean.normal.roll],[0 1],'--');
-    plot([perf_metrics_mean.rightout.roll,perf_metrics_mean.rightout.roll],[0 1],'--');
-    plot([perf_metrics_mean.leftout.roll,perf_metrics_mean.leftout.roll],[0 1],'--');
+    plot([perf_metrics_mean.normal.roll,perf_metrics_mean.normal.roll],[0 1],'--','LineWidth',2);
+    plot([perf_metrics_mean.rightout.roll,perf_metrics_mean.rightout.roll],[0 1],'--','LineWidth',2);
+    plot([perf_metrics_mean.leftout.roll,perf_metrics_mean.leftout.roll],[0 1],'--','LineWidth',2);
     xlabel('Roll Metric');
     ylabel('Cumulative Probability');
-%     legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
+    legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
     xlim([-0.1, 0.8]);
     grid on; box on;
     fn = sprintf('images/orig_roll_metric_%i.png',batch);
-    saveas(gcf,fn)
-    
-    figure; hold on;
-    [f1,x1] = ecdf(perf_metrics_MC.normal.yaw(1:batch));
-    [f2,x2] = ecdf(perf_metrics_MC.rightout.yaw(1:batch));
-    [f3,x3] = ecdf(perf_metrics_MC.leftout.yaw(1:batch));
-    plot(x1,f1);
-    plot(x2,f2);
-    plot(x3,f3)
-    set(gca,'ColorOrderIndex',1)
-    plot([perf_metrics_mean.normal.yaw,perf_metrics_mean.normal.yaw],[0 1],'--');
-    plot([perf_metrics_mean.rightout.yaw,perf_metrics_mean.rightout.yaw],[0 1],'--');
-    plot([perf_metrics_mean.leftout.yaw,perf_metrics_mean.leftout.yaw],[0 1],'--');
-    xlabel('Yaw Metric');
-    ylabel('Cumulative Probability');
-%     legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
-    xlim([-0.1, 0.8]);
-    grid on; box on;
-    fn = sprintf('images/orig_yaw_metric_%i.png',batch);
     saveas(gcf,fn)
 end
 
@@ -103,7 +65,7 @@ for i = 1:length(batches)
     var3(i) = x3(ind_max) - x3(ind_min);
     var3(i) = var(perf_metrics_MC.leftout.roll(1:batch));
 end
-figure; 
+figs{4} = figure; 
 
 semilogx(batches,var1)
 hold all;
@@ -113,7 +75,6 @@ xlabel('Number of Samples');
 ylabel('Variance of Roll Metric');
 legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
 grid on; box on;
-set_figure_size(gcf,8,5);
 saveas(gcf,'images/mc_var_convergence.png');
 % figure; hold on;
 % [f1,x1] = ecdf(perf_metrics_MC.normal.pitch(1:100));

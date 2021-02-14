@@ -240,7 +240,7 @@ switch plot_type
         
         % Full wind tunnel dataset
         generate_sample_size_plots(full_metrics_MC(run_case),full_metrics_mean(run_case));
-
+        
         % AVL dataset 4
 %         generate_sample_size_plots(avl4_metrics_MC(run_case),avl4_metrics_mean(run_case));
         

@@ -289,7 +289,7 @@ The GP models provide a probabilistic representation of the aerodynamics and con
 Random sampling from these models creates instances of the databases that have slight variations that are dependent on the uncertainties present in the GP model.
 The sampling methodology is explained in Section \ref{sec:gpr} using Equation \ref{equ:gp_sampling}.
 Each sample can be run through the flight simulator independently.
-Results of runnin g
+Results of running 10 such samples is shown in Figure \ref{fig:cfr147d_mc}.
 The variations in the aerodynamic databases would result in varied acceleration requirements.
 These differences would be compounded in the next step, where variations in the controls databases would result in varied control surface deflection requirements. 
 
@@ -297,16 +297,16 @@ These differences would be compounded in the next step, where variations in the 
     \centering
     \begin{subfigure}[Roll accelerations that would be required for the two maneuvers]{
         \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_roll_acc.png} 
-        \label{subfig:agg_roll_acc}
+        \label{subfig:roll_acc_mc}
     } 
     \end{subfigure}
     \hfill
     \begin{subfigure}[Left and right aileron deflections needed to perform the two maneuvers.]{
         \includegraphics[trim=0 0 0 0, clip, width=.55\textwidth]{code/image_gen/cba/images/cfr147d_agg_ail_defl.png} 
-        \label{subfig:agg_ail_defl}
+        \label{subfig:ail_defl_mc}
     } 
     \end{subfigure}
-    \caption{Comparing the results of performing an aggressive roll maneuver that over-saturates the aileron control authority (solid blue line) vs. those of performing the original certification maneuver. Note the over-saturation of the ailerons for the aggressive maneuver. \label{fig:cfr147d_agg}}
+    \caption{Comparing the results of performing an aggressive roll maneuver that over-saturates the aileron control authority (solid blue line) vs. those of performing the original certification maneuver. Note the over-saturation of the ailerons for the aggressive maneuver. \label{fig:cfr147d_mc}}
 \end{figure}
 
 The database uncertainties are 

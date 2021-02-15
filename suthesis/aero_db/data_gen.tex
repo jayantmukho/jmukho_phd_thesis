@@ -177,26 +177,34 @@ The surface mesh utilizes anisotropic stretching of grid elements along the chor
 Section \ref{sec:num_vs_turb_error} covered the relationship between numerical discretization error and the turbulence modeling uncertainties. 
 The modeling uncertainty was shown to be independent from the numerical discretization error, given a minimum level of mesh refinement that can accurately capture the physics. 
 The aim of this grid convergence study is to determine the coarsest mesh that can be used while not introducing significant numerical discretization error. 
-\textcolor{red}{Figure \ref{}} shows the results of the grid convergence study and the error bars represent the turbulence modeling uncertainty. 
-From the figure we see that while the L3 mesh might be too coarse, between the L2 and L1 meshes the turbulence modeling uncertainty remains consistent. 
-This allows the use of the L2 mesh to generate the RANS CFD data, and consequently saves a significant amount of computational resources. 
+Figure \ref{fig:gtt_num_error} shows the relative magnitudes of the numerical discretization error and the turbulence modeling uncertainty for $C_L$, $C_D$, and $C_m$. 
+The black squares represent the baseline RANS CFD predictions and the gray shaded region represents the estimated uncertainty that is injected by the turbulence model. 
+The finest mesh data point, on the left on these plots, has the numerical discretization error bars associated with it. 
+Since 3 meshes are used, only the finest mesh has error metrics associated with it. 
+The uncertainty estimated by the EQUiPS module is less than the errors introduced due to insufficient numerical discretization.
+While the mesh refinement doesn't significantly impact the size of the turbulence uncertainty estimates, the L3 mesh is too coarse to accurately capture $C_L$ and $C_m$. 
+The L2 mesh strikes the good balance between computational cost, and capturing the correct coefficients and turbulence uncertainty estimates.  
+For this reason, the L2 mesh to generate the RANS CFD data. 
 
 \begin{figure}
     \centering
-    \begin{subfigure}[\label{subfig:gtt_2f_surf}2-Dimensional function in $\alpha$ and $\beta$] {
-        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/images/} }
+    \begin{subfigure}%[\label{subfig:gtt_2f_surf}2-Dimensional function in $\alpha$ and $\beta$] 
+    {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/images/CL_04aoa.png} }
     \end{subfigure}
     \hfill
-    \begin{subfigure}[\label{subfig:gtt_2f_beta}Variation in $\beta$ at $\alpha=8^\circ$]{
-        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB_alpha=8.png} 
+    \begin{subfigure}%[\label{subfig:gtt_2f_beta}Variation in $\beta$ at $\alpha=8^\circ$]
+    {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/images/CD_04aoa.png} 
     }
     \end{subfigure}
     \hfill
-    \begin{subfigure}[\label{subfig:gtt_2f_alpha}Variation in $\alpha$ at $\beta=4^\circ$]{
-        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB_beta=4.png} 
+    \begin{subfigure}%[\label{subfig:gtt_2f_alpha}Variation in $\alpha$ at $\beta=4^\circ$]
+    {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/images/CMy_04aoa.png} 
     }
     \end{subfigure}
-    \caption{Visualization of the 2-Dimensional AVL and SU2 data and resulting two-fidelity GP for the rolling moment coefficient. \label{fig:gtt_2f_data_gps}}
+    \caption{Comparing the numerical discretization error and the turbulence modeling uncertainty estimate on $C_L$, $C_D$ and $C_m$ predictions at $\alpha = 4^\circ$ for the GTT aircraft. \label{fig:gtt_num_error}}
 \end{figure}
 
 To estimate the uncertainty injected due to the turbulence model, the eigenspace perturbation methodology introduced in Chapter \ref{chap:rans_uq} is used. 

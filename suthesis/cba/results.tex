@@ -56,4 +56,20 @@ To avoid verbose explanations, the overall results are still referred to as two-
 \end{figure}
 
 With the details of the simulation procedure explained in Section \ref{sec:sim_procedure}, the results here will be presented primarily through the CDF plots of the success metrics resulting from the Monte Carlo analysis defined in \ref{subsec:mc_analysis}.
+
 Figure \ref{fig:sf_vs_mf_metric_cdfs} presents the results of the flight simulations when lower fidelity databases are used.
+Early in the conceptual design stages, the aircraft performance would be determined using low-fidelity analyses and the flight simulations would yield the results represented by the blue line. 
+The large uncertainties attributed to the AVL analyses yields large variance in the metrics, indicated by the wide range of values that the CDF spans for every metric. 
+AVL also over-predicts the effectiveness of all control surfaces.
+The CDF for each metric lies to the right of the other results, indicating lower control surface saturation during the course of the simulations. 
+
+Progressing with the aircraft design, when RANS CFD data is added to the GP models, the results of flight simulations are represented by the red line. 
+The effect of having more accurate aerodynamic force and moment coefficients is evident, especially in calculating the trim angle of attack shown in Figure \ref{subfig:sf_vs_mf_trim_cdf}.
+Since no additional data is used to improve the controls databases, the large variance in success metrics is seen with these two-fidelity results as well. 
+Nevertheless, the additional accuracy in the baseline aerodynamics shifts all of the two-fidelity results closer towards the three-fidelity and high-fidelity results.
+
+With the addition of the wind tunnel data to the multi-fidelity fit (yellow line), the flight simulation results should be very close, if not identical, to those using the single-, high-fidelity data (black line). 
+While the pitch and yaw metrics line up identically, 
+
+The black line represents the results using the high-fidelity GP models that only use wind tunnel data. 
+Across all the metrics, adding levels of fidelity bring the results closer to the sing

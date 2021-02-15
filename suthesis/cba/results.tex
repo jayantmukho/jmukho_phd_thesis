@@ -5,7 +5,55 @@ To this end, this section first focuses on comparing simulations that are run us
 Then the cost-reduction aspect is explored by harnessing the benefits of multi-fidelity databases that use small subsets of the high-fidelity data. 
 For all the results in this section, simulations are conducted with the right engine inoperative, and all modifications discussed in Section \ref{subsec:sim_mods} are applied.
 
-utilize multi-fidelity GP models that are created using various combinations of low-fidelity AVL data, medium-fidelity CFD simulation data, and high-fidelity experimental wind tunnel data, to those that utilize single-fidelity GP models created using purely high-fidelity data. 
-
 \subsection{Simulations using Single- vs. Multi-Fidelity Databases} \label{subsec:sf_vs_mf_cba}
 
+In the nascent stages of the aircraft design, low-fidelity methods, such as AVL simulations, are used to perform rapid analyses that can span wide regions of the design domain quickly. 
+These have higher uncertainties in their performance predictions due to simplifications made in modeling the flow physics, in favor of speed of analysis.
+As parts of the aircraft design are fixed, higher-fidelity methods such as RANS CFD simulations are used to perform design optimizations.
+These are computationally more expensive than AVL simulations, but also provide a more accurate representation of the aircraft's potential performance. 
+Once designs are finalized, prototypes that can be experimentally tested in wind tunnels, are manufactured. 
+These provide high-fidelity data that can recreate the expected flight conditions and have correspondingly low uncertainties associated with their performance predictions.
+Finally, flight testing to certify the aircraft's air-worthiness is performed once all the design decisions are finalized and a full-sized prototype is manufactured.
+
+Mimicking this sequence of design analyses, single- and multi-fidelity databases that use, in order, low-fidelity (AVL), low- + medium-fidelity (AVL + SU2), and low- + medium- + high-fidelity (AVL + SU2 + WT) data are created. 
+An example of this build-up is presented in Section \ref{sec:data_gen}.
+To bring aspects of the real-world flight testing procedure into the virtual environment where early design analyses are performed, flight simulations are carried out using these lower fidelity databases.
+To assess the quality of the results, these are compared to flight simulations carried out using high-fidelity databases created using only the available wind tunnel data. 
+It is important to note that while wind tunnel data has its own set of models that introduce errors when compared to flight tests, it is the highest-fidelity data available and is considered the truth function that is being emulated. 
+
+It is important to remember that only basic aerodynamic coefficient data is available from SU2. 
+This means that the two-fidelity results only use SU2 data for the force and moment coefficients in the aerodynamics database.
+The controls databases for the two-fidelity results are actually only single-fidelity and are identical to the controls databases used for the AVL-only results. 
+Consequently, the three-fidelity database is only truly three-fidelity for the force and moment coefficients; the rest are two-fidelity.
+To avoid verbose explanations, the overall results are still referred to as two-fidelity when AVL+SU2 data is used, and three-fidelity when AVL+SU2+WT data is used. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[CDF for the trim $\alpha$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/trim_aoa_sf_vs_mf.png} 
+        \label{subfig:sf_vs_mf_trim_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the pitch metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/reo_pitch_sf_vs_mf.png} 
+        \label{subfig:sf_vs_mf_pitch_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the roll metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/reo_roll_sf_vs_mf.png} 
+        \label{subfig:sf_vs_mf_roll_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the yaw metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/reo_yaw_sf_vs_mf.png} 
+        \label{subfig:sf_vs_mf_yaw_cdf}
+    } 
+    \end{subfigure}
+    \caption{Comparing flight simulations of the certification maneuver when different combinations of low-, multi-, and high-fidelity databases are used. CDF plots for the trim angle of attack and the success metrics are shown. \label{fig:sf_vs_mf_metric_cdfs}}
+\end{figure}
+
+With the details of the simulation procedure explained in Section \ref{sec:sim_procedure}, the results here will be presented primarily through the CDF plots of the success metrics resulting from the Monte Carlo analysis defined in \ref{subsec:mc_analysis}.
+Figure \ref{fig:sf_vs_mf_metric_cdfs} presents the results of the flight simulations when lower fidelity databases are used.

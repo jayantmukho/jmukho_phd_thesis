@@ -82,29 +82,29 @@ batches = [batches, 1000];
 var1 = zeros(size(batches));
 var2 = var1;
 var3 = var1;
+mean1 = var1;
+mean2 = var1;
+mean3 = var1;
 for i = 1:length(batches)
     batch = batches(i);
     [f1,x1] = ecdf(perf_metrics_MC.normal.roll(1:batch));
     [f2,x2] = ecdf(perf_metrics_MC.rightout.roll(1:batch));
     [f3,x3] = ecdf(perf_metrics_MC.leftout.roll(1:batch));
     
-    [~,ind_min] = min(abs(f1-0.025));
-    [~,ind_max] = min(abs(f1-0.975));
-    var1(i) = x1(ind_max) - x1(ind_min);
+    [~,ind_mean] = min(abs(f1-0.5));
+    mean1(i) = x1(ind_mean);
     var1(i) = var(perf_metrics_MC.normal.roll(1:batch));
     
-    [~,ind_min] = min(abs(f2-0.025));
-    [~,ind_max] = min(abs(f2-0.975));
-    var2(i) = x2(ind_max) - x2(ind_min);
+    [~,ind_mean] = min(abs(f2-0.5));
+    mean2(i) = x2(ind_mean);
     var2(i) = var(perf_metrics_MC.rightout.roll(1:batch));
     
-    [~,ind_min] = min(abs(f3-0.025));
-    [~,ind_max] = min(abs(f3-0.975));
-    var3(i) = x3(ind_max) - x3(ind_min);
+    [~,ind_mean] = min(abs(f3-0.5));
+    mean3(i) = x3(ind_mean);
     var3(i) = var(perf_metrics_MC.leftout.roll(1:batch));
 end
-figure; 
 
+figure;
 semilogx(batches,var1)
 hold all;
 semilogx(batches,var2)
@@ -115,6 +115,19 @@ legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
 grid on; box on;
 set_figure_size(gcf,8,5);
 saveas(gcf,'images/mc_var_convergence.png');
+
+figure;
+semilogx(batches,mean1)
+hold all;
+semilogx(batches,mean2)
+semilogx(batches,mean3)
+xlabel('Number of Samples');
+ylabel('Mean of Roll Metric');
+legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
+grid on; box on;
+set_figure_size(gcf,8,5);
+saveas(gcf,'images/mc_mean_convergence.png');
+
 % figure; hold on;
 % [f1,x1] = ecdf(perf_metrics_MC.normal.pitch(1:100));
 % [f2,x2] = ecdf(perf_metrics_MC.rightout.pitch(1:100));

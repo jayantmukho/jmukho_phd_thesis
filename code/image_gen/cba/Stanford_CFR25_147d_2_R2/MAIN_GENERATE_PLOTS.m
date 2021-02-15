@@ -138,11 +138,11 @@ run_case = 2; %Run Case 17 (aggressive) [use this instead of case 15 from now on
 
 %   Select type of figure to generate
 %       Recommend types 1, 2, and 5
-plot_type = 1; %plot CDFs and mean 
-plot_type = 2; %plot trajectories
-plot_type = 3; %plot sample size
+% plot_type = 1; %plot CDFs and mean 
+% plot_type = 2; %plot trajectories
+% plot_type = 3; %plot mc section plots
 % plot_type = 4; %compare multipliers
-% plot_type = 5; %compare distributions
+plot_type = 5; %compare sf and mf
 % plot_type = 6; %compare trim AoA
 
 
@@ -268,22 +268,23 @@ switch plot_type
 %         generate_comparison_plots_all(full_metrics_MC(run_case),sparse2_metrics_MC(run_case),mf2d_metrics_MC(run_case),full_metrics_mean(run_case),sparse2_metrics_mean(run_case),mf2d_metrics_mean(run_case));
 
         % Full wind tunnel dataset vs AVL vs Multi-fidelity (AVL+CFD) dataset
-        generate_ctrl_plots_all(full_ctrl_MC(run_case),     avl4_ctrl_MC(run_case),     mf2d_ctrl_MC(run_case),     mf3d_ctrl_MC(run_case),     sparse2_ctrl_MC(run_case),...
-                                full_ctrl_mean(run_case),   avl4_ctrl_mean(run_case),   mf2d_ctrl_mean(run_case),   mf3d_ctrl_mean(run_case),   sparse2_ctrl_mean(run_case));
+%         generate_ctrl_plots_all(full_ctrl_MC(run_case),     avl4_ctrl_MC(run_case),     mf2d_ctrl_MC(run_case),     mf3d_ctrl_MC(run_case),     sparse2_ctrl_MC(run_case),...
+%                                 full_ctrl_mean(run_case),   avl4_ctrl_mean(run_case),   mf2d_ctrl_mean(run_case),   mf3d_ctrl_mean(run_case),   sparse2_ctrl_mean(run_case));
         
         % Full wind tunnel dataset vs AVL vs Multi-fidelity (AVL+CFD) dataset with reduced deflection limits
-        regenerate_perf_metric_plots_all(full_metrics_MC(run_case),     avl4_metrics_MC(run_case),   mf2d_metrics_MC(run_case),   mf3d_metrics_MC(run_case),   sparse2_metrics_MC(run_case),...
+        reo_perf_metric_plots_sf_vs_mf(full_metrics_MC(run_case),     avl4_metrics_MC(run_case),   mf2d_metrics_MC(run_case),   mf3d_metrics_MC(run_case),   sparse2_metrics_MC(run_case),...
                                          full_metrics_mean(run_case),   avl4_metrics_mean(run_case), mf2d_metrics_mean(run_case), mf3d_metrics_mean(run_case), sparse2_metrics_mean(run_case),...
                                          full_ctrl_MC(run_case),        avl4_ctrl_MC(run_case),      mf2d_ctrl_MC(run_case),      mf3d_ctrl_MC(run_case),      sparse2_ctrl_MC(run_case),...
                                          full_ctrl_mean(run_case),      avl4_ctrl_mean(run_case),    mf2d_ctrl_mean(run_case),    mf3d_ctrl_mean(run_case),    sparse2_ctrl_mean(run_case));
-        
+        generate_trim_comparison_plots_sf_vs_mf(full_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),full_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),mf3d_trim_mean(run_case),sparse2_trim_mean(run_case));
+
 %         % Sparse wind tunnel dataset 2 vs AVL vs Multi-fidelity (AVL+CFD) dataset with reduced deflection limits
 %         regenerate_perf_metric_plots_all(sparse2_metrics_MC(run_case),avl4_metrics_MC(run_case),mf2d_metrics_MC(run_case),mf3d_metrics_MC(run_case),sparse2_metrics_mean(run_case),avl4_metrics_mean(run_case),mf2d_metrics_mean(run_case),mf3d_metrics_mean(run_case));
         
     case 6 %CDF and mean       
         
         % Full wind tunnel dataset vs AVL dataset 4 vs Multi-fidelity (AVL+CFD) dataset
-        generate_trim_comparison_plots_all(full_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),full_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),mf3d_trim_mean(run_case),sparse2_trim_mean(run_case));
+        generate_trim_comparison_plots_sf_vs_mf(full_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),full_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),mf3d_trim_mean(run_case),sparse2_trim_mean(run_case));
         
 %         % Sparse wind tunnel dataset 2 vs AVL dataset 4 vs Multi-fidelity (AVL+CFD) dataset
 %         generate_trim_comparison_plots_all(sparse2_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),mf3d_trim_MC(run_case),sparse2_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),mf3d_trim_mean(run_case));

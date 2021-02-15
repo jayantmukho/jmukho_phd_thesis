@@ -153,7 +153,7 @@ Pointwise is used to generate meshes from the GTT geometry.
 First, a family of three unstructured, half-span meshes are generated.
 These meshes are used run a grid convergence study to estimate the numerical discretization error \cite{american_society_of_mechanical_engineers_standard_2009}. 
 Details of the meshes are shown in Table \ref{tab:gtt_meshes}.
-Some representative images of the mesh are shown in \textcolor{red}{Figure \ref{fig:gtt_mesh}}.
+Some representative images of the mesh are shown in Figure \ref{fig:gtt_mesh}.
 The mesh shown is a half-span one.
 This is mirrored along the $x-z$ plane to generate a full-span mesh that is used for all simulations involving non-zero $\beta$.
 The surface mesh utilizes anisotropic stretching of grid elements along the chord of lifting surfaces. 
@@ -180,6 +180,24 @@ The aim of this grid convergence study is to determine the coarsest mesh that ca
 \textcolor{red}{Figure \ref{}} shows the results of the grid convergence study and the error bars represent the turbulence modeling uncertainty. 
 From the figure we see that while the L3 mesh might be too coarse, between the L2 and L1 meshes the turbulence modeling uncertainty remains consistent. 
 This allows the use of the L2 mesh to generate the RANS CFD data, and consequently saves a significant amount of computational resources. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[\label{subfig:gtt_2f_surf}2-Dimensional function in $\alpha$ and $\beta$] {
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/images/} }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[\label{subfig:gtt_2f_beta}Variation in $\beta$ at $\alpha=8^\circ$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB_alpha=8.png} 
+    }
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[\label{subfig:gtt_2f_alpha}Variation in $\alpha$ at $\beta=4^\circ$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/gmatt/2f/images/gps/CRMTAB_beta=4.png} 
+    }
+    \end{subfigure}
+    \caption{Visualization of the 2-Dimensional AVL and SU2 data and resulting two-fidelity GP for the rolling moment coefficient. \label{fig:gtt_2f_data_gps}}
+\end{figure}
 
 To estimate the uncertainty injected due to the turbulence model, the eigenspace perturbation methodology introduced in Chapter \ref{chap:rans_uq} is used. 
 Accordingly $6$ simulations ($1$ baseline $+~5$ perturbed) are required at each flight condition. 

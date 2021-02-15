@@ -282,7 +282,13 @@ for i=2:2 %length(ctrl_coeffs)
         
         %%%%% 1D plot for alpha = 8, beta = 4 + samples %%%%%
         figure(i*4+1); clf;
-
+        % AVL Data
+        inds = X_AVL(:,1) == 8 & X_AVL(:,2) == 4;
+        e = errorbar(X_AVL(inds,3),Y_AVL(inds),2*sn_AVL(inds),'o');
+        format_plot(e,plotting_options('thesis'))
+        xlabel(defl_labels{i});
+        ylabel(coeff_labels{i});
+        hold all
 
         % WT Data
         inds = abs(X_WT(:,1)-8)<0.75 & abs(X_WT(:,2)-4)<0.5;
@@ -305,7 +311,7 @@ for i=2:2 %length(ctrl_coeffs)
         grid('on')
         xlabel(defl_labels{i});
         ylabel(coeff_labels{i});
-        legend('WT Data','GP Mean','$2\sigma$','location','best')
+        legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4+samps.fig']);
         saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4+samps.png'])
     end

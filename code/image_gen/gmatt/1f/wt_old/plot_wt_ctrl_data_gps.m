@@ -276,6 +276,7 @@ for i=2:2 %length(ctrl_coeffs)
         grid('on')
         xlabel(defl_labels{i});
         ylabel(coeff_labels{i});
+        ylim([-0.03, 0.03]);
         legend('WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4+samps.fig']);
         saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4+samps.png'])

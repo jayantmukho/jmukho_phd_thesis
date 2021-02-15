@@ -1,6 +1,5 @@
 load GMATT_aero+ctrl_corrected;
 load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\1f\wt\gmatt_wt_3d_plotting.mat');
-% load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\New Folder\GMATT_aero+ctrl+3d_GPs_zeros.mat');
 
 GMATT_new = add_zeros(GMATT_new);
 
@@ -69,7 +68,7 @@ views(:,2) = 30;
 % views(5,:) = [-215,30]; % CPMTAB
 % views(6,:) = [60,30];   % CYMTAB
 
-for i=6:6 %length(ctrl_coeffs)
+for i=2:2 %length(ctrl_coeffs)
     coeff_gp = ctrl.(ctrl_coeffs{i});
 %     coeff_wt = coeff_gp;
     coeff_wt = GMATT_new.CTRL.(ctrl_coeffs{i});

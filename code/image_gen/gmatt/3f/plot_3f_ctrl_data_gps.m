@@ -69,7 +69,7 @@ views(:,2) = 30;
 % views(5,:) = [-215,30]; % CPMTAB
 % views(6,:) = [60,30];   % CYMTAB
 
-for i=6:6 %length(ctrl_coeffs)
+for i=2:2 %length(ctrl_coeffs)
     coeff = ctrl.(ctrl_coeffs{i});
     coeff_wt = GMATT_WT.CTRL.(ctrl_coeffs{i});
     coeff_gp = GMATT_3F.CTRL.(ctrl_coeffs{i});
@@ -279,6 +279,35 @@ for i=6:6 %length(ctrl_coeffs)
         legend('AVL Data','WT Data','GP Mean','$2\sigma$','location','best')
         savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.fig']);
         saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.png'])
+        
+        %%%%% 1D plot for alpha = 8, beta = 4 + samples %%%%%
+        figure(i*4+1); clf;
+
+
+        % WT Data
+        inds = abs(X_WT(:,1)-8)<0.75 & abs(X_WT(:,2)-4)<0.5;
+        e = errorbar(X_WT(inds,3),Y_WT(inds),sn_WT(inds),'kx');
+        format_plot(e,plotting_options('thesis'))
+        hold all
+        % GP Predictions
+        inds = abs(X_GP(:,1)-8)<0.75 & X_GP(:,2) == 4;
+        plot(X_interp, Y_interp,'k','linewidth',2);
+        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
+        % Samples
+        for idx = 1:10
+            noise = coeff_gp.qSamp * randn(length(Y_GP),1);
+            Y_samp = Y_GP(inds) + noise(inds);
+            Y_samp_interp = interp1(X_GP(inds,3),Y_samp,X_interp,'spline');
+            plot(X_interp,Y_samp_interp,'linewidth',1);
+        end
+
+        set_figure_size(gcf,5,5);
+        grid('on')
+        xlabel(defl_labels{i});
+        ylabel(coeff_labels{i});
+        legend('WT Data','GP Mean','$2\sigma$','location','best')
+        savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4+samps.fig']);
+        saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4+samps.png'])
     end
 
 end

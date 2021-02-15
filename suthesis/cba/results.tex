@@ -72,7 +72,32 @@ With the addition of the wind tunnel data to the multi-fidelity fit (yellow line
 The trim angles of attack, pitch metrics, and yaw metrics line up identically, there is a notable difference in the roll metric results. 
 Not only is the mean value for the three-fidelity database (dashed yellow line) lower than that for the single-, high-fidelity database, but the variance in the roll metric is also lower. 
 The reason for this difference was hinted at in Section \ref{sec:gtt_dbs} when comparing the single- and multi-fidelity databases for $C_{l{\delta_a}}$. 
-The 
+This is highlighted in Figure \ref{fig:sf_vs_mf_crmail} when plotting samples of the databases as a function of $\delta_a$ when $\alpha=8^\circ$ and $\beta = 4^\circ$.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[Single-, high-fidelity database]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/gmatt/1f/wt_old/images/gps/CRMAIL_alpha=8_beta=4+samps.png} 
+        \label{subfig:sf_crmail}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[Multi-fidelity database]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/gmatt/3f/images/gps/CRMAIL_alpha=8_beta=4+samps.png} 
+        \label{subfig:mf_crmail}
+    } 
+    \end{subfigure}
+    \caption{Comparing $C_{l{\delta_a}}$ as a function of $\delta_a$ when single-, high-fidelity data is used vs. when multi-fidelity data is used. The individual colored lines represent samples of the database. \label{fig:sf_vs_mf_crmail}}
+\end{figure}
+
+When only wind tunnel data is used to create the database, Figure \ref{subfig:sf_crmail}, the sparsity of data points in the aileron deflection dimension results in the ballooning GP error estimate between available data points (the black squares).
+The database samples, $10$ of which are shown by the individual colored lines,  respect the error estimate from the GP and have correspondingly higher variability between those data points.
+If the wind tunnel data is supplemented with lower-fidelity AVL data (blue circles), the multi-fidelity GP is able to use the trends learned from the lower fidelity to reduce the uncertainty between the same wind tunnel data points. 
+As a result, the error estimate from the GP is much lower and can barely be discerned at the scale of the figure. 
+The samples show significantly less variation from the mean database and are almost all coincident in this case. 
+This reduction in sample variation corresponds to the lower variation indicated by the CDF plot for the three-fidelity roll metric in Figure \ref{subfig:sf_vs_mf_roll_cdf}.
+
+
 
 
 

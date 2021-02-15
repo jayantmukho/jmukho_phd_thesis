@@ -81,50 +81,50 @@ mf3_results_filename = 'FullMF3_results_R2.mat';
 mf3_trajectory_filename = 'FullMF3_trajectory_results_R2.mat';
 
 % %%%%% USE THIS VERSION IF YOU'RE DOING "SPARSE/COARSE" WT DATA %%%%%%
-mf3_results_filename = 'SparseMF3_results_R2.mat';
-mf3_trajectory_filename = 'SparseMF3_trajectory_results_R2.mat';
-
-% %%%%% USE THIS VERSION IF YOU'RE DOING "Local" WT DATA %%%%%%
-mf3_results_filename = 'LocalMF3_results.mat';
-mf3_trajectory_filename = 'LocalMF3_trajectory_results.mat';
-
-%%%%% "PARTIAL" 3-FIDELITY DATASETS %%%%%%
-%   ONLY SOME OF THE AERO COEFFICIENT GPs ARE UPDATED WITH WIND TUNNEL AND/
-%   OR WATER TUNNEL DATA
-
-% Only bare-aiframe coefficients (no control surfaces or dynamic derivatives)
-mf3_results_filename = 'PartialMF3_BA_full_results.mat'; %full (all WT datapoints)
-mf3_trajectory_filename = 'PartialMF3_BA_full_trajectory_results.mat';
-
-mf3_results_filename = 'PartialMF3_BA_coarse_results.mat'; %coarse (only sparse subset)
-mf3_trajectory_filename = 'PartialMF3_BA_coarse_trajectory_results.mat';
-
-% Only control surface coefficients (no bare-airframe or dynamic derivatives)
-mf3_results_filename = 'PartialMF3_CTRL_full_results.mat'; %full (all WT datapoints)
-mf3_trajectory_filename = 'PartialMF3_CTRL_full_trajectory_results.mat';
-
-mf3_results_filename = 'PartialMF3_CTRL_coarse_results.mat'; %coarse (only sparse subset)
-mf3_trajectory_filename = 'PartialMF3_CTRL_coarse_trajectory_results.mat';
-
-% Bare-airframe and control surface (but no dynamic derivatives)
-mf3_results_filename = 'PartialMF3_BACTRL_full_results.mat'; %full (all WT datapoints)
-mf3_trajectory_filename = 'PartialMF3_BACTRL_full_trajectory_results.mat';
-
-mf3_results_filename = 'PartialMF3_BACTRL_coarse_results.mat'; %coarse (only sparse subset)
-mf3_trajectory_filename = 'PartialMF3_BACTRL_coarse_trajectory_results.mat';
-
-% Bare-airframe and dynamic derivatives (but control surfaces)
-mf3_results_filename = 'PartialMF3_BADYN_full_results.mat'; %full (all WT datapoints)
-mf3_trajectory_filename = 'PartialMF3_BADYN_full_trajectory_results.mat';
-
-mf3_results_filename = 'PartialMF3_BADYN_coarse_results.mat'; %coarse (only sparse subset)
-mf3_trajectory_filename = 'PartialMF3_BADYN_coarse_trajectory_results.mat';
-
-%%%%% USE THIS VERSION IF YOU'RE DOING "PARTIAL" WT DATA %%%%%%
-%   MIX = sparse/coarse bare-airframe and control surface aero, but "full"
-%   set of water tunnel data for dynamic derivatives
-mf3_results_filename = 'PartialMF3_mix_results.mat'; %coarse (only sparse subset)
-mf3_trajectory_filename = 'PartialMF3_mix_trajectory_results.mat';
+% mf3_results_filename = 'SparseMF3_results_R2.mat';
+% mf3_trajectory_filename = 'SparseMF3_trajectory_results_R2.mat';
+% 
+% % %%%%% USE THIS VERSION IF YOU'RE DOING "Local" WT DATA %%%%%%
+% mf3_results_filename = 'LocalMF3_results.mat';
+% mf3_trajectory_filename = 'LocalMF3_trajectory_results.mat';
+% 
+% %%%%% "PARTIAL" 3-FIDELITY DATASETS %%%%%%
+% %   ONLY SOME OF THE AERO COEFFICIENT GPs ARE UPDATED WITH WIND TUNNEL AND/
+% %   OR WATER TUNNEL DATA
+% 
+% % Only bare-aiframe coefficients (no control surfaces or dynamic derivatives)
+% mf3_results_filename = 'PartialMF3_BA_full_results.mat'; %full (all WT datapoints)
+% mf3_trajectory_filename = 'PartialMF3_BA_full_trajectory_results.mat';
+% 
+% mf3_results_filename = 'PartialMF3_BA_coarse_results.mat'; %coarse (only sparse subset)
+% mf3_trajectory_filename = 'PartialMF3_BA_coarse_trajectory_results.mat';
+% 
+% % Only control surface coefficients (no bare-airframe or dynamic derivatives)
+% mf3_results_filename = 'PartialMF3_CTRL_full_results.mat'; %full (all WT datapoints)
+% mf3_trajectory_filename = 'PartialMF3_CTRL_full_trajectory_results.mat';
+% 
+% mf3_results_filename = 'PartialMF3_CTRL_coarse_results.mat'; %coarse (only sparse subset)
+% mf3_trajectory_filename = 'PartialMF3_CTRL_coarse_trajectory_results.mat';
+% 
+% % Bare-airframe and control surface (but no dynamic derivatives)
+% mf3_results_filename = 'PartialMF3_BACTRL_full_results.mat'; %full (all WT datapoints)
+% mf3_trajectory_filename = 'PartialMF3_BACTRL_full_trajectory_results.mat';
+% 
+% mf3_results_filename = 'PartialMF3_BACTRL_coarse_results.mat'; %coarse (only sparse subset)
+% mf3_trajectory_filename = 'PartialMF3_BACTRL_coarse_trajectory_results.mat';
+% 
+% % Bare-airframe and dynamic derivatives (but control surfaces)
+% mf3_results_filename = 'PartialMF3_BADYN_full_results.mat'; %full (all WT datapoints)
+% mf3_trajectory_filename = 'PartialMF3_BADYN_full_trajectory_results.mat';
+% 
+% mf3_results_filename = 'PartialMF3_BADYN_coarse_results.mat'; %coarse (only sparse subset)
+% mf3_trajectory_filename = 'PartialMF3_BADYN_coarse_trajectory_results.mat';
+% 
+% %%%%% USE THIS VERSION IF YOU'RE DOING "PARTIAL" WT DATA %%%%%%
+% %   MIX = sparse/coarse bare-airframe and control surface aero, but "full"
+% %   set of water tunnel data for dynamic derivatives
+% mf3_results_filename = 'PartialMF3_mix_results.mat'; %coarse (only sparse subset)
+% mf3_trajectory_filename = 'PartialMF3_mix_trajectory_results.mat';
 
 
 [mf3d_metrics_MC,mf3d_metrics_mean,mf3d_traj,mf3d_trim_MC,mf3d_trim_mean,...
@@ -276,7 +276,8 @@ switch plot_type
                                          full_metrics_mean(run_case),   avl4_metrics_mean(run_case), mf2d_metrics_mean(run_case), mf3d_metrics_mean(run_case), sparse2_metrics_mean(run_case),...
                                          full_ctrl_MC(run_case),        avl4_ctrl_MC(run_case),      mf2d_ctrl_MC(run_case),      mf3d_ctrl_MC(run_case),      sparse2_ctrl_MC(run_case),...
                                          full_ctrl_mean(run_case),      avl4_ctrl_mean(run_case),    mf2d_ctrl_mean(run_case),    mf3d_ctrl_mean(run_case),    sparse2_ctrl_mean(run_case));
-        generate_trim_comparison_plots_sf_vs_mf(full_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),full_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),mf3d_trim_mean(run_case),sparse2_trim_mean(run_case));
+        generate_trim_comparison_plots_sf_vs_mf(full_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),...
+                                                full_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),mf3d_trim_mean(run_case),sparse2_trim_mean(run_case));
 
 %         % Sparse wind tunnel dataset 2 vs AVL vs Multi-fidelity (AVL+CFD) dataset with reduced deflection limits
 %         regenerate_perf_metric_plots_all(sparse2_metrics_MC(run_case),avl4_metrics_MC(run_case),mf2d_metrics_MC(run_case),mf3d_metrics_MC(run_case),sparse2_metrics_mean(run_case),avl4_metrics_mean(run_case),mf2d_metrics_mean(run_case),mf3d_metrics_mean(run_case));

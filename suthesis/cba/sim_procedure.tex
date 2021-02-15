@@ -322,11 +322,102 @@ The output QoI is the success/failure of the aircraft in performing a flight cer
 Running flight simulations on hundreds of randomly sampled databases results in hundreds of success metrics which can be treated as a random variable as well.
 Statistical methods can then be used to characterize the distribution of the success metrics. 
 
-To analyze the distribution of the success metrics, cumulative distribution functions (CDF) are used. 
+For the statistical analysis of the success metrics, cumulative distribution functions (CDF) are calculated.
 The CDF for a random variable $X$ evaluated at $x$ represents the probability that $X$ will take a value less than or equal to $x$.
 As a concrete example, $1000$ samples of the GTT aerodynamics and controls databases are used to perform the flight certification maneuver with engine failures. 
-The CDF of each of the metrics for each engine-out situation is shown in Figure \ref{}.
+The CDF of each metrics for each engine-out situation is shown in Figure \ref{fig:mc_metric_cdfs}.
+The solid lines represent the CDF for the metric, while the dashed vertical lines indicate the metric value for the simulation run with the mean GP databases.
+There are a few trends that are worth pointing out that will also help in reading these, and subsequent CDF plots:
 
+\begin{enumerate}
+    \item For the pitch metric, Figure \ref{subfig:mc_pitch_cdf},
+    \begin{enumerate}
+        \item Clustering of the three CDF indicates that the engine operation does not affect the control authority of the aircraft in pitch.
+        \item The high pitch metric values indicates that very little of the elevator's full range-of-motion is needed to complete the maneuver.
+    \end{enumerate}
+    \item For the roll metric, Figure \ref{subfig:mc_roll_cdf},
+    \begin{enumerate}
+        \item The lower roll metric values of the right engine out case (REO) indicates that larger aileron deflections, when compared to the other cases, are required to perform the maneuver.
+        \item The REO case also has a larger spread of values, indicating more variance in the simulation results
+        \item Higher roll metric values for the left engine out case (LEO) means that it is less demanding on the ailerons than the nominal case with both engines operative. 
+    \end{enumerate}
+    \item For the yaw metric, Figure \ref{subfig:mc_yaw_cdf},
+    \begin{enumerate}
+        \item The nearly vertical CDF plots indicate very low variance in the simulation results.
+        \item Once again, the REO case is the most restrictive, requiring the largest rudder deflections to complete the maneuver. 
+    \end{enumerate}
+\end{enumerate}
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[CDF for the pitch metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/orig_pitch_metric_1000.png} 
+        \label{subfig:mc_pitch_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the roll metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/orig_roll_metric_1000.png} 
+        \label{subfig:mc_roll_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the yaw metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.31\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/orig_yaw_metric_1000.png} 
+        \label{subfig:mc_yaw_cdf}
+    } 
+    \end{subfigure}
+    \caption{CDF plots for the success metrics when 1000 samples of the aerodynamics and controls databases for the GTT aircraft are used to simulate the flight certification maneuver. \label{fig:mc_metric_cdfs}}
+\end{figure}
 
-\subsection{Modifications to the Simulation}
+None of the metrics for any of the simulations go below $0$. 
+The current representation of the aircraft, even when accounting for uncertainties in the analyses, would pass the certification maneuver $100\%$ of the time.
+This is to be expected since the GTT aircraft is modeled on the CRJ 700, a currently certified aircraft.
+These plots reiterate the conclusion that the REO case is the most restrictive for the certification. 
+All remaining results will only use the REO case for the simulations. 
+
+With Monte Carlo simulations, it is imperative that enough samples are used to ensure that the posterior distributions are converged.
+The convergence of the distribution can be tracked using the variance of the metrics.
+Figure \ref{fig:mc_var_conv} plots the variance of the roll metric distributions with increasing numbers of samples.
+While the REO case takes longer to converge, the variance is unchanging by the time $1000$ samples are used. 
+For this reason, all remaining results will use $1000$ Monte Carlo samples to represent the CDF for the simulation results. 
+
+\begin{figure}
+    \center
+    \includegraphics[width=0.65\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/mc_var_convergence.png}
+    \caption{Convergence of the variance with increasing Monte Carlo samples \label{fig:mc_var_conv}}
+\end{figure}
+
+\subsection{Modifications to the Simulation} \label{subsec:sim_mods}
+
+From the metric plots in the previous section, Figure \ref{fig:mc_metric_cdfs}, it is evident that the GTT aircraft can pass the flight certification maneuver $100\%$ of the time.
+This is true even when the uncertainties in the analyses are taken into account in the GP model. 
+It makes the discussion of success/failure of a certification maneuver difficult if the aircraft succeeds every time.
+Having presented the results of the standard flight simulation in the previous section, some modifications to the simulation are made to force some failures in the maneuvers.
+To make the maneuver more challenging, the limits on the control surfaces are changed.
+The changes are presented in Table \ref{tab:gtt_defl_limits_new}.
+
+The aileron and rudder limits are made more restrictive. 
+These have the direct impact of increasing the control surface saturation, thereby moving the roll and yaw metrics closer towards $0$.
+Spoilers aid in the roll authority and are not used moving forward.
+Since flaps affect the baseline aerodynamics and lower fidelity methods are not able to model them well, they are also ignored moving forward. 
+This impacts the pitch metric indirectly. 
+Without flap deployment, the $C_L$ of the aircraft at all angles of attack is reduced consequently forcing the aircraft to trim at a higher angle of attack to maintain steady level flight. 
+This increases dependence on the elevator during the maneuver and shifts the pitch metric closer towards $0$.
+
+\begin{table}
+\centering
+    \renewcommand{\arraystretch}{1.2}
+    \captionsetup{justification=centering}
+    \caption{New control surface deflection limits on the GTT aircraft.} 
+    \begin{tabular}{|c|c|c|}
+    \hline
+        Control surface & Old deflection limits & New deflection limits \\ \hline
+        Ailerons & $\pm 25^\circ$ & $\pm 15^\circ$ \\ \hline
+        Elevator & $\pm 20^\circ$ & $\pm 20^\circ$ \\ \hline
+        Rudder & $\pm 30^\circ$ & $\pm 20^\circ$   \\ \hline
+        Spoilers & $\pm 60^\circ$ & Not Used       \\ \hline
+        Flaps & $\pm 45^\circ$ & Not used          \\ \hline
+    \end{tabular}
+    \label{tab:gtt_defl_limits_new}
+\end{table}

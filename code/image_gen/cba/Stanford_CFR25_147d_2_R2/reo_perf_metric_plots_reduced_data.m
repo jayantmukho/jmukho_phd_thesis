@@ -1,4 +1,4 @@
-function [] = reo_perf_metric_plots_sf_vs_mf(perf_metrics_MC,   perf_metrics_MC2,   perf_metrics_MC3,   perf_metrics_MC4,   perf_metrics_MC5,...
+function [] = reo_perf_metric_plots_reduced_data(perf_metrics_MC,   perf_metrics_MC2,   perf_metrics_MC3,   perf_metrics_MC4,   perf_metrics_MC5,...
                                                perf_metrics_mean, perf_metrics_mean2, perf_metrics_mean3, perf_metrics_mean4, perf_metrics_mean5,...
                                                perf_ctrl_MC,      perf_ctrl_MC2,      perf_ctrl_MC3,      perf_ctrl_MC4,      perf_ctrl_MC5,...
                                                perf_ctrl_mean,    perf_ctrl_mean2,    perf_ctrl_mean3,    perf_ctrl_mean4,    perf_ctrl_mean5)
@@ -74,19 +74,21 @@ figure; hold on;
 plot(x2,f2,'k');
 set(gca,'ColorOrderIndex',1);
 plot(x5,f5);
-plot(x8,f8);
+% plot(x8,f8);
 plot(x11,f11);
+plot(x14,f14);
 set(gca,'ColorOrderIndex',1);
 plot([perf_metrics_mean.rightout.pitch,perf_metrics_mean.rightout.pitch],[0 1],'k--');
 plot([perf_metrics_mean2.rightout.pitch,perf_metrics_mean2.rightout.pitch],[0 1],'--');
-plot([perf_metrics_mean3.rightout.pitch,perf_metrics_mean3.rightout.pitch],[0 1],'--');
+% plot([perf_metrics_mean3.rightout.pitch,perf_metrics_mean3.rightout.pitch],[0 1],'--');
 plot([perf_metrics_mean4.rightout.pitch,perf_metrics_mean4.rightout.pitch],[0 1],'--');
+plot([perf_metrics_mean5.rightout.pitch,perf_metrics_mean5.rightout.pitch],[0 1],'--');
 set(gca,'FontWeight','bold');
 xlabel('Pitch Metric','FontWeight','bold');
 ylabel('Cumulative Probability','FontWeight','bold');
 % legend('WT','AVL','AVL+SU2','AVL+SU2+WT','FontWeight','bold','Location','southeast');
 grid on; box on;
-saveas(gcf,'images/reo_pitch_sf_vs_mf.png');
+saveas(gcf,'images/reo_pitch_reduced_data.png');
 %set(gcf,'Position',[312,456,1084,420]);
 % xlim([-0.1, 0.8]);
 
@@ -148,19 +150,22 @@ figure; hold on;
 plot(x2,f2,'k');
 set(gca,'ColorOrderIndex',1);
 plot(x5,f5);
-plot(x8,f8);
+% plot(x8,f8);
 plot(x11,f11);
+plot(x14,f14);
 set(gca,'ColorOrderIndex',1);
 plot([perf_metrics_mean.rightout.roll2,perf_metrics_mean.rightout.roll2],[0 1],'k--');
 plot([perf_metrics_mean2.rightout.roll2,perf_metrics_mean2.rightout.roll2],[0 1],'--');
-plot([perf_metrics_mean3.rightout.roll2,perf_metrics_mean3.rightout.roll2],[0 1],'--');
+% plot([perf_metrics_mean3.rightout.roll2,perf_metrics_mean3.rightout.roll2],[0 1],'--');
 plot([perf_metrics_mean4.rightout.roll2,perf_metrics_mean4.rightout.roll2],[0 1],'--');
+plot([perf_metrics_mean5.rightout.roll2,perf_metrics_mean5.rightout.roll2],[0 1],'--');
+
 set(gca,'FontWeight','bold');
 xlabel('Roll Metric','FontWeight','bold');
 ylabel('Cumulative Probability','FontWeight','bold');
 % legend('WT','AVL','AVL+SU2','AVL+SU2+WT','FontWeight','bold','Location','northwest');
 grid on; box on;
-saveas(gcf,'images/reo_roll_sf_vs_mf.png');
+saveas(gcf,'images/reo_roll_reduced_data.png');
 
 %set(gcf,'Position',[312,456,1084,420]);
 % xlim([-0.1, 0.8]);
@@ -225,31 +230,33 @@ figure; hold on;
 plot(x2,f2,'k');
 set(gca,'ColorOrderIndex',1);
 plot(x5,f5);
-plot(x8,f8);
+% plot(x8,f8);
 plot(x11,f11);
+plot(x14,f14);
 set(gca,'ColorOrderIndex',1);
 plot([perf_metrics_mean.rightout.yaw2,perf_metrics_mean.rightout.yaw2],[0 1],'k--');
 plot([perf_metrics_mean2.rightout.yaw2,perf_metrics_mean2.rightout.yaw2],[0 1],'--');
-plot([perf_metrics_mean3.rightout.yaw2,perf_metrics_mean3.rightout.yaw2],[0 1],'--');
+% plot([perf_metrics_mean3.rightout.yaw2,perf_metrics_mean3.rightout.yaw2],[0 1],'--');
 plot([perf_metrics_mean4.rightout.yaw2,perf_metrics_mean4.rightout.yaw2],[0 1],'--');
+plot([perf_metrics_mean5.rightout.yaw2,perf_metrics_mean5.rightout.yaw2],[0 1],'--');
 set(gca,'FontWeight','bold');
 xlabel('Yaw Metric','FontWeight','bold');
 ylabel('Cumulative Probability','FontWeight','bold');
-legend('WT','AVL','AVL+SU2','AVL+SU2+WT','FontWeight','bold','Location','northwest');
+legend('WT','WT-coarsened','3F-coarsened','3F-localized','FontWeight','bold','Location','northwest');
 grid on; box on;
-saveas(gcf,'images/reo_yaw_sf_vs_mf.png');
+saveas(gcf,'images/reo_yaw_reduced_data.png');
 
 %set(gcf,'Position',[312,456,1084,420]);
 % xlim([-0.1, 0.8]);
 
 %% Print metric stats
-fprintf('AVL ')
+fprintf('WT ')
 metric_stats(perf_metrics_MC2.rightout)
-fprintf('AVL+SU2 ')
+fprintf('WT-coarsened ')
 metric_stats(perf_metrics_MC3.rightout)
-fprintf('AVL+SU2+WT ')
+fprintf('3F-coarsened ')
 metric_stats(perf_metrics_MC4.rightout)
-fprintf('WT ');
+fprintf('3F-localized ');
 metric_stats(perf_metrics_MC.rightout)
 
 end

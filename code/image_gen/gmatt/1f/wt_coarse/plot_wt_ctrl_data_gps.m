@@ -1,5 +1,5 @@
 load GMATT_aero+ctrl_corrected;
-load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\New Folder\GMATT_aero+ctrl+3d_GPs_zeros.mat');
+load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\1f\wt\gmatt_wt_3d_plotting.mat');
 
 GMATT_new = add_zeros(GMATT_new);
 
@@ -242,30 +242,6 @@ for i=2:2 %length(ctrl_coeffs)
                     flipud( Y_interp + 2*sn_interp)];
         plot(X_interp, Y_interp,'k','linewidth',2);
         h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
-
-        set_figure_size(gcf,5,5);
-        grid('on')
-        xlabel(defl_labels{i});
-        ylabel(coeff_labels{i});
-        legend('WT Data','GP Mean','$2\sigma$','location','best')
-        savefig(gcf,['figs/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.fig']);
-        saveas(gcf,['images/gps/', ctrl_coeffs{i},'_alpha=8_beta=4.png'])
-        
-        %%%%% 1D plot for alpha = 8, beta = 4 %%%%%
-        figure(i*4+1); clf;
-
-
-        % WT Data
-        e = errorbar(X_WT(inds,3),Y_WT(inds),sn_WT(inds),'kx');
-        format_plot(e,plotting_options('thesis'))
-        hold all
-        % GP Predictions
-        plot(X_interp, Y_interp,'k','linewidth',2);
-        h_fill  = fill(fill_x1,fill_SD,[0.55,0.55,0.55],'facealpha',0.5,'edgealpha',0);
-        % Samples
-        for idx = 1:10
-            Y_samp = Y_GP(inds) + coeff_gp.qSamp(inds,inds)*randn(length(Y_GP,1);
-        end
 
         set_figure_size(gcf,5,5);
         grid('on')

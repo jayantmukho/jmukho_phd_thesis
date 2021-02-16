@@ -8,7 +8,7 @@ A number of visualizations of the GP regressions are presented in this section.
 To showcase certain advantages of using multi-fidelity data, single-fidelity GP results using AVL data and WT data in isolation are presented.
 This is contrasted with the two-fidelity GP results that use both sets of data. 
 
-In the interest of brevity and since the maneuver of interest focuses on the roll-authority of the aircraft, these visualizations will present the roll moment imparted due to aileron deflection ($C_{l{\delta_a}}$).
+In the interest of brevity and since the maneuver of interest focuses on the roll-authority of the aircraft, these visualizations will present the roll moment imparted due to aileron deflection ($C_{l_{\delta_a}}$).
 This is just one of the 18 coefficients (Table \ref{tab:control_db}) that define the aircraft's control behavior, but is the most pivotal for the maneuver of interest. 
 
 \subsection{Single-fidelity Databases}
@@ -66,21 +66,21 @@ These deflection angles are chosen because the wind tunnel experiments were carr
     \caption{Visualization of the 3-Dimensional WT data and resulting single-fidelity GP for the rolling moment due to aileron deflections. \label{fig:gtt_wt_ctrl_gps}}
 \end{figure}
 
-Figures \ref{subfig:gtt_avl_ctrl_surf} and \ref{subfig:gtt_wt_ctrl_surf} present stacks of surfaces where each surface represents $C_{l{\delta_a}}$ as a function of $\alpha$ and $\beta$ at a particular aileron deflection angle ($\delta_a$).
+Figures \ref{subfig:gtt_avl_ctrl_surf} and \ref{subfig:gtt_wt_ctrl_surf} present stacks of surfaces where each surface represents $C_{l_{\delta_a}}$ as a function of $\alpha$ and $\beta$ at a particular aileron deflection angle ($\delta_a$).
 Explicitly, the lowest surface in both figures corresponds to $\delta_a = -25^\circ$.
 At the lowest level, the AVL data does capture the general trend of increasing $\delta_a$ leading to increased rolling moment but there is a clear contrast in the linear trends that are learned from the AVL data and the non-linear trends represented in the wind tunnel data. 
 
-In Figures \ref{subfig:gtt_avl_ctrl_beta} and \ref{subfig:gtt_wt_ctrl_beta}, the angle of attack is kept constant, $\alpha = 8^\circ$ and $C_{l{\delta_a}}$ is represented as a function of $\beta$ at different values of $\delta_a$. 
+In Figures \ref{subfig:gtt_avl_ctrl_beta} and \ref{subfig:gtt_wt_ctrl_beta}, the angle of attack is kept constant, $\alpha = 8^\circ$ and $C_{l_{\delta_a}}$ is represented as a function of $\beta$ at different values of $\delta_a$. 
 For the AVL-based results (Figure \ref{subfig:gtt_avl_ctrl_beta}), the uncertainty in the data is represented by the blue circles and the associated error bars.
 These are quite large and they result in overlap in the gray $2\sigma$ uncertainty estimates at different $\delta_a$. 
 For the WT-based results (Figure \ref{subfig:gtt_wt_ctrl_beta}) the uncertainty is a lot lower but there is some discrepancy in the data points (black crosses) and the GP mean estimate (solid black line).
 This is not an error in the GP, rather a consequence of the multi-dimensional hyper-parameters that are learned while maximizing the log-liklihood of the model (Equation \ref{equ:hyp_param_sf}. 
 Regularization prevents over-fitting to the data. 
 
-For Figures \ref{subfig:gtt_avl_ctrl_alpha} and \ref{subfig:gtt_wt_ctrl_alpha}, the angle of slideslip is kept constant, $\beta=4^\circ$ and $C_{l{\delta_a}}$ is represented as a function of $\alpha$ at different values of $\delta_a$.
+For Figures \ref{subfig:gtt_avl_ctrl_alpha} and \ref{subfig:gtt_wt_ctrl_alpha}, the angle of slideslip is kept constant, $\beta=4^\circ$ and $C_{l_{\delta_a}}$ is represented as a function of $\alpha$ at different values of $\delta_a$.
 There is a similar overlap of the uncertainty estimate for the AVL-based GP, and a capturing of non-linear trends by the WT-based GP. 
 
-Figures \ref{subfig:gtt_avl_ctrl_defl} and \ref{subfig:gtt_wt_ctrl_defl} present $C_{l{\delta_a}}$ as a function of $\delta_a$ when $\alpha = 8^\circ$ and $\beta = 4^\circ$.
+Figures \ref{subfig:gtt_avl_ctrl_defl} and \ref{subfig:gtt_wt_ctrl_defl} present $C_{l_{\delta_a}}$ as a function of $\delta_a$ when $\alpha = 8^\circ$ and $\beta = 4^\circ$.
 There is a distinctly linear relationship between the rolling moment and the aileron deflection. 
 While the AVL based GP respects the uncertainty in the data across the domain, the WT-based GP predicts increased uncertainty between data points. 
 In these areas the uncertainty in the model parameters is surpassing the uncertainty in the data.

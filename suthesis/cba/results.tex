@@ -167,3 +167,51 @@ Both AVL and RANS CFD simulations are inaccurate when there is significant flow 
 This occurs at high values of $\alpha, \beta,$ and $\delta_*$.
 To this end, for the 3F-Local database, high-fidelity data is limited to areas of the domain where $\alpha > 10^\circ, \beta > 10^\circ,$ and $\delta_* > 15^\circ$.
 
+Continuing with the use of CDF plots, Figure \ref{fig:red_data_metric_cdfs} shows the results of using the different subsets of the wind tunnel data.
+The results of the different databases are compared to the same single-, high-fidelity database that was used in the previous section.
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[CDF for the trim $\alpha$]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/trim_aoa_reduced_data.png} 
+        \label{subfig:red_data_trim_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the pitch metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/reo_pitch_reduced_data.png} 
+        \label{subfig:red_data_pitch_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the roll metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/reo_roll_reduced_data.png} 
+        \label{subfig:red_data_roll_cdf}
+    } 
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[CDF for the yaw metric]{
+        \includegraphics[trim=0 0 0 0, clip, width=.48\textwidth]{code/image_gen/cba/Stanford_CFR25_147d_2_R2/images/reo_yaw_reduced_data.png} 
+        \label{subfig:red_data_yaw_cdf}
+    } 
+    \end{subfigure}
+    \caption{Comparing flight simulations of the certification maneuver when subsets of the high-fidelity experimental data is used. CDF plots for the trim angle of attack and the success metrics are shown. \label{fig:red_data_metric_cdfs}}
+\end{figure}
+
+\begin{table}
+\centering
+    \renewcommand{\arraystretch}{1.2}
+    \captionsetup{justification=centering}
+    \caption{Mean, variance, and failure rate for the flight certification maneuver when using different subsets of high-fidelity data.} 
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+        Case & \multicolumn{3}{c|}{Pitch Metric} & \multicolumn{3}{c|}{Roll Metric} & \multicolumn{3}{c|}{Yaw Metric} \\ \hline
+         & $\mu$ & $\sigma^2$ & Failure & $\mu$ & $\sigma^2$ & Failure & $\mu$ & $\sigma^2$ & Failure \\ \hline
+        WT & 0.34 & 4.60e-04 & 0.0\% & -0.03 & 7.87e-03 & 55.2\% & 0.06 & 1.54e-03 & 8.0\% \\ \hline
+        WT-Coarse & 0.35 & 1.76e-03 & 0.0\% & 0.01 & 3.04e-03 & 39.2\% & 0.08 & 4.73e-04 & 0.0\% \\ \hline
+        3F-Coarse & 0.36 & 4.97e-04 & 0.0\% & -0.04 & 7.68e-03 & 65.3\% & 0.07 & 1.41e-03 & 4.2\% \\ \hline
+        3F-Local & 0.36 & 2.87e-04 & 0.0\% & 0.05 & 1.13e-02 & 30.8\% & 0.08 & 4.74e-04 & 0.0\% \\ \hline
+    \end{tabular}
+    \label{tab:red_data_perf_stats}
+\end{table}

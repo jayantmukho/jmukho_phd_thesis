@@ -242,7 +242,7 @@ plot([perf_metrics_mean5.rightout.yaw2,perf_metrics_mean5.rightout.yaw2],[0 1],'
 set(gca,'FontWeight','bold');
 xlabel('Yaw Metric','FontWeight','bold');
 ylabel('Cumulative Probability','FontWeight','bold');
-legend('WT','WT-coarsened','3F-coarsened','3F-localized','FontWeight','bold','Location','northwest');
+legend('WT','WT-Coarse','3F-Coarse','3F-Local','FontWeight','bold','Location','northwest');
 grid on; box on;
 saveas(gcf,'images/reo_yaw_reduced_data.png');
 
@@ -252,11 +252,11 @@ saveas(gcf,'images/reo_yaw_reduced_data.png');
 %% Print metric stats
 fprintf('WT ')
 metric_stats(perf_metrics_MC2.rightout)
-fprintf('WT-coarsened ')
+fprintf('WT-Coarse ')
 metric_stats(perf_metrics_MC3.rightout)
-fprintf('3F-coarsened ')
+fprintf('3F-Coarse ')
 metric_stats(perf_metrics_MC4.rightout)
-fprintf('3F-localized ');
+fprintf('3F-Local ');
 metric_stats(perf_metrics_MC.rightout)
 
 end

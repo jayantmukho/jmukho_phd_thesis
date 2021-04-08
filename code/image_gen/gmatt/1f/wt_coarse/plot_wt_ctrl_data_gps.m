@@ -1,5 +1,5 @@
 load GMATT_aero+ctrl_corrected;
-load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\1f\wt\gmatt_wt_3d_plotting.mat');
+load('C:\Users\Mukho\Documents\GitHub\phd_defense\code\GMATT Data\1f\wt_coarse_4deg\gmatt_wt_3d_plotting.mat');
 
 GMATT_new = add_zeros(GMATT_new);
 

@@ -251,13 +251,13 @@ saveas(gcf,'images/reo_yaw_reduced_data.png');
 
 %% Print metric stats
 fprintf('WT ')
-metric_stats(perf_metrics_MC2.rightout)
+metric_stats(perf_metrics_MC.rightout)
 fprintf('WT-Coarse ')
-metric_stats(perf_metrics_MC3.rightout)
+metric_stats(perf_metrics_MC2.rightout)
 fprintf('3F-Coarse ')
 metric_stats(perf_metrics_MC4.rightout)
 fprintf('3F-Local ');
-metric_stats(perf_metrics_MC.rightout)
+metric_stats(perf_metrics_MC5.rightout)
 
 end
 

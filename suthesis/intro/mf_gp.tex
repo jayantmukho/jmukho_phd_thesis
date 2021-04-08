@@ -1,0 +1,39 @@
+\section{Multi-Fidelity Analysis} \label{intro_mf}
+
+During the course of the typical aerospace design process, different kinds of performance analysis tools are used at different stages.
+Low-fidelity computer simulations accept lower accuracy for faster computations.
+They are useful at the very early stages of the design process when the aircraft's geometry is not well defined and is subject to significant change.
+For example, AVL \cite{drela2008athena} solves the incompressible potential flow equations, taking mere seconds.
+It is used to rapidly explore a large multi-dimensional design space, changing variables like the number of engines or wing placement \cite{botero2016suave,botero2019generative}.
+These are often replaced by higher-fidelity techniques, such as RANS CFD simulations, as the design progresses, and more details of the design are finalized.
+Experimental data, normally obtained through a costly wind-tunnel test, typically provides the most accurate representation of the phenomena analyzed.
+It is obtained late in the design process as expensive prototypes of subsystems need to be manufactured.
+
+Instead of discarding the low-fidelity simulation data when higher-fidelity data is available, there are methods to combine data from multiple fidelity levels to better represent the quantities of interest (QOI).
+Multi-fidelity extensions to popular surrogate modeling techniques have been developed.
+Polynomial chaos expansion (PCE) \cite{oladyshkin2012data,blatman2011adaptive}, which is a popular technique for sensitivity  analysis \cite{sudret2008global,crestaux2009polynomial}, can be used to combine multi-fidelity information by learning an additive correction on the low-fidelity data \cite{ng2012multifidelity, palar2018global}.
+Gaussian processes (GP) \cite{krige1951statistical,matheron1963principles,rasmussen_gaussian_2006}, popular for their direct estimation of the error in its modeling, combines multiple information sources by learning additive and multiplicative corrections on low-fidelity data \cite{kennedy_predicting_2000}.
+This correction of the lower-fidelity data $f_{i-1}$ to a higher-fidelity $f_i$ is represented as
+\begin{equation}
+    f_i(\mathbf{x}) = \rho_i f_{i-1}(\mathbf{x}) + \delta_i(\mathbf{x}),
+\end{equation}
+where $\rho_i$ is a constant multiplicative term, and $\delta_i(\mathbf{x})$ is the additive term.
+These are sometimes referred to as bridge functions \cite{han_improving_2013}.
+Note that multi-fidelity PCE neglect the multiplicative term $\rho_i(\mathbf{x})$ in their corrections.
+One disadvantage of using GP vs. PCE is that the GP assumes a Gaussian distribution across the uncertainty intervals. 
+PCE can handle different probability distributions, but the superior multi-fidelity handling and the direct error estimation of the GP regression make multi-fidelity GP the tool of choice.
+
+Multi-fidelity GP regression has been used extensively in aerospace applications \cite{lam_surrogate_nodate,menhorn_multifideliy_nodate}, modeling oil reservoir production and pressures \cite{kennedy_predicting_2000}, hydrodynamic simulations \cite{le_gratiet_recursive_2014}, and biological tissue growth \cite{lee2020propagation}.
+Numerous extensions to the framework have been proposed.
+Ghoreishi et al. introduced the ability to have non-hierarchical information sources by relating each fidelity level to the highest fidelity, as opposed to each other \cite{ghoreishi_gaussian_2018}. 
+This is unnecessary in the for this work as there is a well-defined hierarchy based on the physics that is modeled. 
+Perdikaris et al. \cite{perdikaris_nonlinear_2017} significantly improved prediction capability by using deep Gaussian processes \cite{damianou2013deep}.
+The high computational cost and the loss of a Gaussian posterior precludes its use in this effort. 
+Han et al. \cite{han_improving_2013} proposed using gradient information to improve predictive capability.
+Unfortunately, gradient information is only available for RANS CFD simulations through adjoint simulations \cite{jameson1988aerodynamic}, but not for the other information sources. 
+
+This work does employ important improvements to the multi-fidelity GP process that were proposed by Gratiet \cite{gratiet_multi-fidelity_nodate}.
+The new equations significantly reduced the GP's computational cost by splitting the data into individual information sources.
+This results in the inversion of smaller matrices which is more computationally efficient. 
+He also extends the multiplicative term to be a function of $\mathbf{x}$ instead of a constant.
+Section \ref{sec:mf_modeling} presents these equations in detail and extends them for use with noisy data for design sets that are not nested. 

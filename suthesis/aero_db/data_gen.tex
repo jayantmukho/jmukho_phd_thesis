@@ -50,7 +50,7 @@ The control surface deflection sweeps and the total number of AVL evaluations re
 
 The uncertainty in the AVL analyses is specified using a standard deviation value for each data point. 
 AVL uses an extended vortex lattice method to calculate aerodynamic characteristics of lifting surfaces and uses a slender-body model for nacelles and fuselages. 
-These simulations solver incompressible potential flow equations which means they ignore compressibility and viscosity effects. 
+These simulations solve the incompressible potential flow equations, which means they ignore the effects of compressibility and viscosity. 
 They cannot model flow separation.
 As a result, they are more accurate at lower angles of attack $(\alpha)$, angles of sideslip $(\beta)$, and control surface deflection angles $(\delta_*)$.
 To represent these shortcomings in the uncertainty estimates, the standard deviation values are calculated as
@@ -184,7 +184,7 @@ Since 3 meshes are used, only the finest mesh has error metrics associated with 
 The uncertainty estimated by the EQUiPS module is less than the errors introduced due to insufficient numerical discretization.
 While the mesh refinement doesn't significantly impact the size of the turbulence uncertainty estimates, the L3 mesh is too coarse to accurately capture $C_L$ and $C_m$. 
 The L2 mesh strikes the good balance between computational cost, and capturing the correct coefficients and turbulence uncertainty estimates.  
-For this reason, the L2 mesh to generate the RANS CFD data. 
+For this reason, the L2 mesh is used to generate the RANS CFD data. 
 
 \begin{figure}
     \centering
@@ -213,12 +213,11 @@ With $\alpha \in \left \{ -4^\circ,2^\circ,8^\circ,14^\circ,20^\circ \right \}$ 
 
 Similar to the previous section, Figure \ref{fig:gtt_2f_data_gps} shows three representations of $C_l$, first as a 2-dimensional function of $\alpha$ and $\beta$ (Figure \ref{subfig:gtt_2f_surf}), then as a one-dimensional function of $\beta$ when $\alpha=8^\circ$ (Figure \ref{subfig:gtt_2f_beta}), and finally as a one-dimensional function of $\alpha$ when $\beta = 8^\circ$ (Figure \ref{subfig:gtt_2f_alpha}).
 The SU2 data is represented by the red triangles. 
-Both, the AVL and the SU2 data, is used to train a two-fidelity GP whose results are also shown. 
+The figures also include the mean and standard deviation estimates from the two-fidelity GP that is trained on the AVL and the SU2 data.
 The uncertainty estimates are provided by the RANS UQ methodology and are much smaller than the AVL uncertainty, as expected. 
 The linear trends seen in AVL data is bolstered by the SU2 data that can capture some of the non-linearity in the $C_l$ predictions. 
-It is notable in Figure \ref{subfig:gtt_2f_alpha} that the GP doesn't exactly follow the SU2 data points exactly. 
-In combining the lower-fidelity information, and its large uncertainty bounds, with the SU2 data, the GP learns trends in the $\alpha$-dimension that causes the observed discrepancy in the predictions. 
-This does not indicate an error in the GP, rather it is a reflection of the data that is used. 
+It is notable in Figure \ref{subfig:gtt_2f_alpha} that the GP mean (black line) doesn't exactly follow the SU2 data points exactly, instead having a slight positive bias throughout the domain.
+This does not indicate an error in the GP, rather it is a reflection of the trends learned from the data that is used.
 In this particular instance the two-fidelity GP predictions are closer to the truth, as defined by wind tunnel data (Figure \ref{subfig:gtt_3f_alpha}), but that is not always the case.
 
 \begin{figure}
@@ -248,9 +247,8 @@ Three experimental campaigns explored different aspects of the aircraft performa
     \item Boeing North American Aviation Research Tunnel (NAART): Focus on control derivatives and $\alpha$ and $\beta$ sweeps,
     \item Boeing Flow Visualization Water Tunnel (FVWT): Focus on stability derivatives at various values of $\alpha$.
 \end{enumerate}
-Figure \ref{fig:gtt_exp_images} shows the GTT model in each of the three 
-The data from the 12-Foot LST is a subset of the data from NAART and FVWT. 
-For this reason, only data from the NAART and FVWT experimental campaigns are used in this work. 
+Figure \ref{fig:gtt_exp_images} shows the GTT model in each of the three experimental setups.
+Only data from the NAART and the FVWT experimental campaigns are used in this work as the data from the 12-Foot LST is a subset of the data from the other two sources. 
 
 \begin{figure}
     \centering
@@ -270,8 +268,9 @@ For this reason, only data from the NAART and FVWT experimental campaigns are us
     \caption{The GTT model mounted in the various experimental setups that were used.\label{fig:gtt_exp_images}}
 \end{figure}
 
-Ideally raw sensor reading from the wind tunnel experiments could be post-processed to determine the uncertainty in the data. 
-In its absence, the uncertainty in the aerodynamic coefficients and stability derivatives is estimated as 
+Ideally raw sensor reading from the wind tunnel experiments could be post-processed to determine the uncertainty in the data.
+There are well established practices to calculate the systematic and precision uncertainty from experimental data \cite{coleman1995engineering}.
+In the absence of the raw data, the uncertainty in the aerodynamic coefficients and stability derivatives is estimated as 
 \begin{equation}\label{equ:wt_aero_sd}
     \sigma_{WT}^{C_*(X)} = \max \left \{ 1\times 10^{-4},~0.05~\mathrm{range}(C_*) \right \},
 \end{equation}

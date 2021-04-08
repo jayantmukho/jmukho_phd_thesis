@@ -71,7 +71,7 @@ Other parameters in the trajectory definition, such as minimizing sideslip or ma
 These are shown in Figure \ref{subfig:yaw_acc} and \ref{subfig:pitch_acc}.
 In turn, these require rudder and elevator inputs that are shown in Figure \ref{subfig:rud_defl} and \ref{subfig:elev_defl}. 
 Again, the linear relationship between the rotational accelerations, yawing and pitching moments, and the corresponding control surface deflections, rudder and elevator, results in the acceleration trends being closely matched by the surface deflection trends. 
-As long as the surface deflections that are commanded by the flight simulator don't exceed the physical limit of the available control surface deflection, the maneuver can be completed and is considerd a success. 
+As long as the surface deflections that are commanded by the flight simulator don't exceed the physical limit of the available control surface deflection, the maneuver can be completed and is considered a success. 
 
 \begin{figure}
     \centering
@@ -246,7 +246,7 @@ To show a concrete example, the maneuver definition is tweaked to force the over
 The maneuver is made more aggressive by shortening the time taken to perform the $60^\circ$ change in bank angle from $11 sec$ to $2.5 sec$.
 The maneuver trajectory, required roll accelerations, and simulated control surface deflections for the aggressive maneuver are shown in Figure \ref{fig:cfr147d_agg} as the solid blue lines. 
 This is contrasted with the original maneuver in the solid black lines. 
-The aileron saturation limits of $\pm 25^circ$ are indicated in Figure \ref{subfig:agg_ail_defl} as the dashed black lines. 
+The aileron saturation limits of $\pm 25^\circ$ are indicated in Figure \ref{subfig:agg_ail_defl} as the dashed black lines. 
 Over-saturation of the aileron deflection is visible with the blue line extending past the saturation limit. 
 For this case, the absolute maximum deflection angle for the right aileron is $34^\circ$ which exceeds the saturation limit by $9^\circ$
 The resulting roll metric $\rho_{roll} = -0.36$
@@ -279,8 +279,8 @@ While this extrapolation might be prone to error, it does provide an estimate fo
 
 This highlights an advantage of using this simulation method and the control-surface-based metrics in the design process. 
 When running a potential aircraft design through this virtual flight testing framework, the metrics provide a direct estimation of the amount of additional control authority that would be required to complete the maneuver successfully. 
-If a simulation yields $\rho_{roll} = -0.25$, that means that the aircraft would require $25\%$ more aileron control authority. 
-This could be achieved by increasing the control surface deflection limits by $25\%$, or by increasing the size of the ailerons. 
+If a simulation yields $\rho_{roll} = -0.25$, that means that the aircraft would require approximately $25\%$ more aileron control authority. 
+This could be achieved by increasing the control surface deflection limits, or by increasing the size of the ailerons. 
 Additionally, by breaking up the calculations of the accelerations and the control surface deflections, different control laws can be tested without having to repeat the first step of the simulation. 
 Perhaps instead of increasing the size of the aileron, greater spoiler deflections can be mixed into the control law, which would serve the same purpose of increasing the control authority in the roll direction. 
 

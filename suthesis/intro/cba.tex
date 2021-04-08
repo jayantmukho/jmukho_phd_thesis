@@ -1,0 +1,55 @@
+\section{Certification by Analysis} \label{intro_cba}
+
+To fly a new aircraft design, it needs to go through rigorous air-worthiness testing to ensure it is safe and can perform predictably in a variety of different situations.
+These tests are defined and carried out by the Federal Aviation Administration (FAA) \cite{romanowski_flight_2018} in the US.
+They occur at the very end of the design process, once a functional full-scale aircraft is built. 
+Failing a certification test at this stage would require a redesign that would be incredibly expensive. 
+To prevent this from occurring, safety factors are employed to account for potential uncertainty and error in the design analyses.
+The quantification of uncertainties in analyses can replace arbitrary safety factors with the explicitly calculated design margins required to account for the errors.
+This is the cornerstone of reliability-based design processes \cite{reliability}.
+
+Certification by analysis (CbA) purports that the passing of certification requirements can be done using purely simulation-based analyses. 
+It is the logical conclusion to the current trend of increased reliance on computer simulations for design analysis.
+CbA has garnered interest from the aerospace community with the maturing of simulation procedures.
+To achieve this, simulations would have to be as accurate, if not more accurate, than what is possible with flight testing.  
+Many required improvements to simulation capabilities \cite{slotnick_cfd_nodate} will take years to develop.
+The effects of uncertainties on flight performance predictions and predicted performance in flight testing could be quantified in the interim.
+This provides aircraft designers with a method to estimate the likelihood that a design will pass or fail a certification test.
+
+\subsection{Uncertainty Propagation}
+
+A common method for uncertainty propagation is to perform a Monte Carlo analysis.
+This is a brute-force method of characterizing the effect of input uncertainties on an output quantity of interest (QoI) \cite{janssen2013monte,thompson1992monte}.
+It involves running multiple deterministic calculations where input variables are randomly sampled from their respective probability distributions.
+The results are analyzed to determine the effect of the variation in the input variables on the posterior probability distribution of an output quantity of interest (QoI). 
+In this work's context, the deterministic calculations are the flight simulations, the input values are the aerodynamics and controls databases, and the QoI is the success/failure of the certification test. 
+
+A significant advantage of using GP regression to represent the probabilistic aerodynamic databases is the ability to take deterministic samples of the database.
+Each sample is a potential candidate aircraft that could explain the data used to create the databases. 
+They represent aircraft that have a slightly different performance from each other. 
+These differences respect the uncertainty associated with the underlying data.
+Since multi-fidelity GP regression is used to model the databases, the input probability distributions are Gaussian. 
+The flight simulation does not represent a linear transfer function.
+Therefore the posterior probability distribution of the QoI is arbitrary. 
+As such, cumulative density functions are used to describe the posterior probabilities. 
+
+\subsection{Aircraft Maneuver Simulation}
+
+Aerodynamic databases contain all the information needed to perform high-fidelity flight simulations.
+With multi-fidelity aerodynamics and controls databases, a virtual representation of the GTT aircraft can fly through real-world flight certification maneuvers. 
+With the help of industry experts at The Boeing Company, a maneuver was picked from the FAA's \textit{Flight Test Guide for Certification of Transport Category Airplanes} \cite{romanowski_flight_2018}.
+Within Chapter \textit{5.3 Directional and Lateral Control} of the guide, the \textit{Lateral Control: Roll Capability \S 25.147(d)} maneuver was chosen.   
+The testing procedure is paraphrased as: 
+\begin{enumerate}
+    \item The airplane starts in a trimmed state for steady straight flight at maximum takeoff speed.
+    \item Establish a steady $30^\circ$ banked turn.
+    \item Roll the airplane to a $30^\circ$ bank angle in the other direction.
+    \item Aircraft must have sufficient roll authority to perform the $60^\circ$ change in bank angle in no more than $11$ seconds. 
+    \item The aircraft must do this with one engine inoperative, specifically the one that makes this maneuver more difficult.
+
+\end{enumerate}
+
+This part of the work leans heavily on The Boeing Company's expertise in flight simulation and control law mixing.
+Due to proprietary and patent restrictions, the exact implementation of the flight simulation code is unavailable, but enough information is provided to outline the simulations' overarching methodology and workflow.
+This maneuver is simulated using a 5 degree of freedom (DOF) flight simulator that The Boeing Company uses in their design processes.
+Details of the maneuver simulation process are discussed in Section \ref{sec:sim_procedure}.

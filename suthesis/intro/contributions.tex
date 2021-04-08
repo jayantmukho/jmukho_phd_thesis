@@ -1,0 +1,27 @@
+\section{Contributions} \label{intro_contributions}
+
+This thesis establishes a framework to perform virtual flight testing of an aircraft early in the design process.
+While the focus is on aircraft design, the principles of multi-fidelity modeling and uncertainty quantification, and certification testing can be applied to any design problem that requires significant analysis. 
+
+Starting with UQ, Chapter \ref{chap:rans_uq} delves into the eigenspace perturbation methodology to quantify epistemic uncertainties introduced by turbulence models into RANS CFD simulations.
+The methodology is implemented in an open-source CFD solver, SU2, to enable its widespread use in the research community. 
+It is validated on a bevy of test cases that range from commonly used benchmark flow conditions to those of specific aerospace interest. 
+The relationship between turbulence modeling uncertainty and numerical discretization error, another common source of uncertainty in CFD simulations, is investigated.
+The UQ methodology is applied to two aircraft, the NASA Common Research Model and the Generic T-tail Transport, to create aerodynamic databases with physics-informed uncertainties. 
+
+Since CFD is not the only analysis technique used in the aircraft design process, Chapter \ref{chap:mf_gp} presents multi-fidelity Gaussian processes (GP) that are used to combine data from different information sources. 
+Existing equations for multi-fidelity GP regression are extended to use noisy data when design sets are not nested.
+Multi-fidelity aerodynamic databases are modeled using these equations.
+AVL simulations are the lowest fidelity level, RANS CFD simulations are the middle-fidelity, and wind tunnel experimental data are the highest fidelity.
+The benefits of multi-fidelity data fusion are elucidated using one-dimensional aerodynamic databases created for the NASA CRM aircraft. 
+This is extended in Chapter \ref{chap:aero_db}, where the first comprehensive, multi-fidelity, multi-dimensional aerodynamics and controls databases representing a full-configuration aircraft's lateral and longitudinal dynamics are presented. 
+These are created for the Generic T-tail Transport (GTT) aircraft.
+
+With all aspects of an aircraft's performance defined, Chapter \ref{chap:cba} delves into the simulation of an FAA flight certification maneuver used to test commercial jets' air-worthiness.
+The Monte Carlo method is used to propagate the uncertainties in the design analyses through the flight simulation.
+The effect of the input uncertainty on the aircraft maneuver is analyzed, and a probability of succeeding/failing the certification test is explicitly quantified. 
+The virtual flight testing is also performed using databases based on lower-fidelity data, representing what would be available at earlier stages in the design process.
+By quantifying the likelihood of success/failure of a flight certification maneuver, potential problems in the aircraft design can be identified, and the risk of failure can be mitigated. 
+
+These contributions are discussed in further detail in Chapter \ref{chap:conclusions}.
+Potential avenues for future research are presented as well. 

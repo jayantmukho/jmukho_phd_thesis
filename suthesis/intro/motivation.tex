@@ -1,0 +1,39 @@
+\section{Motivation}\label{intro_motivation}
+
+Aircraft design is a complex, non-linear, multi-disciplinary problem that requires many years and thousands of engineering hours to solve.
+An aircraft comprises numerous subsystems that work together to make flight possible.
+The sheer size, complexity, and number of parts make aircraft manufacturing a very long and expensive process.
+It is imperative that all aspects of the aircraft's real-world performance are thoroughly investigated before the manufacturing step is taken in the design process.
+While historical experience in designing prior aircraft is useful, more precise analyses are required to push the boundaries of performance. 
+
+The rapid improvement of computational capabilities in the recent past has increased computer simulations' use to predict various aspects of the aircraft's real-world behavior in a virtual setting.
+Coupled with advances in understanding the underlying physics of these phenomena, this has led to the development of computer simulations of varying sophistication and computational cost that can describe the relevant quantities of interest (QoI) at different levels of fidelity.
+These simulations allow for the critical assessment of engineering designs significantly earlier in the design process than previously possible with purely experimental design campaigns.
+These analyses have been used for aerodynamic shape optimizations \cite{jameson1988aerodynamic,anderson_aerodynamic_1999,chen2016aerodynamic}, structural optimizations \cite{bindolino2010multilevel,kirsch2012structural,zhu2016topology}, and more recently, combined aero-structural optimizations \cite{gray2019openmdao,brooks2018benchmark}.
+
+While these simulations can use simplifying assumptions that introduce uncertainties in their analyses, they have significantly improved the ability to predict the satisfaction of performance-based design requirements, such as range, passenger capacity, and weight, early in the design process.
+However, performance-based metrics are not the only design requirements on an aircraft. 
+Governing bodies, such as the Federal Aviation Administration (FAA), set stringent flight certification requirements that test for an aircraft's air-worthiness \cite{romanowski_flight_2018}.
+These are fundamentally different from performance-based requirements as the outcome is binary; either the aircraft passes or fails the test.
+Consequently, the ramifications of not meeting the certification requirements are worse than not meeting performance-based requirements. 
+\textit{Flight certification} suggests that these tests can only be performed with a full-scale prototype.
+Nevertheless, learning from the trend of increased reliance on computational analyses, virtual representations of the aircraft design can be put through simulated air-worthiness testing to estimate the likelihood of passing or failing a requirement. 
+
+The current methodology involves building a virtual representation of the aircraft using aerodynamic databases that contain the force and moment coefficients experienced by the aircraft across its expected flight envelope. 
+These databases are created using a single information source and at specific milestones during the design process. 
+They do not contain any information about the uncertainties introduced due to the particular information source used.
+Simulating a flight certification maneuver using these databases yields a single deterministic outcome.
+Such a result belies the uncertainty present in the database and wrongly assumes a $100\%$ certainty in the force and moment coefficient data that populates the database. 
+With rigorous handling and propagation of these uncertainties, the deterministic result can be converted to a more realistic likelihood of success or failure.
+
+This work aims to perform statistical analyses on simulations of flight certification maneuvers for commercial aircraft. 
+This is achieved by tackling the problem on multiple fronts.
+A method to quantify the uncertainties arising from modeling assumptions in the widely used Reynolds-Averaged Navier-Stokes (RANS) computational fluid dynamics (CFD) simulations is presented, implemented, and validated. 
+These simulation results are combined with data from other information sources into aerodynamic databases that utilize multi-fidelity models to create a stochastic representation of the aircraft's potential performance.
+These models are sampled to create hundreds of individual representations of the databases that have small variations due to the uncertainties in the underlying data. 
+These samples are used to propagate the uncertainties through the flight simulation of a current air-worthiness test maneuver.
+Statistical analysis of these maneuver simulation results yields the likelihood of an aircraft passing or failing the given test maneuver.
+
+This enables the consideration of flight certification metrics earlier in the aircraft design process.
+It also allows for assessing the adequacy of the planned control systems.
+Quantifying the risks involved with failing a certification maneuver equips the engineers with the necessary information required to mitigate them.

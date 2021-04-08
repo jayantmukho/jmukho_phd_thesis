@@ -1,0 +1,37 @@
+Engineering design is a predictive discipline involving the estimation of an object's future real-world behavior.
+The object, at the  time, may only exist as a thought in the brain, as a sketch on paper, or more recently, as a file on a computer.
+The design process starts with a definition of requirements that the object in question must fulfill.
+It ends with the manufacturing of prototypes that, hopefully, confirm those requirements' fulfillment. 
+Depending on the object's complexity, the interim can be as short as a few hours or as long as multiple years involving thousands of hours of engineering work..
+
+Those hours are spent predicting the real-world behavior of an object that doesn't physically exist yet.
+Numerous analysis techniques progressing from basic back-of-the-envelope calculations, through computational numerical simulations, to prototyping and experimental testing of subsystems are employed in this endeavor.
+Due to the intricacies of real-world physics, almost none of these techniques are perfect.
+Each method has some uncertainty associated with its predictions that must be taken into account by the engineers employing them.
+Quantifying these uncertainties can be highly specific to the method in question.
+
+The word \textit{fidelity} is used to refer to how closely a method can mimic real-world behavior.
+High-fidelity methods are better at predicting real-world behavior, whereas low-fidelity methods employ simplifications that introduce uncertainties into the analyses.
+As an example, consider estimating the weight of an object.
+A low-fidelity method would be to pick up the object and estimate the weight based on how heavy it feels.
+Factors such as personal bias, left vs. right-hand usage, and muscle soreness, would contribute to the estimate's uncertainty.
+A high-fidelity method would be to use a weighing scale that is accurate up to one milligram to measure the weight.
+Direct measurement introduces significantly fewer sources of uncertainty, and the weight would be accurate up to $0.5$ milligrams. 
+
+Fidelity comes at a cost.
+This is to be expected. 
+If high-fidelity analyses were less expensive than low-fidelity ones, there would be no reason to use low-fidelity analyses. 
+Continuing with the weight estimation example, the low-fidelity method's only cost is the time taken to pick up and estimate the object's weight.
+The high-fidelity method incurs the additional cost of the weighing scale.
+Cost minimization is often a priority, and a mix of low- and high-fidelity analyses are needed.
+Greater emphasis is placed on lower-fidelity methods in earlier stages of the design process, where rough estimations are sufficient to make design decisions.
+This emphasis transfers to higher-fidelity methods as designs progress, and more certainty in performance metrics is required before the significant investment of creating a prototype is made.
+
+This dissertation focuses on combining results from analyses of varying fidelity to create a superior prediction of an engineered object's real-world behavior.
+These predictions incorporate the analyses' uncertainties to create a probabilistic representation rather than a single, deterministic result.
+A method to quantify the uncertainties due to modeling simplifications, particularly computational fluid dynamics (CFD) simulations, is implemented and validated.
+Finally, statistical analysis that allows for the explicit calculation of the likelihood of meeting/failing a particular design requirement is presented.
+The engineered object of choice to showcase the work's real-world impact is an aircraft.
+It represents one of the most complex, engineered objects, and it requires years of development to design.
+Standard industrial analysis techniques are employed.
+The design requirements are real-world flight certification tests created by the Federal Aviation Administration (FAA) that are in use today.

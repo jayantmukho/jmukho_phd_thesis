@@ -1,0 +1,64 @@
+\section{Uncertainty Quantification} \label{intro_uq}
+
+Computer simulations and real-world experiments alike carry some inaccuracies in their predictions. 
+The field of uncertainty quantification (UQ) does exactly as the name suggests; it provides methodologies to efficiently characterize, propagate, and, in some cases, minimize uncertainties that plague analyses.
+UQ has been adopted for a wide range of applications, including modeling climate change \cite{katz2013uncertainty,qian2016uncertainty}, understanding uncertainties in numerical simulations \cite{najm2009uncertainty,garcia2014quantifying,schefzik2013uncertainty}, and even predicting the economic effects of COVID-19 \cite{baker2020covid}.
+UQ benefits are realized when the process is taken one step further, and the quantified uncertainties are used to make better decisions \cite{kochenderfer2015decision}. 
+Information on the underlying uncertainties of analysis techniques can be used to make better medical decisions \cite{begoli2019need}, create reliable and robust designs \cite{reliability,robust,multif}, and create safer autonomous driving algorithms \cite{feng2018towards,brechtel2014probabilistic,xu2014motion}.
+This work aims to propagate uncertainties in design analyses through flight simulations to calculate the likelihood that an aircraft will succeed or fail in meeting flight certification requirements.
+
+Uncertainties are often divided into two categories: aleatoric and epistemic.
+Aleatoric uncertainties arise due to natural variation in the parameters that describe a situation.
+Epistemic uncertainties arise due to incomplete knowledge of the situation. 
+To exemplify the differences between the two categories, consider a ball being thrown multiple times using the same amount of force. 
+Slight changes in the wind direction and speed will result in slight differences in the distance that the ball travels. 
+The uncertainty in the distance traveled due to this natural variation in the wind is aleatoric.
+It can be quantified by throwing the ball thousands of times, recording each distance, and calculating statistical information, such as the mean and standard deviation, about the result.
+These uncertainties are easier to quantify through Monte Carlo simulations \cite{geraci_multifidelity_2017,menhorn_multifideliy_nodate} and  polynomial chaos expansions \cite{oladyshkin2012data,ng_multifidelity_2014}.
+However, they are irreducible. 
+Now consider that to remove the effects of natural variation, the same ball throw is simulated using simple calculations employing Newton's laws of motion.
+The calculated distance is the same every time, but simplifications in the equations, such as ignoring wind resistance, introduce uncertainty in the result.
+These simplifications reflect the lack of knowledge that defines epistemic uncertainties.
+Contrary to aleatoric ones, epistemic uncertainties are reducible (through better modeling/measurement) but are difficult to calculate and propagate as they are extremely problem-dependent \cite{FERSON2004355}.
+
+Analyses of varying fidelity are used in this work.
+There are uncertainties associated with each. 
+For some techniques, the uncertainties are provided by subject matter experts (SME) who rely on historical data and their experience in using the analyses.
+Explicit quantification of epistemic uncertainties is performed for one commonly used analysis technique: Reynolds-averaged Navier-Stokes (RANS) computational fluid dynamics (CFD) simulations.
+Specifically, the uncertainties introduced due to turbulence models and numerical error due to insufficient discretization are quantified.
+
+\subsection{Turbulence Modeling Uncertainty}
+The Navier-Stokes equations are a set of non-linear partial differential equations that describe the motion and behavior of fluids.
+CFD is the field of study that involves using computers and numerical analysis techniques to solve the non-linear Navier-Stokes equations to simulate the flow of a fluid over a domain of interest.
+This is made more difficult due to turbulence, which is a state of fluid flow characterized by chaotic, small-scale fluctuations in the density and velocity of the fluid.
+The range of length and time scales that need to be resolved through spatial and temporal discretization makes it computationally intractable to solve exactly, i.e., without simplifying models.
+Most flows of engineering interest are plagued by turbulence.
+The difficulty in solving these flows has paved the way for developing a hierarchy of solution techniques that trade computational cost for prediction accuracy.
+
+The most widely used industry method is the Reynolds-averaged Navier-Stokes (RANS) simulation.
+Steady RANS simulations are very computationally efficient and can be used for expensive undertakings such as iterative aerodynamic shape optimization \cite{lyu2015aerodynamic,kenway2014multipoint,chen2016aerodynamic} and aircraft database generation \cite{wendorff_combining_2016}.
+The computational efficiency comes at the cost of modeling inaccuracies.
+The simulations assume that the flow is steady (no time-dependent variation in the flow) and require simplifying turbulence models that aggregate the effects of the turbulent eddies that would be present in the flow.
+
+The inadequacy of turbulence models in predicting certain flow features has been well documented \cite{slotnick_cfd_nodate}.
+These models have various parameters and constants calibrated using canonical flow conditions, such as the flow over a flat plate. 
+Cheung et al. in \cite{cheung2011bayesian} treat these parameters as random variables and use high fidelity data from direct numerical simulations (DNS) to learn posterior distributions for these parameters. 
+Similarly, Dow et al. in \cite{dow2011quantification} use DNS data to solve an inverse RANS problem to determine the eddy viscosity field that would result in a flow field closest to the DNS data. 
+Both methods lean on computationally expensive DNS results, which are limited to simple geometries such as flat plates \cite{hoyas_reynolds_2008}, and channels \cite{laval_marquillie_dns_channel,marquillie_instability_2011}.
+
+This work focuses on the eigenspace perturbation methodology \cite{emory2013modeling,iaccarino_eig_pert}, a physics-based UQ method that does not require any high-fidelity information and can provide uncertainty estimates by running 6 RANS simulations.
+This has been applied to wind-engineering problems \cite{gorle2015quantifying} and to perform design optimizations under uncertainty \cite{mishra2020design}.
+Chapter \ref{chap:rans_uq} details this methodology, provides various validation cases, and explores the relationship between uncertainty introduced by turbulence models and the numerical errors introduced due to insufficient discretization. 
+
+\subsection{Numerical Discretization Error}
+
+Turbulence models are not the only source of uncertainty in RANS CFD simulations.
+Solving continuous equations on a discrete domain creates numerical discretization error.
+In RANS CFD simulations, the continuous RANS equations that define fluid flow are solved on a discrete domain known as the mesh or grid.
+Numerical discretization error is classified as an epistemic uncertainty as it can be reduced by increasing the number of discrete points in the domain.
+As the discretization increases and the grid spacing tends towards $0$, the numerical error approaches $0$. 
+This is the basis for the "Grid Convergence Study" method to quantify numerical discretization error \cite{american_society_of_mechanical_engineers_standard_2009}.
+This is an important tool used in the verification and validation (V\&V) of CFD codes and turbulence models \cite{rumsey2010description}.
+
+Section \ref{sec:num_vs_turb_error} delves into the details of quantifying numerical discretization error. 
+It goes on to explore its relationship with the turbulence modeling uncertainty estimate by applying both uncertainty quantification techniques to two benchmark simulations: a 2D NACA0012 airfoil and a 3D ONERA M6 wing.

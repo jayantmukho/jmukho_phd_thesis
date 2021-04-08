@@ -1,0 +1,44 @@
+\section{Aerodynamic Databases} \label{intro_databases}
+
+Aerodynamic databases are a representation of the aircraft's behavior in-flight.
+It contains all the forces and moments that are experienced by the aircraft as a function of the aircraft's configuration (control surface deflections), orientation (angle of attack, angle of sideslip), and operating conditions (dynamic pressure, Mach number, altitude).
+Calculating these forces and moments at various points in its operating envelope is paramount to predicting real-world performance.
+Most aerodynamic analyses, be it computational or experimental, are geared towards creating a database that catalogs these values as a function of the aircraft's orientation and operating conditions.
+
+The industry standard is to have a lookup-table populated by data from aerodynamic analyses that are performed during the design process.
+They get updated as the design progresses, and the results from the higher-fidelity analysis techniques replace the lower-fidelity data.
+The forces and moments are described as multi-dimensional functions depending on up to 5 input variables: angle of attack, sideslip angle, Mach number, dynamic pressure, and altitude.
+Often only a subset of the 5 input variables is used.
+Discrete analyses in this multi-dimensional domain provide data points that are used to interpolate values between analysis locations.
+These databases are deterministic and have no characterization of the uncertainties present in the analysis techniques. 
+
+Engelund et al. \cite{engelund2001aerodynamic} created databases for the Hyper-X scramjet using wind tunnel data to analyze and predict the expected behavior before flight testing was performed.
+Keshmiri et al. \cite{keshmiri2005development} used a mixture of CFD analyses and wind tunnel experiments to create aerodynamic databases for the generic hypersonic vehicle.
+Instead of having a lookup table, the coefficients were described using analytic polynomial functions of arbitrary order. 
+Databases for the Mars Pathfinder aerodynamics created using CFD data by Gnoffo et al. \cite{gnoffo1999prediction} were validated using flight measurements and were found to be accurate within reason.
+
+Each of these previous works has created deterministic expressions of the databases.
+There is no quantification of the uncertainties affecting the analyses used.
+Previous work by Wendorff et al. \cite{wendorff_combining_2016} introduces the concept of probabilistic aerodynamic databases that uses multi-fidelity data and its associated uncertainties in a Gaussian Process regression framework to create a non-deterministic representation of the database.
+Using a combination of sensitivity and uncertainty analysis, an adaptive sampling technique was developed to find the best location to perform the next analysis to minimize the objective function's uncertainty at minimum analysis cost.
+This was extended to include physics-based uncertainty quantification for the RANS CFD simulations \cite{mukhopadhaya2020multi}.
+
+The current work follows from this and extends the databases from exclusively describing longitudinal dynamics to include lateral-directional information. 
+The databases are concerned with the force coefficients of lift, drag, and side-force, $C_L, C_D,$ and $C_{SF}$, respectively, and the moment coefficients of pitch, roll, and yaw, $C_m, C_l,$ and $C_n$, respectively. 
+These coefficients are treated as functions of the angle of attack ($\alpha$) and angle of sideslip ($\beta$).
+The databases are divided into two parts, the aerodynamics databases that describe the bare airframe aerodynamics, and the controls databases that describe the effect of controls surface deflections. 
+Simple linear combinations of the two are used to determine the aircraft's final forces and moments.
+The generic coefficient $C_i$ is calculated as a function of $\alpha, \beta,$ and the control surface deflections $\delta_j$ as
+\begin{equation}
+    C_i\left (\alpha, \beta, \delta_1, ..., \delta_N \right ) = C_{i0} \left (\alpha, \beta \right ) + \sum_{j}^{N} C_{i_{\delta_j}}  \left (\alpha, \beta, \delta_j \right ),
+\end{equation}
+where $i0$ refers to the bare airframe coefficient and $C_{i_{\delta_j}}$ refers to the incremental effect the control surface $\delta_j$ on coefficient $C_i$:
+\begin{equation}
+    C_{i_{\delta_j}}  \left (\alpha, \beta, \delta_j \right ) = C_i \left (\alpha, \beta, \delta_j \right ) - C_{i0} \left (\alpha, \beta \right ).
+\end{equation}
+Deflections of the ailerons, rudder, elevator, flaps, and spoilers are used.
+
+Chapter \ref{chap:aero_db} delves into the details of creating multi-fidelity aerodynamics and controls databases using multi-fidelity GP regression.
+This creates probabilistic databases that can be sampled to create hundreds of individual databases with slight variations due to the uncertainties present in the underlying data. 
+AVL simulations, RANS CFD simulations, and wind and water tunnel experiments provide three different information sources of increasing fidelity.
+The required data is generated, and databases are created for the generic T-tail transport (GTT) aircraft \cite{cunningham_generic_2018}.

@@ -19,7 +19,7 @@ Both methods handle the multi-fidelity data by using correction terms that are t
 GP have a slight advantage in this regard as they use an additive and a multiplicative term in the correction, whereas PCE only use an additive term. 
 PCE have a distinct advantage in sensitivity analyses as Sobol indices can be directly post-processed \cite{sudret2008global,crestaux2009polynomial}.
 On the other hand, GP can handle uncertain inputs and provide a direct estimation of the error in its modeling.
-This can be used for adaptive sampling techniques that suggest additional function evaluations to reduce the uncertainty in the model.
+This can be used for adaptive sampling techniques that suggest additional function evaluations to reduce the uncertainty in the model \cite{xu2011adaptive}.
 For this work GP are the surrogate model of choice due to its advanced handling of multi-fidelity data that have associated uncertainties, and the direct estimation of uncertainty in its predictions. 
 
 This chapter first introduces the basic equations of GP regression that are used to handle single-fidelity data that can have uncertainties associated with it.

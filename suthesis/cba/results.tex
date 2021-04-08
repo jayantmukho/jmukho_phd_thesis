@@ -140,7 +140,7 @@ Such rules-of-thumb and factors of safety are often used by aircraft manufacture
 Historical data using previously certified aircrafts and all the analyses that were performed during their design process can be used to create these corrections. 
 Since most of the required data is proprietary, deriving these corrections is outside of the scope of this work. 
 
-\section{Simulations using Reduced Data}
+\subsection{Simulations using Reduced Data}
 
 A major advantage of using multi-fidelity data to create surrogate models is that the underlying function in question can be approximated better with fewer high-fidelity function evaluations.
 This has been published on extensively, \cite{kennedy_predicting_2000,gratiet_multi-fidelity_nodate,perdikaris_multi-fidelity_2015, ghoreishi_gaussian_2018}, to name a few. 
@@ -168,8 +168,13 @@ This occurs at high values of $\alpha, \beta,$ and $\delta_*$.
 To this end, for the 3F-Local database, high-fidelity data is limited to areas of the domain where $\alpha > 10^\circ, \beta > 10^\circ,$ and $\delta_* > 15^\circ$.
 
 Continuing with the use of CDF plots, Figure \ref{fig:red_data_metric_cdfs} shows the results of using the different subsets of the wind tunnel data.
+Statistics of the metric distrubutions are shown in Table \ref{tab:red_data_perf_stats}.
 The results of the different databases are compared to the same single-, high-fidelity database that was used in the previous section.
 
+An overarching trend across the four plots is that the variance in the metrics is increased when using a subset of the high-fidelity data. 
+This is to be expected.
+With less data to learn on, the uncertainty in the GP predictions increases.
+This leads to greater variability in the database samples and, consequently, greater variance in the output metrics from the flight simulations. 
 
 \begin{figure}
     \centering
@@ -208,10 +213,34 @@ The results of the different databases are compared to the same single-, high-fi
     \hline
         Case & \multicolumn{3}{c|}{Pitch Metric} & \multicolumn{3}{c|}{Roll Metric} & \multicolumn{3}{c|}{Yaw Metric} \\ \hline
          & $\mu$ & $\sigma^2$ & Failure & $\mu$ & $\sigma^2$ & Failure & $\mu$ & $\sigma^2$ & Failure \\ \hline
-        WT & 0.34 & 4.60e-04 & 0.0\% & -0.03 & 7.87e-03 & 55.2\% & 0.06 & 1.54e-03 & 8.0\% \\ \hline
-        WT-Coarse & 0.35 & 1.76e-03 & 0.0\% & 0.01 & 3.04e-03 & 39.2\% & 0.08 & 4.73e-04 & 0.0\% \\ \hline
+        WT & 0.36 & 2.87e-04 & 0.0\% & 0.05 & 1.13e-02 & 30.8\% & 0.08 & 4.74e-04 & 0.0\% \\ \hline
+        WT-Coarse & 0.34 & 4.60e-04 & 0.0\% & -0.03 & 7.87e-03 & 55.2\% & 0.06 & 1.54e-03 & 8.0\% \\ \hline
         3F-Coarse & 0.36 & 4.97e-04 & 0.0\% & -0.04 & 7.68e-03 & 65.3\% & 0.07 & 1.41e-03 & 4.2\% \\ \hline
-        3F-Local & 0.36 & 2.87e-04 & 0.0\% & 0.05 & 1.13e-02 & 30.8\% & 0.08 & 4.74e-04 & 0.0\% \\ \hline
+        3F-Local & 0.38 & 5.81e-04 & 0.0\% & -0.15 & 7.38e-03 & 96.4\% & 0.06 & 2.04e-03 & 9.0\% \\ \hline
+        
     \end{tabular}
     \label{tab:red_data_perf_stats}
 \end{table}
+
+Direct comparison between the WT-Coarse (blue) and the 3F-Coarse data (red) provides an insight into the usefulness of the lower-fidelity data in improving the overall GP mean and uncertainty estimates. 
+The most significant difference between the two is for the pitch metric in Figure \ref{subfig:red_data_pitch_cdf}.
+The 3F-Coarse database results for the pitch metric are nearly identical to those from the WT database that uses all the wind tunnel data. 
+While the WT-Coarse does marginally better at predicting the trim angle of attack (Figure \ref{subfig:red_data_trim_cdf}), 3F-Coarse does marginally better for the roll and yaw metrics (Figures \ref{subfig:red_data_roll_cdf} and \ref{subfig:red_data_yaw_cdf}).
+
+This yields that the multi-fidelity fit can perform as well as, if not better than, the single-fidelity fit when there is only sparse high-fidelity data available. 
+It is worth reiterating the point that while comparisons are made to the WT database, it is not necessarily the best approximation of the true flight performance.
+As seen in the previous section, the uncertainties in the GP model for the WT case can corrupt the expected performance metrics. 
+But in the absence of an even higher-fidelity than wind tunnel experiments, it is main benchmark. 
+
+A notable deficiency is seen in the results from the 3F-Local case. 
+The addition of localized wind tunnel data improves overall predictions when compared to the two-fidelity case shown in the previous section, but it is still lacking when compared to the other three-fidelity results. 
+It isn't able to get close to the mean metric estimates, nor does it provide an significant reduction in the variance of the performance metrics. 
+This is due to the differences in the lower-fidelity and high-fidelity data in areas where none of the high-fidelity data is used. 
+In these areas, the low-fidelity approximations should be able to capture some of the relevant physics and have correspondingly low uncertainties. 
+In reality, RANS CFD simulations only provide some high-quality aerodynamic force and moment coefficient data, while all of the controls databases are built on purely AVL data. 
+The high uncertainty and the inadequacy of the AVL data requires more than just localized high-fidelity evaluations to improve predictions. 
+
+The data reduction techniques used here are quite rudimentary. 
+The ability of the GP models to provide error estimates can be easily leveraged to create adaptive sampling methodologies that are designed to reduce the uncertainty in the GP predictions.
+Simple techniques, such as sampling high-fidelity data in areas with the highest uncertainty as predicted by the GP, can achieve significant improvements in flight performance predictions. 
+Since there is a predetermined, limited set of wind tunnel data, that is not explored here. 

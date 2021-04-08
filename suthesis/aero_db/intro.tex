@@ -6,7 +6,8 @@ Most aerodynamic analyses, be it computational or experimental, are geared towar
 The industry standard is to have a lookup-table that is populated by data from aerodynamic analyses that are performed during the design process.
 They get updated as the design progresses and the results from the higher-fidelity analysis techniques, replace the lower-fidelity data.
 The forces and moments are described as multi-dimensional functions depending on, up to, 5 input variables: angle of attack, sideslip angle, mach number, dynamic pressure, and altitude.
-Discrete analyses in this 5-dimensional domain provide data points that are used to interpolate values between analysis locations.
+Often only a subset of the 5 input variables are used.
+Discrete analyses in this multi-dimensional domain provide data points that are used to interpolate values between analysis locations.
 These databases are deterministic and have no characterization of the uncertainties present in the analysis techniques. 
 
 Previous work by Wendorff et al. \cite{wendorff_combining_2016} introduces the concept of probabilistic aerodynamic databases that uses multi-fidelity data and its associated uncertainties in a Gaussian Process regression framework to create a non-deterministic representation of the database.

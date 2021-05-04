@@ -113,7 +113,7 @@ xlabel('Number of Samples');
 ylabel('Variance of Roll Metric');
 legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
 grid on; box on;
-set_figure_size(gcf,8,5);
+set_figure_size(gcf,5,5);
 saveas(gcf,'images/mc_var_convergence.png');
 
 figure;
@@ -125,8 +125,53 @@ xlabel('Number of Samples');
 ylabel('Mean of Roll Metric');
 legend('Normal','R. Engine Out','L. Engine Out','location','northwest');
 grid on; box on;
-set_figure_size(gcf,8,5);
+set_figure_size(gcf,5,5);
 saveas(gcf,'images/mc_mean_convergence.png');
+
+%%
+
+for i = 1:length(batches)
+    batch = batches(i);
+    [f1,x1] = ecdf(perf_metrics_MC.rightout.pitch(1:batch));
+    [f2,x2] = ecdf(perf_metrics_MC.rightout.roll(1:batch));
+    [f3,x3] = ecdf(perf_metrics_MC.rightout.yaw(1:batch));
+    
+    [~,ind_mean] = min(abs(f1-0.5));
+    mean1(i) = x1(ind_mean);
+    var1(i) = var(perf_metrics_MC.rightout.pitch(1:batch));
+    
+    [~,ind_mean] = min(abs(f2-0.5));
+    mean2(i) = x2(ind_mean);
+    var2(i) = var(perf_metrics_MC.rightout.roll(1:batch));
+    
+    [~,ind_mean] = min(abs(f3-0.5));
+    mean3(i) = x3(ind_mean);
+    var3(i) = var(perf_metrics_MC.rightout.yaw(1:batch));
+end
+
+figure;
+semilogx(batches,var1)
+hold all;
+semilogx(batches,var2)
+semilogx(batches,var3)
+xlabel('Number of Samples');
+ylabel('Variance of the Metric');
+legend('Pitch metric','Roll metric','Yaw metric','location','northwest');
+grid on; box on;
+set_figure_size(gcf,5,5);
+saveas(gcf,'images/mc_reo_var_convergence.png');
+
+figure;
+semilogx(batches,mean1)
+hold all;
+semilogx(batches,mean2)
+semilogx(batches,mean3)
+xlabel('Number of Samples');
+ylabel('Mean of the Metric');
+legend('Pitch metric','Roll metric','Yaw metric','location','northwest');
+grid on; box on;
+set_figure_size(gcf,5,5);
+saveas(gcf,'images/mc_reo_mean_convergence.png');
 
 % figure; hold on;
 % [f1,x1] = ecdf(perf_metrics_MC.normal.pitch(1:100));

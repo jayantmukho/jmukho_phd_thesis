@@ -147,9 +147,10 @@ run_case = 2; %Run Case 17 (aggressive) [use this instead of case 15 from now on
 % plot_type = 1; %plot CDFs and mean 
 % plot_type = 2; %plot trajectories
 % plot_type = 3; %plot mc section plots
-% plot_type = 4; %compare multipliers
+plot_type = 4; %plot single cases
 % plot_type = 5; %compare sf and mf
-plot_type = 6; %compare reduced data sims
+% plot_type = 6; %compare reduced data sims
+% plot_type = 7; % Bootstrapping
 
 
 %% Generate plots
@@ -260,6 +261,60 @@ switch plot_type
 %         generate_sample_size_plots(mf3d_metrics_MC(run_case),mf3d_metrics_mean(run_case));
         
     case 4 %Compare multipliers
+        close all
+        set(groot,'defaultAxesFontSize',18)
+        set(groot,'defaultAxesTickLength',[0.01 0.01])
+        set(groot,'defaultAxesLineWidth',2)
+        
+        
+        fs = 18;
+        lw = 3.0;
+        
+        plot_options = plotting_options('thesis');
+        plot_options.width = 8;
+        plot_options.height = 5;
+        plot_options.font_size = fs;
+        plot_options.line_width = lw;
+        plot_options.axes_line_width = 2.0;
+        setup_plots(plot_options);
+        disp('AVL')
+        reo_perf_metric_plots_single(avl4_metrics_MC(run_case),avl4_metrics_mean(run_case),avl4_ctrl_MC(run_case),avl4_ctrl_mean(run_case))
+        metric_names = {'pitch','roll','yaw'};
+        for i = 1:3
+            mn = metric_names{i};
+            figure(i)
+            legend('AVL','location','northwest')
+            saveas(gcf,['images/reo_',mn,'_1f_avl.png']);
+        end
+        disp('AVL+SU2')
+        reo_perf_metric_plots_single(mf2d_metrics_MC(run_case),mf2d_metrics_mean(run_case),mf2d_ctrl_MC(run_case),mf2d_ctrl_mean(run_case))
+        for i = 1:3
+            mn = metric_names{i};
+            figure(i)
+            legend('AVL','AVL+SU2','location','northwest')
+            saveas(gcf,['images/reo_',mn,'_2f.png']);
+        end
+        disp('AVL+SU2+WT')
+        reo_perf_metric_plots_single(full_mf3d_metrics_MC(run_case),full_mf3d_metrics_mean(run_case),full_mf3d_ctrl_MC(run_case),full_mf3d_ctrl_mean(run_case))
+        for i = 1:3
+            mn = metric_names{i};
+            figure(i)
+            b = gca; legend(b,'off');
+            legend('AVL','AVL+SU2','AVL+SU2+WT','location','northwest');
+            saveas(gcf,['images/reo_',mn,'_3f.png']);
+        end
+        
+        disp('WT')
+        reo_perf_metric_plots_single(full_metrics_MC(run_case),full_metrics_mean(run_case),full_ctrl_MC(run_case),full_ctrl_mean(run_case))
+        for i = 1:3
+            mn = metric_names{i};
+            figure(i)
+            b = gca; legend(b,'off');
+            h = get(gca,'children');
+            set(h(1),'color','k')
+            legend('AVL','AVL+SU2','AVL+SU2+WT','WT','location','northwest');
+            saveas(gcf,['images/reo_',mn,'_1f_wt.png']);
+        end
 %         % Only have data for case 15
 %         %   Compares Monte Carlo results if the GP variance was scaled by a factor
 %         %   of 2x.
@@ -287,14 +342,13 @@ switch plot_type
 %         % Sparse wind tunnel dataset 2 vs AVL vs Multi-fidelity (AVL+CFD) dataset with reduced deflection limits
 %         regenerate_perf_metric_plots_all(sparse2_metrics_MC(run_case),avl4_metrics_MC(run_case),mf2d_metrics_MC(run_case),mf3d_metrics_MC(run_case),sparse2_metrics_mean(run_case),avl4_metrics_mean(run_case),mf2d_metrics_mean(run_case),mf3d_metrics_mean(run_case));
         
-    case 6 %CDF and mean       
-        
-        reo_perf_metric_plots_reduced_data(full_metrics_MC(run_case),     sparse2_metrics_MC(run_case),   full_mf3d_metrics_MC(run_case),   sparse_mf3d_metrics_MC(run_case),   local_mf3d_metrics_MC(run_case),...
-                                         full_metrics_mean(run_case),   sparse2_metrics_mean(run_case), full_mf3d_metrics_mean(run_case), sparse_mf3d_metrics_mean(run_case), local_mf3d_metrics_mean(run_case),...
-                                         full_ctrl_MC(run_case),        sparse2_ctrl_MC(run_case),      full_mf3d_ctrl_MC(run_case),      sparse_mf3d_ctrl_MC(run_case),      local_mf3d_ctrl_MC(run_case),...
-                                         full_ctrl_mean(run_case),      sparse2_ctrl_mean(run_case),    full_mf3d_ctrl_mean(run_case),    sparse_mf3d_ctrl_mean(run_case),    local_mf3d_ctrl_mean(run_case));
-        generate_trim_comparison_plots_reduced_data(full_trim_MC(run_case),sparse2_trim_MC(run_case),full_mf3d_trim_MC(run_case),sparse_mf3d_trim_MC(run_case),local_mf3d_trim_MC(run_case),...
-                                                full_trim_mean(run_case),sparse2_trim_mean(run_case),full_mf3d_trim_mean(run_case),sparse_mf3d_trim_mean(run_case),local_mf3d_trim_mean(run_case));
+    case 6 % compare reduced data sims
+        reo_perf_metric_plots_reduced_data(full_mf3d_metrics_MC(run_case),     sparse2_metrics_MC(run_case),   full_mf3d_metrics_MC(run_case),   sparse_mf3d_metrics_MC(run_case),   local_mf3d_metrics_MC(run_case),...
+                                         full_mf3d_metrics_mean(run_case),   sparse2_metrics_mean(run_case), full_mf3d_metrics_mean(run_case), sparse_mf3d_metrics_mean(run_case), local_mf3d_metrics_mean(run_case),...
+                                         full_mf3d_ctrl_MC(run_case),        sparse2_ctrl_MC(run_case),      full_mf3d_ctrl_MC(run_case),      sparse_mf3d_ctrl_MC(run_case),      local_mf3d_ctrl_MC(run_case),...
+                                         full_mf3d_ctrl_mean(run_case),      sparse2_ctrl_mean(run_case),    full_mf3d_ctrl_mean(run_case),    sparse_mf3d_ctrl_mean(run_case),    local_mf3d_ctrl_mean(run_case));
+        generate_trim_comparison_plots_reduced_data(full_mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),full_mf3d_trim_MC(run_case),sparse_mf3d_trim_MC(run_case),local_mf3d_trim_MC(run_case),...
+                                                full_mf3d_trim_mean(run_case),sparse2_trim_mean(run_case),full_mf3d_trim_mean(run_case),sparse_mf3d_trim_mean(run_case),local_mf3d_trim_mean(run_case));
         % Full wind tunnel dataset vs AVL dataset 4 vs Multi-fidelity (AVL+CFD) dataset
 %         generate_trim_comparison_plots_sf_vs_mf(full_trim_MC(run_case),avl4_trim_MC(run_case),mf2d_trim_MC(run_case),full_mf3d_trim_MC(run_case),sparse2_trim_MC(run_case),full_trim_mean(run_case),avl4_trim_mean(run_case),mf2d_trim_mean(run_case),full_mf3d_trim_mean(run_case),sparse2_trim_mean(run_case));
         
@@ -303,6 +357,10 @@ switch plot_type
         
 %         % Full wind tunnel dataset vs AVL dataset 4 vs Multi-fidelity (AVL+CFD) dataset
 %         generate_trim_comparison_plots_all(full_trim_MC(run_case),avl4_trim_MC(run_case),sparse2_trim_MC(run_case),full_trim_mean(run_case),avl4_trim_mean(run_case),sparse2_trim_mean(run_case));
-%         
+    case 7
+        bootstrap_perf_metric_plots(full_metrics_MC(run_case),     avl4_metrics_MC(run_case),   mf2d_metrics_MC(run_case),   full_mf3d_metrics_MC(run_case),   sparse2_metrics_MC(run_case),...
+                                         full_metrics_mean(run_case),   avl4_metrics_mean(run_case), mf2d_metrics_mean(run_case), full_mf3d_metrics_mean(run_case), sparse2_metrics_mean(run_case),...
+                                         full_ctrl_MC(run_case),        avl4_ctrl_MC(run_case),      mf2d_ctrl_MC(run_case),      full_mf3d_ctrl_MC(run_case),      sparse2_ctrl_MC(run_case),...
+                                         full_ctrl_mean(run_case),      avl4_ctrl_mean(run_case),    mf2d_ctrl_mean(run_case),    full_mf3d_ctrl_mean(run_case),    sparse2_ctrl_mean(run_case));
 end
    

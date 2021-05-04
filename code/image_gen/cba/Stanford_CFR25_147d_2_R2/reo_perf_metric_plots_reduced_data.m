@@ -12,7 +12,7 @@ fs = 18;
 lw = 3.0;
 
 plot_options = plotting_options('thesis');
-plot_options.width = 8;
+plot_options.width = 5;
 plot_options.height = 5;
 plot_options.font_size = fs;
 plot_options.line_width = lw;
@@ -242,7 +242,7 @@ plot([perf_metrics_mean5.rightout.yaw2,perf_metrics_mean5.rightout.yaw2],[0 1],'
 set(gca,'FontWeight','bold');
 xlabel('Yaw Metric','FontWeight','bold');
 ylabel('Cumulative Probability','FontWeight','bold');
-legend('WT','WT-Coarse','3F-Coarse','3F-Local','FontWeight','bold','Location','northwest');
+legend('3F-Full','WT-Coarse','3F-Coarse','3F-Local','FontWeight','bold','Location','northwest');
 grid on; box on;
 saveas(gcf,'images/reo_yaw_reduced_data.png');
 

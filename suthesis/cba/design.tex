@@ -1,0 +1,16 @@
+\section{Certification-based Design Decisions}
+
+The use of the virtual flight testing framework can be taken a step further by making design decisions based on the flight simulation results. 
+The current industry standard is to incorporate Factors of Safety (FoS) to account for possible uncertainties in the design analyses that are used.
+These FoS are based on historical experience in designing conventional aircraft. 
+While FoS are essential to ensure that the aircraft exceeds the baseline requirements, there is no way to determine \textit{a priori} if they are overly conservative, woefully inadequate, or perfectly sufficient. 
+This is further complicated when non-conventional aircraft designs, such as those needed for urban air mobility \cite{silva_vtol_2018} or low-emissions flight \cite{bruner_nasa_2010}, are explored.
+Historical experience cannot be relied on in these situations. 
+
+The virtual flight testing framework provides a new, more quantitative method to determine the FoS that should be used.
+The explicit quantification of the failure rate in completing a certification maneuver can be used to make design decisions that mitigate the risks to an exact level of success.
+Since the failure rate is directly related to the aircraft performance predictions and the uncertainty in the design analyses, the methodology is agnostic to the type of aircraft being designed. 
+Moreover, as simulation techniques improve and their associated uncertainties are reduced, the estimation of the failure rates would correspondingly improve. 
+This results in a versatile framework that evolves alongside the analyses that inform it. 
+
+This new approach to aircraft design is demonstrated by basing the sizing of the aileron, at each design stage, on the virtual flight testing results of the Roll Capability maneuver which was introduced in Section \ref{sec:maneuver}.

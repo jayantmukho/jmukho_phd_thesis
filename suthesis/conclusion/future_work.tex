@@ -1,0 +1,72 @@
+\section{Future Work}
+
+Certification by Analysis is in the nascent stages of development.
+While the goal - completing certain certification tests through simulation alone - is set, there is no defined path to get there, yet.
+This work is an an initial exploration of one potential route, through quantification of uncertainties in simulations, their propagation through certification tests, and a statistical, rather than deterministic, analysis of results. 
+There are numerous avenues for further research, some of which are outlined in this section. 
+
+\subsection{Uncertainty Quantification}
+
+For this work, subject matter experts (SME) provide the uncertainties for the AVL simulations and the wind tunnel data. 
+These were based on historical experience using these analysis techniques for aircraft design. 
+Instead, the uncertainties can be handled more rigorously.
+Engineers use low-fidelity simulations like AVL to consider significant changes to design parameters in the conceptual design stage.
+Conducting parameter sweeps results in a range of performance predictions that can represent the uncertainty in the design parameters at that stage of the process.
+This uncertainty is different from the uncertainty due to the modeling simplifications made in the analysis tool itself, but it is a more rigorous methodology than basing uncertainties on SME.
+
+For experimental data, methods for uncertainty quantification have been published \cite{coleman1995engineering} and widely adopted.
+Using the raw sensor data for the wind and water tunnel experiments would allow for an explicit quantification of the systematic and precision uncertainties. 
+Additional errors due to tunnel-specific phenomena, such as blockage or flow angularity, can be quantified with the help of the tunnel engineers.
+
+A significant focus of this work was the quantification of uncertainties introduced in RANS CFD simulations due to the model inadequacy of turbulence models. 
+While the eigenspace perturbation methodology has been effective on a large variety of test cases, there are avenues for improvement. 
+Currently, the eigenspace is uniformly perturbed to the limits of physical realizability everywhere in the flow domain. 
+This procedure can lead to improbable flow conditions that can overestimate the uncertainty.
+More stringent limits on the perturbation magnitude proposed by \cite{mishra_perturbations_2019} can be employed.
+Additionally, high fidelity DNS and LES data can be used to learn the ideal perturbation magnitude based on the relevant mean-flow features.
+This improvement would allow for spatial variation in the perturbation magnitude across the flow domain.
+
+The principles behind the methodology are valid for any turbulence model that uses the eddy-viscosity hypothesis. 
+The current work has used the SST turbulence model for all of the results.
+Extensions of the methodology can enable its application to other popular turbulence models, such as the one-equation Spallart-Allmaras \cite{allmaras2012modifications}. 
+
+\subsection{Multi-Fidelity Modeling}
+
+Within the framework of multi-fidelity Gaussian processes, many improvements can be implemented into the existing framework to improve the aerodynamics and controls databases created.
+Non-hierarchical information fusion \cite{lam_multifidelity_2015} could be used to combine multiple information sources that are of an unknown or equal fidelity level. 
+For example, a single surrogate model could combine the multiple wind tunnel campaigns for the GTT aircraft.
+Gradient information, although expensive to generate, can be used to improve the quality of the surrogate models and reduce the error estimates \cite{han_improving_2013,yamazaki_derivative-enhanced_2013}.
+This change can be beneficial with CFD data, where adjoint simulations can provide gradient information. 
+Similarly, non-linear information fusion \cite{perdikaris_nonlinear_2017} could further enhance the advantages of using low-fidelity data by learning more complex trends between the information sources.
+Though care must be taken to ensure the computational cost of processing the GP equations does not balloon to intractable levels.
+
+Outside of Gaussian processes, other multi-fidelity modeling techniques should be explored. 
+In particular, multi-fidelity polynomial chaos expansions (PCE) \cite{ng_multifidelity_2014} preserve the essential features of GP models, such as deterministic sampling and providing mean and variance information.
+PCE have the added advantage of handling uncertainties with non-Gaussian distributions. 
+This avenue would also provide insight into how much the results depend on the multi-fidelity modeling technique used. 
+
+\subsection{Certification by Analysis}
+
+As mentioned earlier, certification by analysis (CbA) is in its nascent stages of development.
+For simulations to replace current certification tools, they would have to provide equivalent or, more likely, higher-quality predictions than real-world flight testing. 
+The \textit{CFD Vision 2030 Study} \cite{slotnick_cfd_nodate} provides an insight into the advancements in CFD simulations that are essential to achieve in the near future. 
+More generally, current low-fidelity techniques are not sufficient to reproduce experimental-level data. 
+It is computationally expensive to create a controls database using CFD simulations, and AVL simulations are woefully inadequate in this regard.
+They overestimate the control effectiveness and carry significant uncertainties in their predictions.
+This shortcoming is evident from the results of the certification simulations in Section \ref{sec:cba_results} where the results from the AVL databases are not reflective of the results from high-fidelity databases. 
+
+Analysis of historical aircraft design data can unearth critical trends between early design analysis and final flight certification performance. 
+The design process can be recreated, but with the added virtual flight testing analysis.
+Similar to the process for the GTT aircraft, databases can be built using only the information available at each design stage. 
+Analyzing the virtual flight testing results with these low- and multi-fidelity databases, design decisions can be suggested and compared to the actual design decisions that were taken. 
+This comparison provides a direct assessment of the benefits of virtual flight testing in the design framework. 
+
+Additional maneuvers to stress-test other parts of the aerodynamics and controls databases can be explored.
+The chosen maneuver for this work relied heavily on aileron and rudder control authority. 
+Similarly, airworthiness testing is not the only part of the certification process that can be made virtual. 
+Extensive structural testing is done with prototypes of wings and engines.
+The relatively lower cost and relatively high accuracy of structural analysis can lower entry barriers for CbA. 
+Choosing tests based on the accuracy of low-fidelity methods in predicting performance is critical. 
+If the low-fidelity methods are well developed and accurate in the test-critical parts of the domain, their adoption for CbA is far more likely.
+The day that simulations replace real-world testing is far into the future. 
+This work paves a potential path to that day with these initial steps.

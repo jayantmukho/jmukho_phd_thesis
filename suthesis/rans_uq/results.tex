@@ -1,8 +1,15 @@
 \section{Application to NASA CRM} \label{sec:crm_rans_uq}
-While the eigenspace perturbation methodology has been demonstrated on a variety of test cases, here it is applied to a full-configuration aircraft.
-The results in this section were first published in \cite{mukhopadhaya2020multi}  and are reproduced here.  
-The full aircraft configuration is identical (without accounting for aeroelastic deflections of the model) to the one that was tested in the wind tunnel and corresponds closely to a Boeing 777 aircraft with a fully-redesigned wing. The transonic simulation conditions are described in Table \ref{NASA_CRM_test_cond}. Note that the range of angles of attack, at a free stream Mach number of 0.85, lead to non-linear physical phenomena and flow separation that can greatly increase the uncertainties in the RANS predictions. Separated flow exists for $\alpha > 4^\circ$ at this Mach number. All of the necessary RANS CFD simulations were conducted using the SU2~\cite{su2_aiaajournal} solver. The SST turbulence model~\cite{menter1994two,menter2003ten} was used and the previously defined perturbations, Equations \eqref{equ:eigenvalue_pert} - \eqref{equ:vmin_vmax}, were applied to it. 
-
+Section \ref{sec:VandV_rans_uq} demonstrated the eigenspace perturbation methodology has been demonstrated on various test cases.
+Here, the methodology is applied to a full-configuration aircraft.
+The results in this section were first published in \cite{mukhopadhaya2020multi}  and are reproduced here.
+The aircraft configuration is identical (without accounting for aeroelastic deflections of the model) to the one tested in the wind tunnel.
+It closely resembles a Boeing 777 aircraft with a fully redesigned wing.
+Table \ref{NASA_CRM_test_cond} describes the transonic simulation conditions.
+Note that this range of angles of attack at a free-stream Mach number of 0.85 lead to non-linear physical phenomena and flow separation that can significantly increase the uncertainties in the RANS predictions.
+Separated flow exists for $\alpha > 4^\circ$ at this Mach number.
+All of the necessary RANS CFD simulations were conducted using the SU2~\cite{su2_aiaajournal} solver.
+The SST turbulence model~\cite{sst,menter2003ten} was used and the previously defined perturbations, Equations \eqref{equ:eigenvalue_pert} - \eqref{equ:vmin_vmax}, were applied to it. 
+ 
 \begin{table}
 \centering
     \renewcommand{\arraystretch}{1.2}
@@ -20,8 +27,11 @@ The full aircraft configuration is identical (without accounting for aeroelastic
     \label{NASA_CRM_test_cond}
 \end{table}
 
-Figure \ref{fig:crm_mesh} shows details of the unstructured mesh that was used for the CFD simulations. The computational domain is made of $11.8\times10^6$ mixed elements ($4.6\times10^6$ nodes) which corresponds to a coarse mesh based on the grid convergence studies performed for multiple solvers and grid topologies \cite{vassberg_summary_2010}. Figure \ref{fig:dpw4_alpha_sweep} presents results of the angle-of-attack sweep study from SU2 on the coarse mesh alongside results from comparable unstructured solvers, BCFD \cite{winkler_dorgan_cary_mani_2009} and FUN3D \cite{lee-rausch_application_2014} on their medium-sized meshes. 
-The difference between the grid-converged drag at a fixed $C_L$ of 0.5 and the present study is approximately $4\%$; this difference can be used as a rough metric for the discretization uncertainty. This uncertainty could be reduced through additional grid resolution studies but is not considered a primary factor for the present demonstration.
+Figure \ref{fig:crm_mesh} shows details of the unstructured mesh used for the CFD simulations.
+The computational domain consists of $11.8\times10^6$ mixed elements ($4.6\times10^6$ nodes), which corresponds to a coarse mesh based on the grid convergence studies performed for multiple solvers and grid topologies \cite{vassberg_summary_2010}.
+Figure \ref{fig:dpw4_alpha_sweep} presents results of the angle-of-attack sweep study from SU2 on the coarse mesh alongside results from comparable unstructured solvers, BCFD \cite{winkler_dorgan_cary_mani_2009} and FUN3D \cite{lee-rausch_application_2014} on their medium-sized meshes.
+The difference between the grid-converged drag at a fixed $C_L$ of 0.5 and the present study is $\approx4\%$; this difference can be used as a rough metric for the discretization error.
+This error could be reduced through additional grid resolution studies, but it is not a primary factor for the present demonstration.
 
 \begin{figure}
     \centering
@@ -49,8 +59,9 @@ The difference between the grid-converged drag at a fixed $C_L$ of 0.5 and the p
 }
 \end{figure}
 
-
-The convergence history for the the simulations required to characterize the uncertainty at a particular operating condition ($\alpha = 2.35^\circ$) is shown in Figure \ref{fig:convergence_history}. Most cases achieve 6 orders of magnitude reduction in the density residual. For the $1C, v_{max}$ case, the residuals stall but the solution is said to be converged once the force coefficients stabilize to 6 orders of magnitude (less than $10^{-6}$ change in force coefficients over $100$ non-linear iterations).
+Figure \ref{fig:convergence_history} shows the convergence history for the simulations required to characterize the RANS uncertainty at a particular operating condition ($\alpha = 2.35^\circ$).
+Most cases achieve six orders of magnitude reduction in the density residual.
+For the $1C, v_{max}$ case, the residuals stall, but the solution is said to be converged once the force coefficients stabilize to six orders of magnitude (less than $10^{-6}$ change in force coefficients over $100$ non-linear iterations).
 
 \begin{figure}{
 \centering
@@ -60,9 +71,17 @@ The convergence history for the the simulations required to characterize the unc
 }
 \end{figure}
 
-In Figure \ref{fig:crm_su2_uq}, the results of these simulations are compared to wind tunnel data from the NASA Ames 11ft Wind Tunnel experiment \cite{rivers_experimental_2010}. In this figure, the solid black line represents the predictions made by the baseline SST turbulence model, the grey area represents the interval bounds predicted by the eigenspace methodology, and the black crosses represent the wind tunnel data. These wind tunnel data points have error bars associated with them but these are barely discernible on the scale of the plot. 
+In Figure \ref{fig:crm_su2_uq}, the results of these simulations are compared to wind tunnel data from the NASA Ames 11ft Wind Tunnel experiment \cite{rivers_experimental_2010}.
+In this figure, the solid black line represents the predictions made by the baseline SST turbulence model, the grey area represents the uncertainty estimates predicted by the eigenspace methodology, and the black crosses represent the wind tunnel data.
+These wind tunnel data points have error bars associated with them, but these are barely discernible on the scale of the plot. 
 
-The performance of the UQ module is illustrated by comparing the variation of the coefficients of lift ($C_L$), drag ($C_D$), and longitudinal pitching moment ($C_m$) with respect to angle of attack ($\alpha$), as predicted by the CFD simulations to those experimentally determined. We start with $C_L$ vs. $\alpha$ in Figure \ref{fig:cl_vs_alpha}. At low angles of attack, the flow remains well attached to the aircraft body; therefore, the turbulence model does not introduce significant uncertainty in its predictions. Accordingly, the interval bounds predicted by the UQ module are relatively small. At higher angles of attack when there is flow separation over portions of the aircraft, turbulence models struggle to make accurate flow predictions due to the unsteady nature of the flow features and the structural limitations of the isotropic eddy viscosity enforced by the Boussinesq assumption. This is reflected in the growing uncertainty bounds predicted by the module. This overall trend is seen in all of the plots in Figure \ref{fig:crm_su2_uq}. 
+The performance of the UQ module is illustrated by comparing the variation of the coefficients of lift ($C_L$), drag ($C_D$), and longitudinal pitching moment ($C_m$) due to the angle of attack ($\alpha$), as predicted by the CFD simulations to those experimentally determined.
+We start with $C_L$ vs. $\alpha$ in Figure \ref{fig:cl_vs_alpha}.
+At low angles of attack, the flow remains well attached to the aircraft body; therefore, the turbulence model does not introduce significant uncertainty in its predictions.
+Accordingly, the interval bounds predicted by the UQ module are relatively small.
+At higher angles of attack when there is flow separation over portions of the aircraft, turbulence models struggle to make accurate flow predictions due to the unsteady nature of the flow features and the structural limitations of the isotropic eddy viscosity enforced by the Boussinesq assumption.
+The growing uncertainty estimates predicted by the module reflect this shortcoming.
+All of the plots in Figure \ref{fig:crm_su2_uq} confirm this overall trend.
 
 \begin{figure}
     \centering
@@ -93,22 +112,64 @@ The performance of the UQ module is illustrated by comparing the variation of th
 \end{figure}
 
 
-Figure~\ref{fig:cl_vs_cd} is a typical \emph{drag polar} plot for the NASA CRM at Mach 0.85. This plot illustrates the paradigm change that RANS UQ methodologies such as the one described in this paper can bring about. A drag polar is often used in aerospace engineering in order to understand the behaviour of an aircraft across its operating range at a given Mach number. The deterministic values represented by the solid black line in the drag polar plot are used to determine the optimal operating condition for an aircraft, as well as the aircraft performance characteristics. Traditionally, only the solid black line is available to the aircraft designer and conservative factors of safety are used to build operating margins into the design. With the addition of the grey areas that represent the possible variability of the drag polar, an explicit quantification of the uncertainties can be performed. Instead of relying on a single deterministic value to design the aircraft around, the uncertainty in the performance prediction can inform the most robust optimal operating condition and the reliability of the design choices can be quantified.
+Figure~\ref{fig:cl_vs_cd} is a typical \emph{drag polar} plot for the NASA CRM at Mach 0.85.
+This plot illustrates the paradigm change that RANS UQ methodologies such as the one described in this paper can bring about.
+A drag polar is often used in aerospace engineering to understand an aircraft's behavior across its operating range at a given Mach number.
+Design engineers use the deterministic values represented by the solid black line in the drag polar plot to determine the optimal operating condition for an aircraft and the aircraft performance characteristics.
+Traditionally, only the solid black line is available to the aircraft designer, and they use conservative factors of safety to build operating margins into the design.
+The grey areas representing the possible variability of the drag polar explicitly quantify the uncertainties injected by the turbulence model.
+Instead of relying on a single deterministic value to design the aircraft around, the uncertainty in the performance prediction can inform the most robust optimal operating condition, and the reliability of the design choices can be quantified.
 
-Since the model-form uncertainty introduced by the turbulence model is small at low angles of attack, the CFD predictions of the force and moment coefficients should adhere more closely to the experimental data. 
-Error in RANS CFD simulations can originate from multiple sources including, but not limited to: discretization error due to insufficient mesh resolution, modeling error due to the turbulence models, or any errors due to geometric discrepancies in simulated and real-world objects. If there were only turbulence-model-related uncertainties in the simulations, we would see all the experimental data points lie within the grey uncertainty bounds predicted by RANS-UQ methodology. However, in the results we observe a significant deviation of the simulation data from the wind-tunnel experiments in the form of both a bias and a slight difference in the slope of the coefficient of lift curve. These differences are most prominent in the longitudinal pitching moment coefficient data in Figure \ref{fig:cm_vs_alpha}. As was discovered at the 4th Drag Prediction Workshop (DPW) \cite{levy2013summary}, the wind tunnel model of the CRM underwent aeroelastic deformation that affected the values recorded for the force and moment coefficients. The deformations were greater than expected and as a result the shape of the model analyzed using numerical simulations was different than that of the real-world model. New computational geometries that accurately reflected the deformed wind tunnel shape were used for the subsequent workshop \cite{morrison20166th}. For this work, the older computational geometry (without wind-tunnel deformations) is used to exercise the ability of the multi-fidelity method to learn biases existing in the data. 
+Since the model-form uncertainty introduced by the turbulence model is negligible at low angles of attack, the CFD predictions of the force and moment coefficients should adhere more closely to the experimental data.
+Error in RANS CFD simulations can originate from multiple sources, including, but not limited to: discretization error due to insufficient mesh resolution, modeling error due to the turbulence models, or any errors due to geometric discrepancies in simulated and real-world objects.
+If there were only turbulence-model-related uncertainties in the simulations, we would see all the experimental data points lie within the grey uncertainty bounds predicted by the RANS UQ methodology.
+However,  we observe a significant deviation of the simulation data from the wind tunnel experiments.
+This deviation manifests as a bias and a difference in the slope of the lift coefficient curve.
+These differences are most prominent in the longitudinal pitching moment coefficient data in Figure \ref{fig:cm_vs_alpha}.
+As was discovered at the 4th Drag Prediction Workshop (DPW) \cite{levy2013summary}, the wind tunnel model of the NASA CRM underwent aeroelastic deformation that affected the values recorded for the force and moment coefficients.
+The deformations were more extensive than expected, and as a result, the shape of the model analyzed using numerical simulations was different from that of the wind tunnel model.
+New computational geometries that accurately reflected the deformed wind tunnel shape were used for the subsequent workshop \cite{morrison20166th}.
+For this work, we use the older computational geometry (without the wind-tunnel-induced deformations) to exercise the ability of the multi-fidelity method to learn biases existing in the data. 
 
-On a swept wing like the one on the NASA CRM model, the added aeroelastic twist results in a decrease in the angle of attack of the tip region of the wing, relative to the rigid shape that was numerically analyzed. This leads to a lower $C_L$ than what was calculated. Moreover, the increase in overall twist of the wing unloads the wing-tip sections, effectively displacing the center of lift of the wing upstream, leading to the observed increased values of $C_M$ when compared to those numerically calculated. These differences introduced new uncertainties (of an aeroelastic nature) in the numerical predictions that were not captured in our UQ analysis.  
+On a swept wing like the one on the NASA CRM model, the added aeroelastic twist results in a decrease in the angle of attack of the wing-tip region relative to the numerically analyzed rigid shape.
+This discrepancy leads to a lower $C_L$ than the one calculated using CFD.
+Moreover, the increase in the overall twist of the wing unloads the wing-tip sections, effectively displacing the center of lift of the wing upstream and leading to the observed increased values of $C_M$ when compared to those calculated using CFD. 
+These differences introduced new uncertainties (of an aeroelastic nature) in the numerical predictions that escape the UQ analysis.  
 
-This discussion serves as an important reminder that regardless of the level of model (in)adequacy of a simulation method, there may be unforeseen uncertainties and errors introduced in the predictions that can cause results to deviate from real-world experiments. In this particular case, the unexpected aeroelastic deformation of the CRM model in the wind tunnel resulted in slightly different geometries being numerically and experimentally analyzed. The biases and errors introduced due to such unknowns are not explicitly derived here but they are present in the data. This means that the auto-regressive formulation of the multi-fidelity GP learns these biases and errors from the data. If the high-fidelity data is truly the most accurate representation of the physical system that is being modeled, it is good that the multi-fidelity GP can learn the bias between the lower-fidelity simulations and the high-fidelity data and compensate for it. But if there is an error in the high-fidelity data, the multi-fidelity GP will learn based on the erroneous data and still assume it to be the most accurate source. This brings to light the importance of the hierarchy of data sources in this formulation. For this article, there is a clearly defined hierarchy based on the physics that is captured by each information source. Wind tunnel experiments form the highest fidelity level, followed by RANS CFD simulations, while vortex-lattice methods form the lowest fidelity level. In general, the hierarchy could be defined based on the uncertainty of predictions, or expert-informed trust in the information source.
+This discussion serves as an important reminder that regardless of the level of model (in)adequacy of a simulation method, there may be unforeseen uncertainties and errors introduced in the predictions that can cause results to deviate from real-world experiments.
+In this particular case, the unexpected aeroelastic deformation of the CRM model in the wind tunnel resulted in slightly different geometries being numerically and experimentally analyzed.
+The biases and errors introduced due to such unknowns are not explicitly derived here, but they are present in the data.
+The auto-regressive formulation of the multi-fidelity GP will learn these biases and errors from the data.
+If the high-fidelity data is truly the most accurate representation of the modeled physical system, it is good that the multi-fidelity GP can learn the bias between the lower-fidelity simulations and the high-fidelity data and compensate for it.
+However, if there is an error in the high-fidelity data, the multi-fidelity GP will learn based on the erroneous data and still assume it to be the most accurate source. 
+This observation highlights the importance of the hierarchy of data sources in this formulation.
+This work employs a clearly defined hierarchy based on the physics captured by each information source.
+Wind tunnel experiments form the highest fidelity level, followed by RANS CFD simulations, while vortex-lattice methods form the lowest fidelity level.
+In general, the hierarchy could be defined based on the uncertainty of the predictions or expert-informed trust in the information source.
 
-Another important point is that the interval predictions from the RANS UQ methodology only estimate the uncertainty in simulations due to the turbulence model used. The methodology cannot estimate other sources of error as it does not rely on any high-fidelity data. For example, discretization error due to insufficient mesh quality can bias the performance predictions from CFD simulations. This bias is not predicted by the RANS UQ methodology. Instead we rely on the MF GP framework to learn this and any other biases from the differences between the low- and high-fidelity data. 
+Another critical point is that the interval predictions from the RANS UQ methodology only estimate the uncertainty in simulations due to the turbulence model used.
+The methodology cannot estimate other sources of error as it does not rely on any high-fidelity data.
+For example, discretization error due to insufficient mesh quality can bias the performance predictions from CFD simulations. 
+The RANS UQ methodology does not predict this bias.
+Instead, we rely on the multi-fidelity GP framework to learn this and any other biases from the differences between the low- and high-fidelity data. 
 
-A key observation from Figure \ref{fig:crm_su2_uq} is that the uncertainties are not symmetric about the baseline RANS simulation (the solid black line is not in the middle of the gray area). As mentioned at the end of Section \ref{sec:equips_rans_uq}, these bounds contain no probability distribution information. Nonetheless, for the purposes of multi-fidelity modeling, it is assumed that the distribution of the QoIs within the bounds is Gaussian and symmetric about the middle of the interval. In addition to this, the standard deviation ($\sigma$) of the Gaussian distribution is defined such that the extents of the interval bounds are $2\sigma$ away from the middle of the interval. This means that for any CFD data point with RANS UQ interval bounds, the middle of the predicted interval bound is regarded as the mean of the Gaussian distribution of the prediction, and the extent of the interval bounds are $\pm 2\sigma$ away from the mean.
+A key observation from Figure \ref{fig:crm_su2_uq} is that the uncertainties are not symmetric about the baseline RANS simulation (the solid black line is not in the middle of the gray area).
+As mentioned at the end of Section \ref{sec:equips_rans_uq}, these bounds contain no probability distribution information.
+Nonetheless, for multi-fidelity modeling, it is assumed that the distribution of the QoIs within the bounds is Gaussian and symmetric about the middle of the interval.
+Additionally, the standard deviation ($\sigma$) of the Gaussian distribution is defined such that the extents of the interval estimates are $2\sigma$ away from the middle of the interval.
+This definition means that for any CFD data point with RANS UQ uncertainty estimate, the middle of the predicted interval is regarded as the mean of the Gaussian distribution of the prediction, and the extent of the interval bounds are $\pm 2\sigma$ away from the mean.
 
-The RANS UQ methodology doesn't only provide interval estimates on integrated quantities like $C_L$, $C_D$, and $C_m$. Since the eigenspace perturbations result in different realizations of the full flow field, the data can be post-processed to provide valuable insight into the mechanics of the turbulence model and the regions of the flow field that contribute to the resulting uncertainties. Figure \ref{fig:mach_isosurface} depicts iso-surfaces of areas where the local Mach number varies by greater than $0.2$ across all the perturbed simulations. This Mach variability $(M_v)$ is defined at every point in the computational domain as $M_v = max(M_i) - min(M_i)$ where $i$ refers to each realization of the flow field ($5$ perturbed + $1$ baseline flow fields) and $M_i$ represents the Mach number at each point in that flow field. 
+The RANS UQ methodology does not only provide interval estimates on integrated quantities like $C_L$, $C_D$, and $C_m$.
+Since the eigenspace perturbations result in different realizations of the entire flow field, the data can be post-processed to provide valuable insight into the mechanics of the turbulence model and the regions of the flow field that contribute to the resulting uncertainties.
+Figure \ref{fig:mach_isosurface} depicts iso-surfaces of areas where the local Mach number varies by greater than $0.2$ across all the perturbed simulations.
+This Mach variability $(M_v)$ is defined at every point in the computational domain as $M_v = max(M_i) - min(M_i)$ where $i$ refers to each realization of the flow field ($5$ perturbed + $1$ baseline flow fields) and $M_i$ represents the Mach number at each point in that flow field. 
 
-At low angles of attack, Figure \ref{fig:01aoa}, the Mach variability is low and limited to small regions in the flow field. This indicates that the eigenspace perturbations do not cause major changes in the flow, resulting in smaller uncertainty bounds. As the angle of attack increases, as shown in Figures \ref{fig:02aoa} and \ref{fig:03aoa}, larger areas of variability appear where the shock would be expected, at the upper surface of the wing and away from the leading edge. This denotes an uncertainty in the shock location. This area grows rapidly until it reaches the leading edge in Figure \ref{fig:04aoa}, signalling large uncertainty bounds and reduced confidence in the CFD predictions. Such visualizations allow us to analyse the relationship between the dominant flow features and the uncertainty that they introduce in the turbulence models. 
+At low angles of attack, Figure \ref{fig:01aoa}, the Mach variability is low and limited to small regions in the flow field.
+The small regions indicate that the eigenspace perturbations do not cause significant changes in the flow, resulting in smaller uncertainty bounds.
+As the angle of attack increases, as shown in Figures \ref{fig:02aoa} and \ref{fig:03aoa}, larger areas of variability appear where the shock is expected: at the upper surface of the wing and away from the leading edge.
+These regions denote an uncertainty in the shock location.
+This area grows rapidly until it reaches the leading edge in Figure \ref{fig:04aoa}, signaling large uncertainty estimates and reduced confidence in the CFD predictions.
+Such visualizations allow us to analyze the relationship between the dominant flow features and their role in introducing uncertainty in the turbulence models. 
 
 \begin{figure}
     \centering
@@ -138,4 +199,10 @@ At low angles of attack, Figure \ref{fig:01aoa}, the Mach variability is low and
     \caption{Isosurfaces representing areas where local Mach variability $M_v = 0.2$ at various angles of attack. \label{fig:mach_isosurface}}
 \end{figure}
 
-Similarly, the variability in any other flow quantity can be analyzed. Knowing which areas contribute to the uncertainty in performance predictions can aid design decisions. These results can inform sensor placement when moving to experimental campaigns. For example, a higher density of pressure sensors can be used in areas with large coefficient of pressure ($C_P$) variability. Flow visualization techniques can be focused on areas with large velocity variability. From the perspective of turbulence modeling, these variability visualizations can shed light on the types of flow features that are hard to predict with turbulence models. This additional data processing provides more qualitative applications for the RANS UQ methodology. 
+Similarly, the variability in any other flow quantity can be analyzed.
+Knowing which areas contribute to the uncertainty in performance predictions can aid design decisions.
+These results can inform sensor placement when moving to experimental campaigns.
+For example, a higher density of pressure sensors can be used in areas with large variability in the pressure coefficient ($C_P$).
+Flow visualization techniques can be focused on areas with large velocity variability.
+From the perspective of turbulence modeling, these variability visualizations can shed light on the types of flow features that are hard to predict using RANS simulations.
+This additional data processing provides more qualitative applications for the RANS UQ methodology. 

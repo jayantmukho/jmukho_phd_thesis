@@ -1,10 +1,15 @@
 \section{Aerodynamics and Controls Databases}
 
-An aircraft flies through a multitude of operating conditions during a mission. During takeoff and landing the aircraft flies through dense air in its high-lift configuration at low speeds and high angle of attack. While cruising, the aircraft flies steady and wings-level at high altitude with little controller input. Understanding an aircraft's predicted behavior in all these operating conditions is required for successful certification of the aircraft. 
+An aircraft flies through a multitude of operating conditions during a mission. During takeoff and landing, the aircraft flies through dense air in its high-lift configuration at low speeds and high angles of attack. 
+While cruising, the aircraft flies steady and wings-level at high altitude with little controller input. 
+Understanding an aircraft's predicted behavior in all these operating conditions is required for successful certification of the aircraft. 
 
-This work builds large aerodynamics and controls databases by combining multiple sources of information and their associated uncertainties. The generic T-tail transport aircraft is used to demonstrate this capability and consequently all the work shown in this chapter will concern itself with this configuration.
+This work builds extensive aerodynamics and controls databases by combining multiple sources of information and their associated uncertainties.
+The generic T-tail transport aircraft is used to demonstrate this capability, and consequently, all the work shown in this chapter will concern itself with this configuration.
 
-The coefficients that are used to create the aerodynamic database are listed in Table \ref{tab:aero_db}. Force and moment coefficients are two-dimensional functions of angle of attack ($\alpha$) and sideslip angle ($\beta$). Stability derivatives are one-dimensional functions of $\alpha$. 
+Table \ref{tab:aero_db} lists the coefficients used to create the aerodynamic database.
+Force and moment coefficients are two-dimensional functions of the angle of attack ($\alpha$) and the sideslip angle ($\beta$).
+Stability derivatives are one-dimensional functions of $\alpha$. 
 \begin{table}
     \renewcommand{\arraystretch}{1.2}
     \centering
@@ -30,7 +35,10 @@ The coefficients that are used to create the aerodynamic database are listed in 
     \label{tab:aero_db}
 \end{table}
 
-Similarly, the coefficients used to create the controls database are listed in Table \ref{tab:control_db}. Except for the case with elevator deflections, all coefficients are three-dimensional functions of $\alpha$, $\beta$, and control surface deflection ($\delta_*$). Since flaps change the baseline aerodynamics of the aircraft, its effect on force coefficients is included in the controls database. This is not the case for the other control surfaces, where only their effect on moment coefficients is used. 
+Similarly, Table \ref{tab:control_db} lists the coefficients used to create the controls database.
+Except for the case with elevator deflections, all coefficients are three-dimensional functions of $\alpha$, $\beta$, and control surface deflection ($\delta_*$).
+Since the flaps change the baseline aerodynamics of the aircraft, its effect on force coefficients is included in the controls database.
+For other control surfaces, only their effect on moment coefficients is used. 
 
 \begin{table}
     \renewcommand{\arraystretch}{1.2}
@@ -50,10 +58,13 @@ Similarly, the coefficients used to create the controls database are listed in T
     \label{tab:control_db}
 \end{table}
 
-It is important to note that true control derivatives, such as $C_{l_{\delta_a}}$, aren't calculated. Calculating the derivative using finite differencing is susceptible to numerical issues. Rather the change in the moment coefficient due to the deflected control surface is used. For example: 
+It is important to note that actual control derivatives, such as $C_{l_{\delta_a}}$, are not calculated.
+Calculating the derivative using finite differencing is susceptible to numerical issues.
+Rather the change in the moment coefficient due to the deflected control surface is used. For example: 
 
 \begin{equation}\label{equ:control_derivative}
     C_{l_{\delta_a}}(\alpha,\beta,\delta_a) = C_l(\alpha,\beta,\delta_a) - C_l(\alpha,\beta,\delta_a=0)
 \end{equation}
 
-The discrete data for each coefficient, and its associated uncertainty, is used to train a Gaussian process. Individual multi-fidelity Gaussian processes are used to model each coefficient.
+The discrete data for each coefficient, and its associated uncertainty, is used to train a Gaussian process.
+Individual multi-fidelity Gaussian processes model each coefficient.

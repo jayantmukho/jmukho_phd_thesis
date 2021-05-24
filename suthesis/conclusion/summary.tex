@@ -1,0 +1,87 @@
+\section{Summary}
+This work aims to introduce a virtual flight testing framework that can be used at any point during the aircraft design process to determine the likelihood that the aircraft passes or fails a particular certification maneuver. 
+It is achieved by contributing to the state-of-the-art in three disciplines: uncertainty quantification, multi-fidelity modeling, and certification by analysis. 
+
+\subsection{Uncertainty Quantification}
+
+In the realm of uncertainty quantification, the eigenspace perturbation methodology \cite{iaccarino_eig_pert} was implemented in SU2, validated on a suite of test cases, and applied to full configuration aircraft simulations.
+The modular architecture of SU2, an open-source CFD code, allowed for an implementation focused on \textit{versatility}, such that both, experts and non-experts, can use the module.
+The validation suite included flow conditions that introduce model-form uncertainties in RANS simulations.
+Flow features such as corner flows, shear planes, separation bubbles, and shocks were emphasized. 
+Additionally, it was necessary to have high-fidelity data available for the test case to make suitable comparisons.
+The methodology performed well across all flow conditions, predicting larger uncertainty bounds in areas where RANS simulations often struggle to capture the flow physics and, conversely, predicting smaller bounds where RANS simulations are usually accurate.
+The high-fidelity data points often fell within the uncertainty estimates from the methodology, although this is not mathematically guaranteed. 
+
+This observation is an essential reminder that regardless of the model (in)adequacy of a simulation method, there may be unforeseen uncertainties and errors introduced in the predictions that can cause results to deviate from higher-fidelity information sources. 
+Numerical discretization error arising from insufficient grid refinement is one such example that often plagues CFD simulations. 
+Its relationship with the turbulence modeling uncertainty was investigated to determine the RANS UQ methodology's grid requirements. The NACA0012 airfoil and ONERA M6 wing were used as test cases. 
+It was found that the grid resolution must be sufficient to capture the relevant flow features.
+However, given that minimum level of grid resolution,  further refinement did not significantly change the turbulence modeling uncertainty estimate.
+Moreover, the uncertainty estimates were significantly larger than the discretization errors. 
+These factors allow using coarser meshes to perform the perturbed simulations without losing much accuracy.
+
+The application of the methodology to the NASA Common Research Model (CRM) was presented in detail.
+A parameter-sweep in the angle of attack was performed.
+Simulations at low angles of attack, where the turbulence model can accurately capture flow features, resulted in smaller uncertainty estimates compared to those performed at high angles of attack, where flow separation is significant, and the turbulence model is unable to provide accurate predictions.
+The predicted bounds did not encapsulate the experimental data due to well-known geometric discrepancies between the wind tunnel model and the model used for numerical simulations.
+Post-processing of the individual perturbed simulations allowed visualization of the dominant flow features contributing to the uncertainty estimates.
+It provides a qualitative use-case to improve design decisions and future high-fidelity data gathering.
+
+\subsection{Multi-Fidelity Modeling}
+
+Multi-fidelity Gaussian processes were used to combine data from different information sources.
+Improvements suggested by Gratiet \cite{gratiet_multi-fidelity_nodate}, which significantly reduce the computational cost of learning the Gaussian process, were implemented.
+The computational savings compared to the original implementation \cite{kennedy_predicting_2000} were validated using analytical functions. 
+The existing equations were extended so that uncertainty could be specified independently for each data point, even when the design sets for each fidelity level are not nested.
+This new set of equations were used to create multi-fidelity probabilistic aerodynamic databases for an aircraft configuration, the NASA Common Research Model (CRM).
+The multi-fidelity fit outperformed the single-fidelity fit, particularly when high-fidelity data is sparse or localized to areas where low-fidelity functions are inaccurate.
+This advantage is more pronounced when using multi-dimensional databases.
+As the number of high-fidelity data points is increased, the multi-fidelity and single-fidelity models start performing identically.
+
+\subsection{Probabilistic Aerodynamics and Controls Databases}
+A second aircraft configuration, the Generic T-tail Transport (GTT), is used to take the probabilistic aerodynamic databases further.
+The wealth of experimental data from wind and water tunnels allows for high-fidelity modeling of the aircraft's lateral dynamics, longitudinal dynamics, and control surface effects.
+The generation of multi-fidelity data and the associated uncertainties were discussed, and visualizations of the resulting single-fidelity and multi-fidelity controls databases were compared.
+The sparsity of the high-fidelity data in the control surface deflection dimension causes the error estimate from the GP regression to balloon between available data points when using only high-fidelity data to create the databases.
+With the multi-fidelity fusion of information sources, the abundance of well-correlated low-fidelity AVL data improves the GP model and results in a smooth, uniformly low error estimate across the control surface deflection dimension. 
+This improvement is significant as it is achieved without using any new high-fidelity evaluations, thereby reducing the uncertainty with negligible analysis cost. 
+
+\subsection{Certification by Analysis}
+A virtual flight testing framework is the culmination of all the work presented in the previous sections. 
+An air-worthiness certification test maneuver formulated by the FAA \cite{romanowski_flight_2018} to ensure sufficient roll capability in engine-out scenarios is used for this purpose.
+The aerodynamics and controls databases represent all aspects of an aircraft's dynamics and can be used to perform flight simulations.
+To this end, The Boeing Company's existing tools and expertise in flight simulation and control-law mixing \cite{control_law_patent} were leveraged.
+A simplified $5$ degree-of-freedom simulator with an open-loop controls configuration is employed, and its details are presented. 
+Success in meeting the certification test requirement is defined by completing the flight simulation without over-saturating any control surfaces.
+
+Each deterministic sample of the GP models representing the aircraft databases is a valid instance of the aircraft. 
+These instances have slight variations in their performance due to the uncertainty in the underlying data informing the models.
+A Monte Carlo analysis of the certification test was performed by taking multiple samples of the same aircraft and running each through the flight simulation. 
+Analyzing the percentage of failures provides the likelihood of the aircraft failing the certification test.
+One thousand samples were sufficient to create converged sample mean and variance estimates for the simulation metrics. 
+The GTT aircraft passes the certification maneuver with $100\%$ certainty.
+Derived from a currently certified aircraft (CRJ 700), the GTT should pass the certification tests with a $100\%$  success rate. 
+
+The maneuver is made more challenging by introducing modifications to the control surface functionality.
+The modified certification test is simulated with databases built using information representing the aircraft at different stages of the design process.
+Early representations use low-fidelity AVL data that has significant uncertainties associated with it.
+Successive design stages introduce higher-fidelity information, in the form of RANS CFD simulation results and experimental data from wind and water tunnels, one at a time.
+The incremental improvements in the performance predictions propagate through the certification test results. 
+Cumulative distribution functions are employed to visualize the resulting simulation metrics. 
+The benefits of fusing information sources are evident in the reduced uncertainty in the metrics for simulations using 3-fidelity databases compared to those using single-, high-fidelity information.
+
+Finally, a fundamental shift in the design ethos is discussed.
+The current standard is to use conservative safety factors to account for possible uncertainties in the design analyses.
+These factors are chosen based on historical experience in designing conventional aircraft. 
+While these factors are essential to ensure that the aircraft meets or exceeds the baseline requirements, there is no way to determine \textit{a priori} if they are overly conservative, woefully inadequate, or perfectly sufficient. 
+With an explicit quantification of the failure rate, design decisions can be made to mitigate certification failures to a prescribed rate.
+These risks, and consequent design decisions, are directly related to the uncertainty in the analyses.
+As simulation techniques continue to improve, so will the estimation of these failure rates and the design decisions required to mitigate risks.
+While this is an ambitious goal, it is necessary if Certification by Analysis of aircraft is to be achieved. 
+
+
+% Data generated using AVL \cite{drela2008athena}, with SME provided uncertainties, formed the low-fidelity estimates for the aerodynamics and controls databases.
+% RANS CFD simulations, with uncertainty estimates from the eigenspace perturbation methodology, formed the medium-fidelity level for the aerodynamics databases.
+% Wind and water tunnel data with SME defined uncertainties formed the 
+
+

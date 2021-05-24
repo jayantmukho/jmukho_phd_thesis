@@ -1,21 +1,23 @@
-At any point during flight, the air flow over the aircraft exerts certain aerodynamic forces and moments on the airframe.
-These are a function of the aircraft's geometry, orientation (angle of attack, angle of sideslip), and operating conditions (dynamic pressure, mach number, altitude).
+At any point during an aircraft's flight, the airflow over the aircraft exerts aerodynamic forces and moments on the airframe.
+These are a function of the aircraft's geometry, orientation (angle of attack, angle of sideslip), and operating conditions (dynamic pressure, Mach number, altitude).
 While designing the aircraft, calculating these forces and moments at various points in its operating envelope helps predict the aircraft's behavior and performance characteristics.
 Most aerodynamic analyses, be it computational or experimental, are geared towards creating a database that catalogs these values as a function of the aircraft's orientation and operating conditions.
 
-The industry standard is to have a lookup-table that is populated by data from aerodynamic analyses that are performed during the design process.
-They get updated as the design progresses and the results from the higher-fidelity analysis techniques, replace the lower-fidelity data.
-The forces and moments are described as multi-dimensional functions depending on, up to, 5 input variables: angle of attack, sideslip angle, mach number, dynamic pressure, and altitude.
-Often only a subset of the 5 input variables are used.
-Discrete analyses in this multi-dimensional domain provide data points that are used to interpolate values between analysis locations.
+The industry standard is to have a lookup table populated by data from aerodynamic analyses performed during the design process.
+They get updated as the design progresses, and the results from the higher-fidelity analysis techniques replace the lower-fidelity data.
+The forces and moments are described as multi-dimensional functions depending on up to $5$ input variables: angle of attack, sideslip angle, Mach number, dynamic pressure, and altitude.
+Often only a subset of the $5$ input variables is used.
+Discrete analyses in this multi-dimensional domain provide data points that populate the table. 
+Using values between analysis locations requires interpolation.
 These databases are deterministic and have no characterization of the uncertainties present in the analysis techniques. 
 
 Previous work by Wendorff et al. \cite{wendorff_combining_2016} introduces the concept of probabilistic aerodynamic databases that uses multi-fidelity data and its associated uncertainties in a Gaussian Process regression framework to create a non-deterministic representation of the database.
-Using a combination of sensitivity and uncertainty analysis, an adaptive sampling technique was developed to find the best location to perform the next analysis to minimize the uncertainty in the objective function at minimum analysis cost.
-Its application was demonstrated using the NASA CRM configuration performing a longitudinal FAA certification maneuver. 
+He used a combination of sensitivity and uncertainty analysis to develop an adaptive sampling technique to find the best location to perform the subsequent analysis to minimize the uncertainty in the objective function at minimum analysis cost.
+Its application was demonstrated using the NASA CRM performing a longitudinal FAA certification maneuver. 
 
 The current work further matures the probabilistic aerodynamic database concept.
-Comprehensive, multi-fidelity, multi-dimensional aerodynamics and controls databases are created for a full-configuration generic T-tail transport aircraft that define it's lateral and longitudinal dynamics.
-Uncertainties in analysis techniques are taken into account, with the CFD uncertainties provided by the eigenspace perturbation methodology introduced in Chapter \ref{chap:rans_uq}.
+Comprehensive, multi-fidelity, multi-dimensional aerodynamics and controls databases are created for a full-configuration generic T-tail transport aircraft.
+The databases define the aircraft's lateral and longitudinal dynamics.
+Uncertainties in analysis techniques are considered, with the CFD uncertainties provided by the eigenspace perturbation methodology introduced in Chapter \ref{chap:rans_uq}.
 The single- and multi-fidelity GP regression equations from Chapter \ref{chap:mf_gp} are used to create probabilistic surrogate models for these databases. 
-Details of these databases, including data sources, data generation, and visualizations are presented in this chapter. 
+This chapter presents the details of these databases, including data sources, data generation, and visualizations. 

@@ -1,0 +1,36 @@
+\section{Contributions} \label{conclusion_contributions}
+
+This thesis established a framework to perform virtual flight testing of an aircraft early in the design process.
+This was achieved through contributions in the fields of uncertainty quantification in RANS CFD simulations (Chapter \ref{chap:rans_uq}), multi-fidelity Gaussian Processes (Chapter \ref{chap:mf_gp}), probabilistic aerodynamics and controls databases (Chapter \ref{chap:aero_db}), and certification by analysis (Chapter \ref{chap:cba}).
+
+The eigenspace perturbation methodology was used to quantify epistemic uncertainties injected by turbulence models into RANS CFD simulations.
+The methodology, developed by Emory et al. \cite{emory2013modeling} and Mishra et al. \cite{iaccarino_eig_pert}, was implemented in SU2, an open-source CFD solver. 
+Test cases featuring a wide variety of complex flow conditions validated the uncertainty estimates from the methodology against high-fidelity experimental data. 
+Investigation of the relationship between the epistemic uncertainties and numerical discretization errors involved running two test cases: subsonic flow over a 2D airfoil and transonic flow over a 3D wing.
+The eigenspace perturbation methodology was applied to the sequentially refined mesh families used for grid convergence studies \cite{american_society_of_mechanical_engineers_standard_2009}.
+The resulting uncertainty estimates were compared to the numerical discretization errors.
+This comparison yielded that, given sufficient discretization to capture the relevant flow features, the epistemic uncertainty estimate was independent of the level of mesh refinement.
+This observation justified using coarser meshes for UQ purposes, thereby reducing the computational cost of the methodology.   
+The UQ methodology was applied to two aircraft, the NASA Common Research Model and the Generic T-tail Transport, to create aerodynamic databases with physics-informed uncertainties. 
+
+This work used multi-fidelity Gaussian processes (GP) to combine different information sources and their associated uncertainties.
+The auto-regressive formulation by Gratiet \cite{gratiet_multi-fidelity_nodate} was extended to use noisy data when the design sets of successive fidelity levels are not nested (Equations \ref{equ:mu_Zt} and \ref{equ:sig_Zt}).
+Corresponding extensions to the parameter estimation equations were also presented (Equation \ref{equ:param_est_mf}).
+These multi-fidelity GP equations were used to represent the aerodynamic predictions, and their associated uncertainties, for the NASA CRM.
+AVL simulations, RANS CFD simulations, and wind tunnel experiments informed the low-, medium-, and high-fidelity levels, respectively.
+Comparisons between the multi-fidelity and high-fidelity aerodynamic databases for the NASA CRM demonstrated the benefits of using multi-fidelity data fusion, especially when high-fidelity data is sparse or localized to a limited region of the domain. 
+
+The application of the multi-fidelity modeling was extended to the GTT aircraft.
+Probabilistic, multi-fidelity, and multi-dimensional aerodynamics and controls databases representing a full-configuration aircraft's lateral and longitudinal dynamics were created.
+Low- and medium-fidelity data was generated using AVL and SU2, respectively.
+Existing data from wind tunnel experiments informed the highest fidelity.
+Uncertainties for the low-fidelity AVL simulations and the high-fidelity wind tunnel experiments were estimated using prior knowledge of the tools and their shortcomings. 
+The eigenspace perturbation methodology provided uncertainties for the medium-fidelity CFD simulations. 
+A total of $29$ separate Gaussian processes were required to model the databases; a separate GP represented each quantity of interest and its associated uncertainties.
+
+With all aspects of an aircraft's flight dynamics defined, The Boeing Company's $5$ degree of freedom flight simulator was used to perform a flight certification maneuver computationally. 
+The roll capability maneuver from the FAA's flight testing guide was chosen for this analysis \cite{romanowski_flight_2018}.
+With $1000$ deterministic samples of the databases, a Monte Carlo analysis propogated the uncertainties in the aircraft's design analyses through the maneuver simulation. 
+The resulting cumulative distribution functions of the performance metrics for the maneuver were analyzed to explicitly quantify the likelihood of the aircraft succeeding or failing the maneuver.
+This certification analysis was performed with databases using varying fidelity levels to simulate different stages in the aircraft design process.
+Furthermore, design decisions to mitigate the failure rate to a specific value were suggested. 

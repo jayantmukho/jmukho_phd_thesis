@@ -1,27 +1,28 @@
 The Navier-Stokes equations are a set of non-linear partial differential equations that describe the motion and behavior of fluids.
-Broadly, there are two classes of forces acting on a fluid, inertial and viscous.
-Inertial forces refer to those exerted by the fluids momentum, or its lack thereof.
-Imagine the force exerted by water coming out of a tap, versus that which is exerted by water coming out of a fire hose.
-The second situation exerts significantly higher inertial forces.
+Broadly, there are two classes of forces acting on a fluid: inertial and viscous.
+Inertial forces refer to those exerted by the fluid's momentum or its lack thereof.
+Consider the force exerted by water coming out of a tap versus water coming out of a fire hose.
+The water flowing out of the fire hose has significantly larger momentum by virtue of its flow velocity.
+This results in higher inertial forces being exerted by the water flowing out of the fire hose.
 Viscous forces are a result of the fluid's resistance to deformation.
 Viscosity is a measure of this resistance.
 It is a property specific to the fluid in question.
 Honey is more viscous than water.
-The effect of these viscous forces can be seen if both fluids are poured out of a container.
-Honey is more resistant to this deformation, and flows out more slowly than water.
+Pouring both fluids out of a container demonstrates the effect of these viscous forces.
+Honey is more resistant to this deformation and flows out more slowly than water.
 
 The ratio of the inertial and viscous forces on a fluid determines the fluid's behavior in motion.
-Reynolds number $\left ( Re = \frac{\rho u L}{\mu}\right )$ is a measure of this ratio. When the inertial forces acting upon a fluid are small when compared to the viscous forces, i.e. the Reynolds number is low, the fluid flow is described as \textit{laminar}.
-This flow is characterized as smooth, without significant cross-currents or time dependence.
-Laminar flow usually occurs at lower fluid velocity, is relatively easy to predict computationally, and doesn't require any simplifying models.
+Reynolds number $\left ( Re = \frac{\rho u L}{\mu}\right )$ is a measure of this ratio. When the inertial forces acting upon a fluid are small compared to the viscous forces, i.e., the Reynolds number is low, the fluid flow is  \textit{laminar}.
+This flow is smooth, without significant cross-currents or time dependence.
+Laminar flow usually occurs at lower fluid velocity, is relatively easy to predict computationally, and does not require any simplifying models.
 
-Fluid flow turns \textit{turbulent} when the ratio of inertial to viscous forces is high, i.e. at high Reynolds numbers.
+Fluid flow turns \textit{turbulent} when the ratio of inertial to viscous forces is high, i.e., at high Reynolds numbers.
 Turbulence refers to the chaotic, time-dependent, varied-scale fluctuations in flow variables that characterize turbulent flows.
-Its unsteady nature, and the range of length and time scales of the flow eddies, make it computationally intractable to predict exactly.
+Its unsteady nature, and the range of length and time scales of the flow eddies, make it computationally intractable to predict precisely.
 Simplifying assumptions are required to make the computations feasible and productive in an engineering situation. 
 
-Note the ambiguous use of "low" and "high" to describe the Reynolds numbers for laminar and turbulent flow.
-This is intentional.
+Note the ambiguous use of ``low'' and ``high'' to describe the Reynolds numbers for laminar and turbulent flow.
+This ambiguity is intentional.
 The point of transition between the two regimes is highly dependent on the fluid and the geometry of the flow itself.
-This is an active area of research \cite{arnal2000laminar}.
-This thesis is focused on turbulent flows. 
+It is an active area of research \cite{arnal2000laminar}.
+This thesis focuses on turbulent flows. 

@@ -1,27 +1,27 @@
 The increased reliance on simulation techniques for design analysis begs the question, can simulated analyses ever replace experimental ones?
-Is it possible to complete parts of the flight certification process without first having to build a prototype of the aircraft and then putting it through flight testing?
+Is it possible to complete parts of the flight certification process without first building a prototype of the aircraft and then putting it through flight testing?
 This goal is of particular interest to the aerospace industry and is often referred to as Certification by Analysis (CbA).
-To achieve this, simulation capabilities would have to be as accurate, if not more accurate, than what is possible with flight testing.  
+To achieve this, improving simulation accuracy is paramount. 
+Simulation capabilities would have to be as accurate, if not more accurate, than what is possible with flight testing.  
 There are many required improvements to simulation capabilities \cite{slotnick_cfd_nodate} that will take years to develop.
 
-In the interim, quantifying the uncertainties in the analysis techniques allows us to rigorously handle current shortcomings and visualize their effect on flight performance predictions and, ultimately, predicted performance in flight testing.
-While this will not be replacing real-world air-worthiness testing any time soon, it provides aircraft designers a method to estimate the likelihood that a design will pass or fail a certification test. 
+In the interim, quantifying the uncertainties in the analysis techniques allows us to handle current shortcomings rigorously, visualize their effect on flight performance predictions, and understand their effect on predicted performance during flight testing.
+While this will not be replacing real-world airworthiness testing any time soon, it provides aircraft designers a method to estimate the likelihood that a design will pass or fail a certification test. 
 
-The current aircraft design would have certain performance characteristics associated with it which can be represented as probabilistic aerodynamics and controls databases using multi-fidelity GP regression introduced in Chapter \ref{chap:mf_gp}.
-These databases can be stochastically sampled to create multiple representations of the same aircraft that vary slightly in their performance.
+An aircraft in the design process has some performance characteristics associated with it.
+These can be represented as probabilistic aerodynamics and controls databases using multi-fidelity GP regression introduced in Chapter \ref{chap:mf_gp}.
+Stochastically sampling these databases creates multiple representations of the same aircraft that vary slightly in their performance.
 The slight variations arise out of, and respect, the uncertainties in the analysis techniques used. 
-Flight simulation software is used to run each of these aircraft samples through a certification maneuver of interest.
+Flight simulation software runs each of these aircraft samples through a certification maneuver of interest.
 The results of the numerous simulations can be post-processed to calculate what percentage of the aircraft samples passed or failed the certification test.
-This provides a quantifiable metric for the probability that the aircraft design, as it is best understood at that time, will succeed in the air-worthiness test.
+This procedure provides a quantifiable metric for the probability that the aircraft design will succeed in the airworthiness test.
 
-In addition to a probability of success/failure, by looking at the variation in the flight characteristics of the different samples, this framework also provides data on how current uncertainties in performance predictions affect test results.
-Based to these results, the design might need to be changed to ensure a better success rate, or higher-fidelity analysis methods with less uncertainty might need to be used to reduce the spread in the flight characteristics. 
+In addition to a probability of success/failure, by looking at the variation in the flight characteristics of the different samples, this framework provides data on how current uncertainties in performance predictions affect test results.
+Based on these results, the design might need to be changed to ensure a better success rate, or higher-fidelity analysis methods with less uncertainty might need to be used to reduce the spread in the flight characteristics. 
 These are direct benefits of the early handling of uncertainties in the design process to preempt possible issues in the future. 
 
 This chapter presents the first steps in creating a rigorous methodology for CbA.
 Contributions made in uncertainty quantification (Chapter \ref{chap:rans_uq}), multi-fidelity modeling (Chapter \ref{chap:mf_gp}), and probabilistic aerodynamics and controls databases (Chapter \ref{chap:aero_db}) are combined to create this framework.
 Section \ref{sec:maneuver} presents a flight certification maneuver of interest that is taken directly from the official flight testing guide used by the Federal Aviation Administration (FAA) \cite{romanowski_flight_2018}.
 Section \ref{sec:sim_procedure} detail the use of probabilistic aerodynamics and controls databases to simulate the maneuver of interest.
-Finally, Section \ref{sec:cba_results} presents the results of performing the virtual flight testing and compares the use of different fidelity levels, and amounts of data. 
- fa
- 
+Finally, Section \ref{sec:cba_results} presents the results of performing the virtual flight testing and compares the use of different fidelity levels and amounts of data.
